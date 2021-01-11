@@ -1,10 +1,11 @@
 Homeworks.aufgabe = 8;
+
 /* !!!!!PROBLEME!!!!!:
 1. Ball kann nicht springen
 2. Ball kann noch nicht zu seinem OG Zustand zurück
 3. Alle Bälle reagieren mit keyPressed
 */
-
+///////////////
 
 const Engine = Matter.Engine;
 const Render = Matter.Render;
