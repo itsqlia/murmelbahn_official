@@ -11,11 +11,6 @@ let ball, engine
 let blocks = []
 let balls = []
 let collisions = []
-let propeller
-let ground
-//moving plattform
-let runner
-let events = Matter.Events
 
 let bullets
 let spaceCount = +1
@@ -71,23 +66,24 @@ class Ball {
 
 function keyPressed() {
 
-  if (keyCode === 32) {
+//Enter-Tastatur
+  if (keyCode === 13) {
     switch (spaceCount) {
 
       case 0:
-        console.log('Leertaste 0')
+        console.log('Taste 0')
         ball.color = 'black'
         break;
       case 1:
-        console.log('Leertaste 1')
+        console.log('Taste 1')
         ball.color = 'yellow'
         break;
       case 2:
-        console.log('Leertaste 2')
+        console.log('Taste 2')
         ball.color = 'green'
         break;
       case 3:
-        console.log('Leertaste 3', ball)
+        console.log('Taste 3', ball)
         if ((ball.body.position.x - ball.body.positionPrev.x) < 0) {
           direction // circle runs right to left <-
         } // use current direction and velocity for the jump
@@ -96,7 +92,7 @@ function keyPressed() {
             x: ball.body.position.x,
             y: ball.body.position.y
           }, {
-            x: (0.01 * direction) + ball.body.velocity.x / 100,
+            x: (0.05 * direction) + ball.body.velocity.x / 100,
             y: -0.05
           }
         );
@@ -119,18 +115,7 @@ function setup() {
   engine = Matter.Engine.create()
   let canvas = createCanvas(1444, 4529)
 
-  //schiefe Ebene
-  blocks.push(new Block({
-    x: 200,
-    y: 500,
-    w: 800,
-    h: 30,
-    color: '#4B5056',
-    visible: true
-  }, {
-    isStatic: true,
-    angle: degToRad(3)
-  }))
+
   //durchichtiger block
   blocks.push(new Block({
     x: 500,
@@ -180,10 +165,10 @@ function setup() {
   // untere Ebene
   blocks.push(new Block({
     x: 0,
-    y: 800,
+    y: 2720,
     w: windowWidth,
     h: 20,
-    color: '#4B5056',
+    color: 'black',
     visible: true
   }, {
     isStatic: true
@@ -227,7 +212,7 @@ function setup() {
     size: 45,
     position: {
       x: 10,
-      y: 10
+      y: 1500
     }
   }, {
     isStatic: false,
@@ -255,17 +240,17 @@ function setup() {
   }))
 
   //tube
-  blocks.push(new Block({
-    x: 1225,
-    y: 1767,
-    w: 65,
-    h: 9,
-    color: 'blue'
-  }, {
-    isStatic: true,
-    restitution: 0.5,
-    friction: 0
-  }))
+  // blocks.push(new Block({
+  //   x: 1225,
+  //   y: 1767,
+  //   w: 65,
+  //   h: 9,
+  //   color: 'blue'
+  // }, {
+  //   isStatic: true,
+  //   restitution: 0.5,
+  //   friction: 0
+  // }))
 
   blocks.push(new Block({
     x: 1110,
@@ -585,15 +570,15 @@ Matter.Engine.run(engine)
 
 function draw() {
   background('#4B5056');
-  Matter.Body.setPosition(blocks[14].body, {
+  Matter.Body.setPosition(blocks[12].body, {
     x: 964 + Math.sin(frameCount / 100) * 280,
     y: 1880
   })
-  Matter.Body.setPosition(blocks[15].body, {
+  Matter.Body.setPosition(blocks[13].body, {
     x: 1164 + Math.sin(frameCount / 100) * 280,
     y: 1880
   })
-  Matter.Body.setPosition(blocks[16].body, {
+  Matter.Body.setPosition(blocks[14].body, {
     x: 1064 + Math.sin(frameCount / 100) * 280,
     y: 1895
   })
