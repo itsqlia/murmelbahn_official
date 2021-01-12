@@ -1,10 +1,11 @@
 Homeworks.aufgabe = 8;
+
 /* !!!!!PROBLEME!!!!!:
 1. Ball kann nicht springen
 2. Ball kann noch nicht zu seinem OG Zustand zurück
 3. Alle Bälle reagieren mit keyPressed
 */
-
+///////////////
 
 const Engine = Matter.Engine;
 const Render = Matter.Render;
@@ -32,61 +33,21 @@ function radToDeg(rad) {
 
 
 class Block {
-  constructor(type, attrs, options) {
-    this.type = type
-    this.attrs = attrs
-    this.options = options
-    this.options.plugin = { block: this, update: this.update }
-    switch (this.type) {
-      case 'rect':
-        this.body = Matter.Bodies.rectangle(attrs.x, attrs.y, attrs.w, attrs.h, this.options)
-        break
-      case 'circle':
-        this.body = Matter.Bodies.circle(attrs.x, attrs.y, attrs.s)
-        break
-      case 'parts':
-        this.body = Matter.Body.create(this.options)
-        Matter.Body.setPosition(this.body, this.attrs)
-        break
-      case 'points':
-        let shape = Matter.Vertices.create(attrs.points, Matter.Body.create({}))
-        this.body = Matter.Bodies.fromVertices(0, 0, shape, this.options)
-        Matter.Body.setPosition(this.body, this.attrs)
-        break
-      case 'path':
-        let path = document.getElementById(attrs.elem)
-        if (null != path) {
-          this.body = Matter.Bodies.fromVertices(0, 0, Matter.Vertices.scale(Matter.Svg.pathToVertices(path, 10), this.attrs.scale, this.attrs.scale), this.options)
-          Matter.Body.setPosition(this.body, this.attrs)
-        }
-        break
-      case 'group':
-        this.body = Matter.Composites.stack(this.attrs.x, this.attrs.y, this.attrs.cols, this.attrs.rows, this.attrs.colGap, this.attrs.rowGap, this.attrs.create)
-        break
-    }
+  constructor(attrs, options) {
+    this.x = attrs.x
+    this.y = attrs.y
+    this.w = attrs.w
+    this.h = attrs.h
+    this.color = attrs.color
+    this.visible = attrs.visible
+    this.body = Matter.Bodies.rectangle(this.x + this.w / 2, this.y + this.h / 2, this.w, this.h, options)
     Matter.World.add(engine.world, [this.body])
-  }
-
-  constrainTo(block) {
-    let constraint
-    if (block) {
-      constraint = Matter.Constraint.create({
-        bodyA: this.body,
-        bodyB: block.body
-      })
-    } else {
-      constraint = Matter.Constraint.create({
-        bodyA: this.body,
-        pointB: { x: this.body.position.x, y: this.body.position.y }
-      })
-    }
-    Matter.World.add(engine.world, [constraint])
-    constraints.push(constraint)
   }
 
 
   show() {
     fill(this.color)
+    noStroke()
     drawBody(this.body)
     // rect(this.x, this.y, this.w, this.h)
   }
@@ -135,7 +96,7 @@ class Ball {
           Matter.Body.applyForce(
             ball.body,
             {x: ball.body.position.x, y: ball.body.position.y},
-            {x: (0.01 * direction) + ball.body.velocity.x/100, y: -0.02}
+            {x: (0.01 * direction) + ball.body.velocity.x/100, y: -0.05}
           );
 
         default:
@@ -215,8 +176,8 @@ function setup() {
   blocks.push(new Block({
     x: 800,
     y: 462,
-    w: 80,
-    h: 50,
+    w: 50,
+    h: 20,
     color: 'red'
   }, {
     isStatic: true,
@@ -256,7 +217,7 @@ function setup() {
     x: 250,
     y: 400,
     color: 'black',
-    size: 25,
+    size: 45,
     position: {x: 10,y:10}
   }, {
     isStatic: false,
@@ -272,12 +233,61 @@ function setup() {
     isStatic: false,
     restitution: 0.5,
     friction: 0 */
+    // Composites.stack(x,y, anzahl pro zeile, anzahl pro spalte, abstand x, abstand y)
+    bullets = Composites.stack(1300, 50, 5, 6, 1, 1, function(x, y) {
+      return Bodies.circle(x, y, 20);
+    });
+
+  //schräge schiene
+  blocks.push(new Block(  { x: 500, y:200, w:130, h: 10, color: 'gray'}, {isStatic: true, angle: -Math.PI * 0.15}))
+
+    //tube
+    blocks.push(new Block(  { x: 1100, y:175, w:45, h: 9, color: 'blue'}, {isStatic: true, restitution:0.5, friction: 0}))
+
+    blocks.push(new Block(  { x: 898, y:15, w:330, h: 10, color: 'gray'}, {isStatic: true, angle: -Math.PI * 1.9, restitution:0.5, friction: 0}))
+
+  blocks.push(new Block(  { x: 1050, y:110, w:90, h: 10, color: 'gray'}, {isStatic: true, angle: -Math.PI * 2.5, restitution:0.5, friction: 0}))
+  blocks.push(new Block(  { x: 1150, y:110, w:90, h: 10, color: 'gray'}, {isStatic: true, angle: -Math.PI * 2.5, restitution:0.5, friction: 0}))
+  blocks.push(new Block(  { x: 1064, y:163, w:40, h: 10, color: 'gray'}, {isStatic: true, angle: -Math.PI * 1.79, restitution:0.5, friction: 0}))
+  blocks.push(new Block(  { x: 1135, y:163, w:40, h: 10, color: 'gray'}, {isStatic: true, angle: -Math.PI * 1.2, restitution:0.5, friction: 0}))
+
+  //moving platform
+  blocks.push(new Block(  { x: 1070, y:280, w:20, h: 10, color: 'gray'}, {isStatic: true, angle: -Math.PI * 2.5, restitution:0.5, friction: 0}))
+  blocks.push(new Block(  { x: 1140, y:280, w:20, h: 10, color: 'gray'}, {isStatic: true, angle: -Math.PI * 2.5, restitution:0.5, friction: 0}))
+
+  blocks.push(new Block(  { x: 1105, y:300, w:20, h: 130, color: 'gray'}, {isStatic: true, angle: -Math.PI * 2.5, restitution:0.5, friction: 0}))
+
+    //blocks
+    blocks.push(new Block( { x: 380, y: 310, w: 50, h: 50, color: '#32f4da', chgStatic: true }, { isStatic: true, airFriction: 0.15}))
+    blocks.push(new Block( { x: 350, y: 315, w: 40, h: 40, color: '#32f4da', chgStatic: true }, { isStatic: true, airFriction: 0.1}))
+    blocks.push(new Block(  { x: 320, y: 319, w: 30, h: 30, color: '#32f4da', chgStatic: true }, { isStatic: true, airFriction: 0.15}))
+    blocks.push(new Block(  { x: 290, y: 324, w: 30, h: 30, color: '#32f4da', chgStatic: true }, { isStatic: true, airFriction: 0.25}))
+
+    //ground-transparent
+    blocks.push(new Block( { x: 350, y:680, w:140, h: 10, color: 'black'}, {isStatic: true}))
+    // ground = this.body.rect (400, height-25. 810, 25, {isStatic: true});
+
+    //rest block
+    blocks.push(new Block( { x: 240, y:640, w:95, h: 8, color: 'gray'}, {isStatic: true}))
+    blocks.push(new Block( { x: 285, y:660, w:35, h: 5, color: 'black'}, {isStatic: true, angle:PI/2}))
+    blocks.push(new Block( { x: 415, y:660, w:35, h: 5, color: 'black'}, {isStatic: true, angle:PI/2}))
+    blocks.push(new Block( { x: 180, y:620, w:50, h: 8, color: 'gray'}, {isStatic: true, angle: Math.PI * 0.30}))
+    blocks.push(new Block( { x: 465, y:640, w:100, h: 5, color: 'gray'}, {isStatic: true}))
+
+    //Propeller Section
+    blocks.push(new Block( { x: 170, y: 450, w: 210, h: 5, color: 'gray'}, { isStatic: true, airFriction: 0.07, angle: PI/2}))
+    blocks.push(new Block( { x: 235, y: 450, w: 210, h: 5, color: 'gray'}, { isStatic: true, airFriction: 0.07, angle: PI/2}))
+    blocks.push(new Block( { x: 200, y:450, w:20, h:20, color: 'lightgray'}, {isStatic: true, angle:PI/2}))
+    // blocks.push(new Block('rect', { x: 215, y:300, w:20, h:20, color: 'lightgray'}, {isStatic: true, angle:PI/2}))
+
+    // blocks.push(new Block('rect', { x: 210, y:350, w:20, h:20, color: 'gray'}, {isStatic: true, angle:PI/2}))
+
+    // propeller = this.body
 
 
-  // Composites.stack(x,y, anzahl pro zeile, anzahl pro spalte, abstand x, abstand y)
-  bullets = Composites.stack(1300, 50, 5, 6, 1, 1, function(x, y) {
-    return Bodies.circle(x, y, 30);
-  });
+
+
+
 
   World.add(engine.world, [bullets]);
 
@@ -298,14 +308,14 @@ function setup() {
 
 
 function draw() {
-  background(255, 50);
+  background('#4B5056');
 
   blocks.forEach((block, i) => {
     block.show()
   });
 
   ball.show()
-
+fill('pink')
   drawBodies(bullets.bodies);
 }
 
