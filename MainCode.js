@@ -113,6 +113,7 @@ function keyPressed() {
 function setup() {
   engine = Matter.Engine.create()
   let canvas = createCanvas(1444, 7000)
+
 // Balken zum Orientierung
   blocks.push(new Block({
     x: 1440,
@@ -126,7 +127,7 @@ function setup() {
 
   }))
   blocks.push(new Block({
-    x: 193,
+    x: 180,
     y: 0,
     w: 10,
     h: 7000,
@@ -157,13 +158,84 @@ function setup() {
     blocks.push(bodyFromPath(wolke, 200, 150, 1.0, { color: 'white', visible:true, isStatic: true, friction: 0.0 } }));
   }*/
 
+  blocks.push(new Block({
+    x: 200,
+    y: 130,
+    w: 200,
+    h: 100,
+    color: 'white',
+    visible: true,
+    chgStatic: true
+  }, {
+    isStatic: true,
+    airFriction: 0.15,
+    density: 500,
+  }))
+
+  blocks.push(new Block({
+    x: 650,
+    y: 150,
+    w: 200,
+    h: 100,
+    color: 'white',
+    visible: true,
+    chgStatic: true
+  }, {
+    isStatic: true,
+    airFriction: 0.15,
+    density: 500,
+  }))
+
+  blocks.push(new Block({
+    x: 200,
+    y: 650,
+    w: 1050,
+    h: 10,
+    color: 'red',
+    visible: true,
+    chgStatic: true
+  }, {
+    isStatic: true,
+    airFriction: 0.15,
+    density: 500,
+  }))
+
+  blocks.push(new Block({
+    x: 400,
+    y: 755,
+    w: 200,
+    h: 10,
+    color: 'blue',
+    visible: true,
+    chgStatic: true
+  }, {
+    isStatic: true,
+    airFriction: 0.15,
+    density: 500,
+    angle: Math.PI * 2.5
+  }))
+
+  //Anfang - farbigen Balken
+  blocks.push(new Block({
+    x: 180,
+    y: 1480,
+    w: 1100,
+    h: 20,
+    color: 'gray',
+    visible: true
+  }, {
+    isStatic: true,
+    angle: Math.PI * 0.05
+  }))
+
+
 //CODE: FALLENDE KÄSTCHEN & TRANSPORTMITTEL
 
   //graue schräge Schiene
   blocks.push(new Block({
-    x: -10,
-    y: 1480.27,
-    w: 1190,
+    x: 180,
+    y: 2800,
+    w: 1100,
     h: 20,
     color: 'gray',
     visible: true
@@ -174,7 +246,7 @@ function setup() {
 
   blocks.push(new Block({
     x: 1345,
-    y: 1570,
+    y: 2890,
     w: 100,
     h: 20,
     color: 'gray',
@@ -186,7 +258,7 @@ function setup() {
   //tube
   blocks.push(new Block({
     x: 1225,
-    y: 1767,
+    y: 3087,
     w: 70,
     h: 15,
     color: 'blue',
@@ -199,7 +271,7 @@ function setup() {
 
   blocks.push(new Block({
     x: 1110,
-    y: 1628,
+    y: 2948,
     w: 120,
     h: 20,
     color: 'gray',
@@ -212,7 +284,7 @@ function setup() {
   }))
   blocks.push(new Block({
     x: 1290,
-    y: 1628,
+    y: 2948,
     w: 120,
     h: 20,
     color: 'gray',
@@ -225,7 +297,7 @@ function setup() {
   }))
   blocks.push(new Block({
     x: 1149,
-    y: 1725,
+    y: 3045,
     w: 100,
     h: 20,
     color: 'gray',
@@ -238,7 +310,7 @@ function setup() {
   }))
   blocks.push(new Block({
     x: 1272,
-    y: 1725,
+    y: 3045,
     w: 100,
     h: 20,
     color: 'gray',
@@ -253,7 +325,7 @@ function setup() {
   //moving platform (Block [15]-Block[17])
   blocks.push(new Block({
     x: 964,
-    y: 1890,
+    y: 3210,
     w: 50,
     h: 10,
     color: 'gray',
@@ -264,7 +336,7 @@ function setup() {
   }))
   blocks.push(new Block({
     x: 1164,
-    y: 1890,
+    y: 3210,
     w: 50,
     h: 10,
     color: 'gray',
@@ -276,7 +348,7 @@ function setup() {
 
   blocks.push(new Block({
     x: 1064,
-    y: 1895,
+    y: 3215,
     w: 20,
     h: 200,
     color: 'gray',
@@ -289,7 +361,7 @@ function setup() {
   //fallende Kästchen
   blocks.push(new Block({
     x: 470,
-    y: 1798,
+    y: 3118,
     w: 50,
     h: 50,
     color: '#32f4da',
@@ -302,7 +374,7 @@ function setup() {
   }))
   blocks.push(new Block({
     x: 420,
-    y: 1818,
+    y: 3138,
     w: 50,
     h: 50,
     color: '#32f4da',
@@ -315,7 +387,7 @@ function setup() {
   }))
   blocks.push(new Block({
     x: 370,
-    y: 1838,
+    y: 3158,
     w: 50,
     h: 50,
     color: '#32f4da',
@@ -328,7 +400,7 @@ function setup() {
   }))
   blocks.push(new Block({
     x: 320,
-    y: 1858,
+    y: 3178,
     w: 50,
     h: 50,
     color: '#32f4da',
@@ -342,7 +414,7 @@ function setup() {
 
   // ball = new Ball({
   //   x: 350,
-  //   y: 1800,
+  //   y: 3120,
   //   color: 'black',
   //   size: 45,
   //   position: {
@@ -357,7 +429,7 @@ function setup() {
   //ground-transparent (later: color change to - #4B5056!) (Block [23])
   blocks.push(new Block({
     x: 320,
-    y: 2400,
+    y: 3720,
     w: 167,
     h: 10,
     color: 'black',
@@ -367,7 +439,7 @@ function setup() {
   }))
   blocks.push(new Block({
     x: 300,
-    y: 2375,
+    y: 3695,
     w: 50,
     h: 5,
     color: 'black',
@@ -378,7 +450,7 @@ function setup() {
   }))
   blocks.push(new Block({
     x: 460,
-    y: 2375,
+    y: 3695,
     w: 50,
     h: 5,
     color: 'black',
@@ -393,7 +465,7 @@ function setup() {
   //Röhren (links-rechts)
   blocks.push(new Block({
     x: 50,
-    y: 2130,
+    y: 3450,
     w: 250,
     h: 15,
     color: 'green',
@@ -405,7 +477,7 @@ function setup() {
   }))
   blocks.push(new Block({
     x: 170,
-    y: 2130,
+    y: 3450,
     w: 250,
     h: 15,
     color: 'white',
@@ -419,7 +491,7 @@ function setup() {
   //drehende Platten (Block[27])
     blocks.push(new Block({
       x: 220,
-      y: 2100,
+      y: 3420,
       w: 38,
       h: 38,
       color: 'blue',
@@ -430,7 +502,7 @@ function setup() {
 
     blocks.push(new Block({
       x: 220,
-      y: 1960,
+      y: 3280,
       w: 38,
       h: 38,
       color: 'blue',
@@ -443,7 +515,7 @@ function setup() {
   //rest blocks
   blocks.push(new Block({
     x: 155,
-    y: 2290,
+    y: 3610,
     w: 100,
     h: 20,
     color: 'yellow',
@@ -454,7 +526,7 @@ function setup() {
   }))
   blocks.push(new Block({
     x: 230,
-    y: 2330,
+    y: 3650,
     w: 30,
     h: 20,
     color: 'purple',
@@ -477,7 +549,7 @@ function setup() {
   //durchichtiger block
   blocks.push(new Block({
     x: 500,
-    y: 2130,
+    y: 3450,
     w: 100,
     h: 60,
     color: '#292F36',
@@ -489,7 +561,7 @@ function setup() {
   //bunte Knöpfe
   blocks.push(new Block({
     x: 700,
-    y: 2170,
+    y: 3490,
     w: 50,
     h: 20,
     color: '#FF8A35',
@@ -500,7 +572,7 @@ function setup() {
   }))
   blocks.push(new Block({
     x: 800,
-    y: 2175,
+    y: 3495,
     w: 50,
     h: 20,
     color: '#3BF4FB',
@@ -511,7 +583,7 @@ function setup() {
   }))
   blocks.push(new Block({
     x: 900,
-    y: 2180,
+    y: 3500,
     w: 50,
     h: 20,
     color: '#C879FF',
@@ -523,7 +595,7 @@ function setup() {
   // untere Ebene
   blocks.push(new Block({
     x: 0,
-    y: 2720,
+    y: 4040,
     w: windowWidth,
     h: 20,
     color: 'black',
@@ -534,7 +606,7 @@ function setup() {
   //seitliche Schranken
   blocks.push(new Block({
     x: 0,
-    y: 2600,
+    y: 3920,
     w: 5,
     h: 1500,
     color: 'black',
@@ -544,7 +616,7 @@ function setup() {
   }))
   blocks.push(new Block({
     x: 1920,
-    y: 2600,
+    y: 3920,
     w: 5,
     h: 1500,
     color: 'black',
@@ -556,7 +628,7 @@ function setup() {
 //ground-floor
   blocks.push(new Block({
     x: 486,
-    y: 2190,
+    y: 3510,
     w: 500,
     h: 20,
     color: 'gray',
@@ -567,7 +639,7 @@ function setup() {
   }))
 
   // Composites.stack(x,y, anzahl pro zeile, anzahl pro spalte, abstand x, abstand y)
-  bullets = Composites.stack(0, 2602, 100, 3, 1, 1, function(x, y) {
+  bullets = Composites.stack(180, 3922, 100, 3, 1, 1, function(x, y) {
     return Bodies.circle(x, y, 20);
   });
 
@@ -659,15 +731,15 @@ function draw() {
   //TRANSPORTMITTEL
   // Matter.Body.setPosition(blocks[15].body, {
   //   x: 964 + Math.sin(frameCount / 100) * 280,
-  //   y: 1950
+  //   y: 3270
   // })
   // Matter.Body.setPosition(blocks[16].body, {
   //   x: 1164 + Math.sin(frameCount / 100) * 280,
-  //   y: 1950
+  //   y: 3270
   // })
   // Matter.Body.setPosition(blocks[17].body, {
   //   x: 1064 + Math.sin(frameCount / 100) * 280,
-  //   y: 1965
+  //   y: 3285
   // })
 
 
