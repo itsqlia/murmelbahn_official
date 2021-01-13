@@ -41,7 +41,10 @@ class Block {
   show() {
     fill(this.color)
     noStroke()
-    drawBody(this.body)
+    if (this.visible == true){
+      drawBody(this.body)
+    }
+    // drawBody(this.body)
   }
 };
 
@@ -102,9 +105,6 @@ function keyPressed() {
   }
 }
 
-bullets = Composites.stack(500, 0, 2, 5, 3, 3, function(x, y) {
-  return Bodies.circle(x, y, 50);
-});
 
 
 function setup() {
@@ -148,7 +148,7 @@ function setup() {
     w: 50,
     h: 20,
     color: '#FF8A35',
-    visible: true
+    visible: false
   }, {
     isStatic: true,
     angle: degToRad(3)
@@ -159,7 +159,7 @@ function setup() {
     w: 50,
     h: 20,
     color: '#3BF4FB',
-    visible: true
+    visible: false
   }, {
     isStatic: true,
     angle: degToRad(3)
@@ -170,7 +170,7 @@ function setup() {
     w: 50,
     h: 20,
     color: '#C879FF',
-    visible: true
+    visible: false
   }, {
     isStatic: true,
     angle: degToRad(3)
@@ -189,19 +189,21 @@ function setup() {
   //seitliche Schranken
   blocks.push(new Block({
     x: 0,
-    y: 400,
+    y: 2600,
     w: 5,
-    h: 1000,
-    color: 'black'
+    h: 1500,
+    color: 'black',
+    visible: false
   }, {
     isStatic: true
   }))
   blocks.push(new Block({
     x: 1920,
-    y: 400,
+    y: 2600,
     w: 5,
-    h: 1000,
-    color: 'black'
+    h: 1500,
+    color: 'black',
+    visible: false
   }, {
     isStatic: true
   }))
@@ -219,7 +221,8 @@ function setup() {
     y: 1497.27,
     w: 962.,
     h: 10,
-    color: 'gray'
+    color: 'gray',
+    visible: true
   }, {
     isStatic: true,
     angle: Math.PI * 0.05
@@ -243,7 +246,8 @@ function setup() {
     y: 1628,
     w: 120,
     h: 10,
-    color: 'gray'
+    color: 'gray',
+    visible: true
   }, {
     isStatic: true,
     angle: -Math.PI * 2.5,
@@ -255,7 +259,8 @@ function setup() {
     y: 1628,
     w: 120,
     h: 10,
-    color: 'gray'
+    color: 'gray',
+    visible: true
   }, {
     isStatic: true,
     angle: -Math.PI * 2.5,
@@ -267,7 +272,8 @@ function setup() {
     y: 1725,
     w: 100,
     h: 10,
-    color: 'gray'
+    color: 'gray',
+    visible: true
   }, {
     isStatic: true,
     angle: -Math.PI * 2.7,
@@ -279,7 +285,8 @@ function setup() {
     y: 1725,
     w: 100,
     h: 10,
-    color: 'gray'
+    color: 'gray',
+    visible: true
   }, {
     isStatic: true,
     angle: Math.PI * 2.7,
@@ -293,7 +300,8 @@ function setup() {
     y: 1890,
     w: 50,
     h: 10,
-    color: 'gray'
+    color: 'gray',
+    visible: true
   }, {
     isStatic: true,
     angle: -Math.PI * 2.5,
@@ -305,7 +313,8 @@ function setup() {
     y: 1890,
     w: 50,
     h: 10,
-    color: 'gray'
+    color: 'gray',
+    visible: true
   }, {
     isStatic: true,
     angle: -Math.PI * 2.5,
@@ -318,7 +327,8 @@ function setup() {
     y: 1895,
     w: 20,
     h: 200,
-    color: 'gray'
+    color: 'gray',
+    visible: true
   }, {
     isStatic: true,
     angle: -Math.PI * 2.5,
@@ -333,6 +343,7 @@ function setup() {
     w: 50,
     h: 50,
     color: '#32f4da',
+    visible: true,
     chgStatic: true
   }, {
     isStatic: true,
@@ -344,6 +355,7 @@ function setup() {
     w: 50,
     h: 50,
     color: '#32f4da',
+    visible: true,
     chgStatic: true
   }, {
     isStatic: true,
@@ -355,6 +367,7 @@ function setup() {
     w: 50,
     h: 50,
     color: '#32f4da',
+    visible: true,
     chgStatic: true
   }, {
     isStatic: true,
@@ -366,6 +379,7 @@ function setup() {
     w: 50,
     h: 50,
     color: '#32f4da',
+    visible: true,
     chgStatic: true
   }, {
     isStatic: true,
@@ -378,7 +392,8 @@ function setup() {
     y: 2230,
     w: 167,
     h: 10,
-    color: 'black'
+    color: 'black',
+    visible: true
   }, {
     isStatic: true
   }))
@@ -387,7 +402,8 @@ function setup() {
     y: 2205,
     w: 50,
     h: 5,
-    color: 'black'
+    color: 'black',
+    visible: true
   }, {
     isStatic: true,
     angle: PI / 2
@@ -397,7 +413,8 @@ function setup() {
     y: 2205,
     w: 50,
     h: 5,
-    color: 'black'
+    color: 'black',
+    visible: true
   }, {
     isStatic: true,
     angle: PI / 2
@@ -409,7 +426,8 @@ function setup() {
     y: 2145,
     w: 100,
     h: 5,
-    color: 'gray'
+    color: 'gray',
+    visible: true
   }, {
     isStatic: true,
     angle: Math.PI * 0.30
@@ -419,7 +437,8 @@ function setup() {
     y: 2184,
     w: 30,
     h: 5,
-    color: 'gray'
+    color: 'gray',
+    visible: true
   }, {
     isStatic: true
   }))
@@ -428,7 +447,8 @@ function setup() {
     y: 2190,
     w: 500,
     h: 5,
-    color: 'gray'
+    color: 'gray',
+    visible: true
   }, {
     isStatic: true,
     angle: degToRad(3)
@@ -440,7 +460,8 @@ function setup() {
     y: 2000,
     w: 210,
     h: 5,
-    color: 'gray'
+    color: 'gray',
+    visible: true
   }, {
     isStatic: true,
     airFriction: 0.07,
@@ -451,7 +472,8 @@ function setup() {
     y: 2000,
     w: 210,
     h: 5,
-    color: 'gray'
+    color: 'gray',
+    visible: true
   }, {
     isStatic: true,
     airFriction: 0.07,
@@ -462,7 +484,8 @@ function setup() {
     y: 2040,
     w: 20,
     h: 20,
-    color: 'lightgray'
+    color: 'lightgray',
+    visible: true
   }, {
     isStatic: true,
     angle: PI / 2
