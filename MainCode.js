@@ -219,7 +219,7 @@ function setup() {
   blocks.push(new Block({
     x: 180,
     y: 1480,
-    w: 1100,
+    w: 1050,
     h: 20,
     color: 'gray',
     visible: true
@@ -227,7 +227,53 @@ function setup() {
     isStatic: true,
     angle: Math.PI * 0.05
   }))
-
+//GELB
+  blocks.push(new Block({
+    x: 180,
+    y: 1825,
+    w: 1100,
+    h: 20,
+    color: 'yellow',
+    visible: true
+  }, {
+    isStatic: true,
+    angle: -Math.PI * 0.05
+  }))
+  blocks.push(new Block({
+    x: 1250,
+    y: 1680,
+    w: 215,
+    h: 20,
+    color: 'yellow',
+    visible: true
+  }, {
+    isStatic: true,
+    angle: -Math.PI * 0.20
+  }))
+  //GRÜN
+  blocks.push(new Block({
+    x: 180,
+    y: 2175,
+    w: 1260,
+    h: 20,
+    color: 'green',
+    visible: true
+  }, {
+    isStatic: true,
+    angle: Math.PI * 0.05
+  }))
+  //GELB
+  blocks.push(new Block({
+    x: 180,
+    y: 2485,
+    w: 1260,
+    h: 20,
+    color: 'yellow',
+    visible: true
+  }, {
+    isStatic: true,
+    angle: -Math.PI * 0.05
+  }))
 
 //CODE: FALLENDE KÄSTCHEN & TRANSPORTMITTEL
 
