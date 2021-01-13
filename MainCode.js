@@ -111,6 +111,22 @@ function setup() {
   engine = Matter.Engine.create()
   let canvas = createCanvas(1444, 4529)
 
+//CODE: BALL
+  ball = new Ball({
+    x: 250,
+    y: 400,
+    color: 'black',
+    size: 45,
+    position: {
+      x: 10,
+      y: 1500
+    }
+  }, {
+    isStatic: false,
+    restitution: 0.5,
+    friction: 0
+  })
+
 //CODE: KNÖPFE
 
   //durchichtiger block
@@ -189,33 +205,6 @@ function setup() {
   }, {
     isStatic: true
   }))
-
-  ball = new Ball({
-    x: 250,
-    y: 400,
-    color: '#B5BDC7',
-    size: 45
-  }, {
-    isStatic: false,
-    restitution: 0.5,
-    friction: 0
-  })
-
-
-  ball = new Ball({
-    x: 250,
-    y: 400,
-    color: 'black',
-    size: 45,
-    position: {
-      x: 10,
-      y: 1500
-    }
-  }, {
-    isStatic: false,
-    restitution: 0.5,
-    friction: 0
-  })
 
   // Composites.stack(x,y, anzahl pro zeile, anzahl pro spalte, abstand x, abstand y)
   bullets = Composites.stack(0, 2602, 100, 3, 1, 1, function(x, y) {
