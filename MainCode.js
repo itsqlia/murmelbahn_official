@@ -48,17 +48,6 @@ class Block {
   }
 };
 
-// class Triangle {
-//   constructor(attrs, options) {
-//     this.x = attrs.x
-//     this.y = attrs.y
-//     this.side = attrs.side
-//     this.radius= attrs.radius
-//     this.color = attrs.color
-//     this.visible = attrs.visible
-//     this.body = Matter.Bodies.polygon(this.x + this.w / 2, this.y + this.h / 2, this.side, this.radius, options)
-//     Matter.World.add(engine.world, [this.body])
-//   };
 
 class Ball {
   constructor(attrs, options) {
@@ -123,8 +112,30 @@ function keyPressed() {
 
 function setup() {
   engine = Matter.Engine.create()
-  let canvas = createCanvas(1444, 5000)
+  let canvas = createCanvas(1444, 7000)
+// Balken zum Orientierung
+  blocks.push(new Block({
+    x: 1440,
+    y: 0,
+    w: 10,
+    h: 7000,
+    color: 'red',
+    visible: true
+  }, {
+    isStatic: true,
 
+  }))
+  blocks.push(new Block({
+    x: 193,
+    y: 0,
+    w: 10,
+    h: 7000,
+    color: 'red',
+    visible: true
+  }, {
+    isStatic: true,
+
+  }))
 //CODE: BALL
   ball = new Ball({
     x: 250,
@@ -140,6 +151,11 @@ function setup() {
     restitution: 0.5,
     friction: 0
   })
+  /*WOlKEN DEF
+  let wolke = document.getElementById('wolke');
+  if (null != wolke) {
+    blocks.push(bodyFromPath(wolke, 200, 150, 1.0, { color: 'white', visible:true, isStatic: true, friction: 0.0 } }));
+  }*/
 
 //CODE: FALLENDE KÄSTCHEN & TRANSPORTMITTEL
 
