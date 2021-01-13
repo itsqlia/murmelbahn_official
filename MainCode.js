@@ -42,7 +42,6 @@ class Block {
     fill(this.color)
     noStroke()
     drawBody(this.body)
-    // rect(this.x, this.y, this.w, this.h)
   }
 };
 
@@ -60,7 +59,6 @@ class Ball {
   show() {
     fill(this.color)
     drawBody(this.body)
-    // ellipse(this.pos.x, this.pos.y, this.size, this.size);
   }
 }
 
@@ -108,13 +106,12 @@ bullets = Composites.stack(500, 0, 2, 5, 3, 3, function(x, y) {
   return Bodies.circle(x, y, 50);
 });
 
-//World.add(engine.world, [bullets]);
-
 
 function setup() {
   engine = Matter.Engine.create()
   let canvas = createCanvas(1444, 4529)
 
+//CODE: KNÖPFE
 
   //durchichtiger block
   blocks.push(new Block({
@@ -221,11 +218,11 @@ function setup() {
   })
 
   // Composites.stack(x,y, anzahl pro zeile, anzahl pro spalte, abstand x, abstand y)
-  // Composites.stack(x,y, anzahl pro zeile, anzahl pro spalte, abstand x, abstand y)
   bullets = Composites.stack(0, 2602, 100, 3, 1, 1, function(x, y) {
     return Bodies.circle(x, y, 20);
   });
 
+//CODE: FALLENDE KÄSTCHEN & TRANSPORTMITTEL
 
   //hell graue schräge Schiene
   blocks.push(new Block({
@@ -340,7 +337,7 @@ function setup() {
     friction: 0
   }))
 
-  //blocks
+  //fallende Kästchen
   blocks.push(new Block({
     x: 470,
     y: 1798,
@@ -417,9 +414,7 @@ function setup() {
     angle: PI / 2
   }))
 
-  // ground = this.body.rect (400, height-25. 810, 25, {isStatic: true});
-
-  //rest block
+  //rest blocks
   blocks.push(new Block({
     x: 215,
     y: 2145,
@@ -483,11 +478,7 @@ function setup() {
     isStatic: true,
     angle: PI / 2
   }))
-  // blocks.push(new Block('rect', { x: 215, y:300, w:20, h:20, color: 'lightgray'}, {isStatic: true, angle:PI/2}))
 
-  // blocks.push(new Block('rect', { x: 210, y:350, w:20, h:20, color: 'gray'}, {isStatic: true, angle:PI/2}))
-
-  // propeller = this.body
 
   // Process collisions - check whether ball hits a Block object
   Matter.Events.on(engine, 'collisionStart', function(event) {
@@ -570,6 +561,8 @@ Matter.Engine.run(engine)
 
 function draw() {
   background('#4B5056');
+
+  //TRANSPORTMITTEL
   Matter.Body.setPosition(blocks[12].body, {
     x: 964 + Math.sin(frameCount / 100) * 280,
     y: 1880
