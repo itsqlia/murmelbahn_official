@@ -48,6 +48,18 @@ class Block {
   }
 };
 
+// class Triangle {
+//   constructor(attrs, options) {
+//     this.x = attrs.x
+//     this.y = attrs.y
+//     this.side = attrs.side
+//     this.radius= attrs.radius
+//     this.color = attrs.color
+//     this.visible = attrs.visible
+//     this.body = Matter.Bodies.polygon(this.x + this.w / 2, this.y + this.h / 2, this.side, this.radius, options)
+//     Matter.World.add(engine.world, [this.body])
+//   };
+
 class Ball {
   constructor(attrs, options) {
     this.x = attrs.x
@@ -63,7 +75,9 @@ class Ball {
     fill(this.color)
     drawBody(this.body)
   }
-}
+};
+
+
 
 function keyPressed() {
 
@@ -109,7 +123,7 @@ function keyPressed() {
 
 function setup() {
   engine = Matter.Engine.create()
-  let canvas = createCanvas(1444, 4529)
+  let canvas = createCanvas(1444, 5000)
 
 //CODE: BALL
   ball = new Ball({
@@ -127,6 +141,321 @@ function setup() {
     friction: 0
   })
 
+//CODE: FALLENDE KÄSTCHEN & TRANSPORTMITTEL
+
+  //graue schräge Schiene
+  blocks.push(new Block({
+    x: -10,
+    y: 1480.27,
+    w: 1190,
+    h: 20,
+    color: 'gray',
+    visible: true
+  }, {
+    isStatic: true,
+    angle: Math.PI * 0.05
+  }))
+
+  blocks.push(new Block({
+    x: 1345,
+    y: 1570,
+    w: 100,
+    h: 20,
+    color: 'gray',
+    visible: true
+  }, {
+    isStatic: true,
+  }))
+
+  //tube
+  blocks.push(new Block({
+    x: 1225,
+    y: 1767,
+    w: 70,
+    h: 15,
+    color: 'blue',
+    visible: true
+  }, {
+    isStatic: true,
+    restitution: 0.5,
+    friction: 0
+  }))
+
+  blocks.push(new Block({
+    x: 1110,
+    y: 1628,
+    w: 120,
+    h: 20,
+    color: 'gray',
+    visible: true
+  }, {
+    isStatic: true,
+    angle: -Math.PI * 2.5,
+    restitution: 0.5,
+    friction: 0
+  }))
+  blocks.push(new Block({
+    x: 1290,
+    y: 1628,
+    w: 120,
+    h: 20,
+    color: 'gray',
+    visible: true
+  }, {
+    isStatic: true,
+    angle: -Math.PI * 2.5,
+    restitution: 0.5,
+    friction: 0
+  }))
+  blocks.push(new Block({
+    x: 1149,
+    y: 1725,
+    w: 100,
+    h: 20,
+    color: 'gray',
+    visible: true
+  }, {
+    isStatic: true,
+    angle: -Math.PI * 2.7,
+    restitution: 0.5,
+    friction: 0
+  }))
+  blocks.push(new Block({
+    x: 1272,
+    y: 1725,
+    w: 100,
+    h: 20,
+    color: 'gray',
+    visible: true
+  }, {
+    isStatic: true,
+    angle: Math.PI * 2.7,
+    restitution: 0.5,
+    friction: 0
+  }))
+
+  //moving platform (Block [15]-Block[17])
+  blocks.push(new Block({
+    x: 964,
+    y: 1890,
+    w: 50,
+    h: 10,
+    color: 'gray',
+    visible: true
+  }, {
+    isStatic: true,
+    angle: -Math.PI * 2.5,
+  }))
+  blocks.push(new Block({
+    x: 1164,
+    y: 1890,
+    w: 50,
+    h: 10,
+    color: 'gray',
+    visible: true
+  }, {
+    isStatic: true,
+    angle: -Math.PI * 2.5,
+  }))
+
+  blocks.push(new Block({
+    x: 1064,
+    y: 1895,
+    w: 20,
+    h: 200,
+    color: 'gray',
+    visible: true
+  }, {
+    isStatic: true,
+    angle: -Math.PI * 2.5,
+  }))
+
+  //fallende Kästchen
+  blocks.push(new Block({
+    x: 470,
+    y: 1798,
+    w: 50,
+    h: 50,
+    color: '#32f4da',
+    visible: true,
+    chgStatic: true
+  }, {
+    isStatic: true,
+    airFriction: 0.15,
+    density: 500,
+  }))
+  blocks.push(new Block({
+    x: 420,
+    y: 1818,
+    w: 50,
+    h: 50,
+    color: '#32f4da',
+    visible: true,
+    chgStatic: true
+  }, {
+    isStatic: true,
+    airFriction: 0.15,
+    density: 500,
+  }))
+  blocks.push(new Block({
+    x: 370,
+    y: 1838,
+    w: 50,
+    h: 50,
+    color: '#32f4da',
+    visible: true,
+    chgStatic: true
+  }, {
+    isStatic: true,
+    airFriction: 0.15,
+    density: 500,
+  }))
+  blocks.push(new Block({
+    x: 320,
+    y: 1858,
+    w: 50,
+    h: 50,
+    color: '#32f4da',
+    visible: true,
+    chgStatic: true
+  }, {
+    isStatic: true,
+    airFriction: 0.15,
+    density: 500,
+  }))
+
+  // ball = new Ball({
+  //   x: 350,
+  //   y: 1800,
+  //   color: 'black',
+  //   size: 45,
+  //   position: {
+  //     x: 10,
+  //     y: 1500
+  //   }
+  // }, {
+  //   isStatic: false,
+  //   restitution: 0.5,
+  //   friction: 0
+  // })
+  //ground-transparent (later: color change to - #4B5056!) (Block [23])
+  blocks.push(new Block({
+    x: 320,
+    y: 2400,
+    w: 167,
+    h: 10,
+    color: 'black',
+    visible: true
+  }, {
+    isStatic: true
+  }))
+  blocks.push(new Block({
+    x: 300,
+    y: 2375,
+    w: 50,
+    h: 5,
+    color: 'black',
+    visible: true
+  }, {
+    isStatic: true,
+    angle: PI / 2
+  }))
+  blocks.push(new Block({
+    x: 460,
+    y: 2375,
+    w: 50,
+    h: 5,
+    color: 'black',
+    visible: true
+  }, {
+    isStatic: true,
+    angle: PI / 2
+  }))
+
+  //Propeller Section
+
+  //Röhren (links-rechts)
+  blocks.push(new Block({
+    x: 50,
+    y: 2130,
+    w: 250,
+    h: 15,
+    color: 'green',
+    visible: true
+  }, {
+    isStatic: true,
+    airFriction: 0.07,
+    angle: PI / 2
+  }))
+  blocks.push(new Block({
+    x: 170,
+    y: 2130,
+    w: 250,
+    h: 15,
+    color: 'white',
+    visible: true
+  }, {
+    isStatic: true,
+    airFriction: 0.07,
+    angle: PI / 2
+  }))
+
+  //drehende Platten (Block[27])
+    blocks.push(new Block({
+      x: 220,
+      y: 2100,
+      w: 38,
+      h: 38,
+      color: 'blue',
+      visible: true
+    }, {
+      isStatic: false,
+    }))
+
+    blocks.push(new Block({
+      x: 220,
+      y: 1960,
+      w: 38,
+      h: 38,
+      color: 'blue',
+      visible: true
+    }, {
+      isStatic: false,
+    }))
+
+
+  //rest blocks
+  blocks.push(new Block({
+    x: 155,
+    y: 2290,
+    w: 100,
+    h: 20,
+    color: 'yellow',
+    visible: true
+  }, {
+    isStatic: true,
+    angle: Math.PI * 0.30
+  }))
+  blocks.push(new Block({
+    x: 230,
+    y: 2330,
+    w: 30,
+    h: 20,
+    color: 'purple',
+    visible: true
+  }, {
+    isStatic: true
+  }))
+
+//Funktion für drehende Platten
+  blocks.slice(27,29).forEach((block, i) => {
+    let constraint = Matter.Constraint.create({
+      bodyA: block.body,
+      pointB: { x: block.body.position.x , y: block.body.position.y }
+    });
+    Matter.World.add(engine.world, [constraint]);
+});
+
 //CODE: KNÖPFE
 
   //durchichtiger block
@@ -139,7 +468,7 @@ function setup() {
     visible: true
   }, {
     isStatic: true,
-    angle: degToRad(3)
+    // angle: degToRad(3)
   }))
   //bunte Knöpfe
   blocks.push(new Block({
@@ -151,7 +480,7 @@ function setup() {
     visible: false
   }, {
     isStatic: true,
-    angle: degToRad(3)
+    // angle: degToRad(3)
   }))
   blocks.push(new Block({
     x: 800,
@@ -162,7 +491,7 @@ function setup() {
     visible: false
   }, {
     isStatic: true,
-    angle: degToRad(3)
+    // angle: degToRad(3)
   }))
   blocks.push(new Block({
     x: 900,
@@ -173,7 +502,7 @@ function setup() {
     visible: false
   }, {
     isStatic: true,
-    angle: degToRad(3)
+    // angle: degToRad(3)
   }))
   // untere Ebene
   blocks.push(new Block({
@@ -208,288 +537,25 @@ function setup() {
     isStatic: true
   }))
 
+//ground-floor
+  blocks.push(new Block({
+    x: 486,
+    y: 2190,
+    w: 500,
+    h: 20,
+    color: 'gray',
+    visible: true
+  }, {
+    isStatic: true,
+    // angle: degToRad(3)
+  }))
+
   // Composites.stack(x,y, anzahl pro zeile, anzahl pro spalte, abstand x, abstand y)
   bullets = Composites.stack(0, 2602, 100, 3, 1, 1, function(x, y) {
     return Bodies.circle(x, y, 20);
   });
 
-//CODE: FALLENDE KÄSTCHEN & TRANSPORTMITTEL
 
-  //hell graue schräge Schiene
-  blocks.push(new Block({
-    x: 209,
-    y: 1497.27,
-    w: 962.,
-    h: 10,
-    color: 'gray',
-    visible: true
-  }, {
-    isStatic: true,
-    angle: Math.PI * 0.05
-  }))
-
-  //tube
-  // blocks.push(new Block({
-  //   x: 1225,
-  //   y: 1767,
-  //   w: 65,
-  //   h: 9,
-  //   color: 'blue'
-  // }, {
-  //   isStatic: true,
-  //   restitution: 0.5,
-  //   friction: 0
-  // }))
-
-  blocks.push(new Block({
-    x: 1110,
-    y: 1628,
-    w: 120,
-    h: 10,
-    color: 'gray',
-    visible: true
-  }, {
-    isStatic: true,
-    angle: -Math.PI * 2.5,
-    restitution: 0.5,
-    friction: 0
-  }))
-  blocks.push(new Block({
-    x: 1290,
-    y: 1628,
-    w: 120,
-    h: 10,
-    color: 'gray',
-    visible: true
-  }, {
-    isStatic: true,
-    angle: -Math.PI * 2.5,
-    restitution: 0.5,
-    friction: 0
-  }))
-  blocks.push(new Block({
-    x: 1149,
-    y: 1725,
-    w: 100,
-    h: 10,
-    color: 'gray',
-    visible: true
-  }, {
-    isStatic: true,
-    angle: -Math.PI * 2.7,
-    restitution: 0.5,
-    friction: 0
-  }))
-  blocks.push(new Block({
-    x: 1272,
-    y: 1725,
-    w: 100,
-    h: 10,
-    color: 'gray',
-    visible: true
-  }, {
-    isStatic: true,
-    angle: Math.PI * 2.7,
-    restitution: 0.5,
-    friction: 0
-  }))
-
-  //moving platform
-  blocks.push(new Block({
-    x: 964,
-    y: 1890,
-    w: 50,
-    h: 10,
-    color: 'gray',
-    visible: true
-  }, {
-    isStatic: true,
-    angle: -Math.PI * 2.5,
-    restitution: 0.5,
-    friction: 0
-  }))
-  blocks.push(new Block({
-    x: 1164,
-    y: 1890,
-    w: 50,
-    h: 10,
-    color: 'gray',
-    visible: true
-  }, {
-    isStatic: true,
-    angle: -Math.PI * 2.5,
-    restitution: 0.5,
-    friction: 0
-  }))
-
-  blocks.push(new Block({
-    x: 1064,
-    y: 1895,
-    w: 20,
-    h: 200,
-    color: 'gray',
-    visible: true
-  }, {
-    isStatic: true,
-    angle: -Math.PI * 2.5,
-    restitution: 0.5,
-    friction: 0
-  }))
-
-  //fallende Kästchen
-  blocks.push(new Block({
-    x: 470,
-    y: 1798,
-    w: 50,
-    h: 50,
-    color: '#32f4da',
-    visible: true,
-    chgStatic: true
-  }, {
-    isStatic: true,
-    airFriction: 0.15
-  }))
-  blocks.push(new Block({
-    x: 420,
-    y: 1818,
-    w: 50,
-    h: 50,
-    color: '#32f4da',
-    visible: true,
-    chgStatic: true
-  }, {
-    isStatic: true,
-    airFriction: 0.1
-  }))
-  blocks.push(new Block({
-    x: 370,
-    y: 1838,
-    w: 50,
-    h: 50,
-    color: '#32f4da',
-    visible: true,
-    chgStatic: true
-  }, {
-    isStatic: true,
-    airFriction: 0.15
-  }))
-  blocks.push(new Block({
-    x: 320,
-    y: 1858,
-    w: 50,
-    h: 50,
-    color: '#32f4da',
-    visible: true,
-    chgStatic: true
-  }, {
-    isStatic: true,
-    airFriction: 0.25
-  }))
-
-  //ground-transparent
-  blocks.push(new Block({
-    x: 320,
-    y: 2230,
-    w: 167,
-    h: 10,
-    color: 'black',
-    visible: true
-  }, {
-    isStatic: true
-  }))
-  blocks.push(new Block({
-    x: 300,
-    y: 2205,
-    w: 50,
-    h: 5,
-    color: 'black',
-    visible: true
-  }, {
-    isStatic: true,
-    angle: PI / 2
-  }))
-  blocks.push(new Block({
-    x: 460,
-    y: 2205,
-    w: 50,
-    h: 5,
-    color: 'black',
-    visible: true
-  }, {
-    isStatic: true,
-    angle: PI / 2
-  }))
-
-  //rest blocks
-  blocks.push(new Block({
-    x: 215,
-    y: 2145,
-    w: 100,
-    h: 5,
-    color: 'gray',
-    visible: true
-  }, {
-    isStatic: true,
-    angle: Math.PI * 0.30
-  }))
-  blocks.push(new Block({
-    x: 290,
-    y: 2184,
-    w: 30,
-    h: 5,
-    color: 'gray',
-    visible: true
-  }, {
-    isStatic: true
-  }))
-  blocks.push(new Block({
-    x: 486,
-    y: 2190,
-    w: 500,
-    h: 5,
-    color: 'gray',
-    visible: true
-  }, {
-    isStatic: true,
-    angle: degToRad(3)
-  }))
-
-  //Propeller Section
-  blocks.push(new Block({
-    x: 130,
-    y: 2000,
-    w: 210,
-    h: 5,
-    color: 'gray',
-    visible: true
-  }, {
-    isStatic: true,
-    airFriction: 0.07,
-    angle: PI / 2
-  }))
-  blocks.push(new Block({
-    x: 209,
-    y: 2000,
-    w: 210,
-    h: 5,
-    color: 'gray',
-    visible: true
-  }, {
-    isStatic: true,
-    airFriction: 0.07,
-    angle: PI / 2
-  }))
-  blocks.push(new Block({
-    x: 261,
-    y: 2040,
-    w: 20,
-    h: 20,
-    color: 'lightgray',
-    visible: true
-  }, {
-    isStatic: true,
-    angle: PI / 2
-  }))
 
 
   // Process collisions - check whether ball hits a Block object
@@ -575,18 +641,18 @@ function draw() {
   background('#4B5056');
 
   //TRANSPORTMITTEL
-  Matter.Body.setPosition(blocks[12].body, {
-    x: 964 + Math.sin(frameCount / 100) * 280,
-    y: 1880
-  })
-  Matter.Body.setPosition(blocks[13].body, {
-    x: 1164 + Math.sin(frameCount / 100) * 280,
-    y: 1880
-  })
-  Matter.Body.setPosition(blocks[14].body, {
-    x: 1064 + Math.sin(frameCount / 100) * 280,
-    y: 1895
-  })
+  // Matter.Body.setPosition(blocks[15].body, {
+  //   x: 964 + Math.sin(frameCount / 100) * 280,
+  //   y: 1950
+  // })
+  // Matter.Body.setPosition(blocks[16].body, {
+  //   x: 1164 + Math.sin(frameCount / 100) * 280,
+  //   y: 1950
+  // })
+  // Matter.Body.setPosition(blocks[17].body, {
+  //   x: 1064 + Math.sin(frameCount / 100) * 280,
+  //   y: 1965
+  // })
 
 
   blocks.forEach((block, i) => {
