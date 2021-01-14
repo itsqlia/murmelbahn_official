@@ -7,7 +7,7 @@ const MouseConstraint = Matter.MouseConstraint;
 const Composites = Matter.Composites;
 
 
-let ball, engine
+// let ball, engine
 let blocks = []
 let balls = []
 let collisions = []
@@ -47,26 +47,6 @@ class Block {
   }
 };
 
-// class Polygons
-// constructor(attrs, options) {
-//   this.x = attrs.x
-//   this.y = attrs.y
-//   this.color = attrs.color
-//   this.size = attrs.size
-//   this.visible = attrs.visible
-//   this.body = Matter.Bodies.polygon(this.x, this.y, this.size/2, options)
-//   Matter.World.add(engine.world, [this.body])
-// }
-
-
-// show() {
-//   fill(this.color)
-//   noStroke()
-//   if (this.visible == true){
-//     drawBody(this.body)
-//   }
-// };
-
 class Ball {
   constructor(attrs, options) {
     this.x = attrs.x
@@ -84,8 +64,6 @@ class Ball {
   }
 };
 
-
-
 function keyPressed() {
 
 //Enter-Tastatur
@@ -94,27 +72,28 @@ function keyPressed() {
 
       case 0:
         console.log('Taste 0')
-        ball.color = 'black'
+        balls[0].body
+        balls[0].color = 'black'
         break;
       case 1:
         console.log('Taste 1')
-        ball.color = 'yellow'
+        balls[0].color = 'yellow'
         break;
       case 2:
         console.log('Taste 2')
-        ball.color = 'green'
+        balls[0].color = 'green'
         break;
       case 3:
-        console.log('Taste 3', ball)
-        if ((ball.body.position.x - ball.body.positionPrev.x) < 0) {
+        console.log('Taste 3')
+        if ((balls[0].body.position.x - balls[0].body.positionPrev.x) < 0) {
           direction // circle runs right to left <-
         } // use current direction and velocity for the jump
         Matter.Body.applyForce(
-          ball.body, {
-            x: ball.body.position.x,
-            y: ball.body.position.y
+          balls[0].body, {
+            x: balls[0].body.position.x,
+            y: balls[0].body.position.y
           }, {
-            x: (0.05 * direction) + ball.body.velocity.x / 100,
+            x: (0.05 * direction) + balls[0].body.velocity.x / 100,
             y: -0.05
           }
         );
@@ -127,14 +106,13 @@ function keyPressed() {
 }
 
 
-
 function setup() {
   engine = Matter.Engine.create()
   let canvas = createCanvas(1444, 7000)
 
 //CODE: BALL
 
-  ball = new Ball({
+  balls.push(new Ball({
     x: 250,
     y: 400,
     color: 'black',
@@ -147,7 +125,7 @@ function setup() {
     isStatic: false,
     restitution: 0.5,
     friction: 0
-  })
+  }))
 
 //CODE: WOlKEN & PENDEL
 
@@ -371,7 +349,7 @@ function setup() {
     friction: 0
   }))
 
-  //Moving platform
+  //moving platform
   blocks.push(new Block({
     x: 964,
     y: 3210,
@@ -430,7 +408,7 @@ function setup() {
     visible: true
   }, {
     isStatic: true,
-    plugin: { chgStatic: true },
+    plugin: {chgStatic:true},
     airFriction: 0.15,
     density: 500,
   }))
@@ -443,7 +421,7 @@ function setup() {
     visible: true
   }, {
     isStatic: true,
-    plugin: { chgStatic: true },
+    plugin: {chgStatic: true},
     airFriction: 0.15,
     density: 500,
   }))
@@ -456,7 +434,7 @@ function setup() {
     visible: true,
   }, {
     isStatic: true,
-    plugin: { chgStatic: true},
+    plugin: {chgStatic: true},
     airFriction: 0.15,
     density: 500,
   }))
@@ -469,26 +447,25 @@ function setup() {
     visible: true,
   }, {
     isStatic: true,
-    plugin: { chgStatic: true },
+    plugin: {chgStatic: true},
     airFriction: 0.15,
     density: 500,
   }))
 
-// //Ball-Demo
-//   ball = new Ball({
-//     x: 570,
-//     y: 3100,
-//     color: 'black',
-//     size: 45,
-//     position: {
-//       x: 10,
-//       y: 1500
-//     }
-//   }, {
-//     isStatic: false,
-//     restitution: 0.5,
-//     friction: 0
-//   })
+balls.push(new Ball({
+  x: 570,
+  y: 3100,
+  color: 'black',
+  size: 45,
+  position: {
+    x: 10,
+    y: 1500
+  }
+}, {
+  isStatic: false,
+  restitution: 0.5,
+  friction: 0
+}))
 
   //ground-transparent (later: color change to - #4B5056!) (Block [23])
   blocks.push(new Block({
@@ -968,7 +945,6 @@ function setup() {
     restitution: 0
   }))
 
-
   //Funktion für drehende Platten
     blocks.slice(38, 59).forEach((block, i) => {
       let constraint = Matter.Constraint.create({
@@ -977,8 +953,7 @@ function setup() {
       });
       Matter.World.add(engine.world, [constraint]);
 
-      //Ball-Demo
-        ball = new Ball({
+        balls.push(new Ball({
           x: 780,
           y: 4100,
           color: 'black',
@@ -990,9 +965,9 @@ function setup() {
         }, {
           isStatic: false,
           restitution: 0.5,
-          friction: 0,
+          friction:0,
           airFriction: 1
-        })
+        }))
 
 //Trichter
 blocks.push(new Block({
@@ -1021,9 +996,9 @@ blocks.push(new Block({
 
 //Portal
 
-Matter.Bodies.circle(550, 5000, 20);
+Matter.Bodies.circle(550, 5000, 20, 'yellow');
 
-World.add(engine.world, [circle])
+Matter.World.add(engine.world, circle)
 });
 
 // Balken zum Orientierung
@@ -1076,7 +1051,6 @@ World.add(engine.world, [circle])
     }
   })
 
-Matter.World.add(engine.world, [bullets]);
 
   Matter.Events.on(engine, 'beforeUpdate', function(event) {
       // process collisions at the right time
@@ -1092,28 +1066,30 @@ Matter.World.add(engine.world, [bullets]);
       collisions = []
     })
 
-  canvas.mousePressed(startEngine);
+  Matter.World.add(engine.world, [bullets]);
 
-  document.addEventListener('keyup', onKeyUp)
+  // canvas.mousePressed(startEngine);
+
+  // document.addEventListener('keyup', onKeyUp)
 
   Matter.Engine.run(engine)
 }
 
-function onKeyUp(evt) {
-  switch (evt.key) {
-    case ' ':
-      startEngine()
-      evt.preventDefault()
-      break
-  }
-}
+// function onKeyUp(evt) {
+//   switch (evt.key) {
+//     case ' ':
+//       startEngine()
+//       evt.preventDefault()
+//       break
+//   }
+// }
 
-function startEngine() {
-  if (0 == engine.timing.timestamp) {
-    Matter.Engine.run(engine)
-    userStartAudio()
-  }
-}
+// function startEngine() {
+//   if (0 == engine.timing.timestamp) {
+//     Matter.Engine.run(engine)
+//     userStartAudio()
+//   }
+// }
 
 function draw() {
   background('#4B5056');
@@ -1136,7 +1112,10 @@ function draw() {
   blocks.forEach((block, i) => {
   block.show()
   });
-  ball.show()
+
+  balls.forEach((ball, i) => {
+    ball.show()
+});
   fill('black')
   drawBodies(bullets.bodies);
 }
