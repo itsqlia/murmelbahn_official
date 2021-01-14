@@ -44,7 +44,6 @@ class Block {
     if (this.visible == true){
       drawBody(this.body)
     }
-    // drawBody(this.body)
   }
 };
 
@@ -137,7 +136,9 @@ function setup() {
     isStatic: true,
 
   }))
+
 //CODE: BALL
+
   ball = new Ball({
     x: 250,
     y: 400,
@@ -152,12 +153,16 @@ function setup() {
     restitution: 0.5,
     friction: 0
   })
+
+//CODE: WOlKEN & PENDEL
+
   /*WOlKEN DEF
   let wolke = document.getElementById('wolke');
   if (null != wolke) {
     blocks.push(bodyFromPath(wolke, 200, 150, 1.0, { color: 'white', visible:true, isStatic: true, friction: 0.0 } }));
   }*/
 
+//Wolken Demo
   blocks.push(new Block({
     x: 200,
     y: 130,
@@ -200,6 +205,7 @@ function setup() {
     density: 500,
   }))
 
+//Pendel-Demo
   blocks.push(new Block({
     x: 400,
     y: 755,
@@ -214,6 +220,8 @@ function setup() {
     density: 500,
     angle: Math.PI * 2.5
   }))
+
+//CODE: FARBIGE BALKEN
 
   //Anfang - farbigen Balken
   blocks.push(new Block({
@@ -280,8 +288,8 @@ function setup() {
   //graue schräge Schiene
   blocks.push(new Block({
     x: 180,
-    y: 2800,
-    w: 1100,
+    y: 2802,
+    w: 1010,
     h: 20,
     color: 'gray',
     visible: true
@@ -291,9 +299,9 @@ function setup() {
   }))
 
   blocks.push(new Block({
-    x: 1345,
+    x: 1340,
     y: 2890,
-    w: 100,
+    w: 130,
     h: 20,
     color: 'gray',
     visible: true
@@ -320,7 +328,7 @@ function setup() {
     y: 2948,
     w: 120,
     h: 20,
-    color: 'gray',
+    color: 'grey',
     visible: true
   }, {
     isStatic: true,
@@ -333,7 +341,7 @@ function setup() {
     y: 2948,
     w: 120,
     h: 20,
-    color: 'gray',
+    color: 'grey',
     visible: true
   }, {
     isStatic: true,
@@ -346,7 +354,7 @@ function setup() {
     y: 3045,
     w: 100,
     h: 20,
-    color: 'gray',
+    color: 'grey',
     visible: true
   }, {
     isStatic: true,
@@ -368,7 +376,7 @@ function setup() {
     friction: 0
   }))
 
-  //moving platform (Block [15]-Block[17])
+  //moving platform
   blocks.push(new Block({
     x: 964,
     y: 3210,
@@ -404,10 +412,25 @@ function setup() {
     angle: -Math.PI * 2.5,
   }))
 
+  //schräge schiene für den Ball
+  blocks.push(new Block({
+    x: 750,
+    y: 3100,
+    w: 20,
+    h: 150,
+    color: 'grey',
+    visible: true
+  }, {
+    isStatic: true,
+    angle: -Math.PI * 0.65,
+  }))
+
+
+
   //fallende Kästchen
   blocks.push(new Block({
-    x: 470,
-    y: 3118,
+    x: 550,
+    y: 3300,
     w: 50,
     h: 50,
     color: '#32f4da',
@@ -419,8 +442,8 @@ function setup() {
     density: 500,
   }))
   blocks.push(new Block({
-    x: 420,
-    y: 3138,
+    x: 500,
+    y: 3310,
     w: 50,
     h: 50,
     color: '#32f4da',
@@ -432,8 +455,8 @@ function setup() {
     density: 500,
   }))
   blocks.push(new Block({
-    x: 370,
-    y: 3158,
+    x: 450,
+    y: 3320,
     w: 50,
     h: 50,
     color: '#32f4da',
@@ -445,8 +468,8 @@ function setup() {
     density: 500,
   }))
   blocks.push(new Block({
-    x: 320,
-    y: 3178,
+    x: 400,
+    y: 3330,
     w: 50,
     h: 50,
     color: '#32f4da',
@@ -472,11 +495,12 @@ function setup() {
   //   restitution: 0.5,
   //   friction: 0
   // })
+
   //ground-transparent (later: color change to - #4B5056!) (Block [23])
   blocks.push(new Block({
-    x: 320,
-    y: 3720,
-    w: 167,
+    x: 380,
+    y: 3800,
+    w: 235,
     h: 10,
     color: 'black',
     visible: true
@@ -484,8 +508,8 @@ function setup() {
     isStatic: true
   }))
   blocks.push(new Block({
-    x: 300,
-    y: 3695,
+    x: 355,
+    y: 3780,
     w: 50,
     h: 5,
     color: 'black',
@@ -495,8 +519,8 @@ function setup() {
     angle: PI / 2
   }))
   blocks.push(new Block({
-    x: 460,
-    y: 3695,
+    x: 590,
+    y: 3780,
     w: 50,
     h: 5,
     color: 'black',
@@ -510,11 +534,11 @@ function setup() {
 
   //Röhren (links-rechts)
   blocks.push(new Block({
-    x: 50,
-    y: 3450,
+    x: 110,
+    y: 3550,
     w: 250,
-    h: 15,
-    color: 'green',
+    h: 10,
+    color: 'grey',
     visible: true
   }, {
     isStatic: true,
@@ -522,11 +546,11 @@ function setup() {
     angle: PI / 2
   }))
   blocks.push(new Block({
-    x: 170,
-    y: 3450,
+    x: 230,
+    y: 3550,
     w: 250,
-    h: 15,
-    color: 'white',
+    h: 10,
+    color: 'grey',
     visible: true
   }, {
     isStatic: true,
@@ -536,22 +560,22 @@ function setup() {
 
   //drehende Platten (Block[27])
     blocks.push(new Block({
-      x: 220,
-      y: 3420,
+      x: 275,
+      y: 3575,
       w: 38,
       h: 38,
-      color: 'blue',
+      color: 'lightblue',
       visible: true
     }, {
       isStatic: false,
     }))
 
     blocks.push(new Block({
-      x: 220,
-      y: 3280,
+      x: 275,
+      y: 3475,
       w: 38,
       h: 38,
-      color: 'blue',
+      color: 'lightblue',
       visible: true
     }, {
       isStatic: false,
@@ -560,22 +584,23 @@ function setup() {
 
   //rest blocks
   blocks.push(new Block({
-    x: 155,
-    y: 3610,
+    x: 215,
+    y: 3710,
     w: 100,
-    h: 20,
-    color: 'yellow',
+    h: 10,
+    color: 'grey',
     visible: true
   }, {
     isStatic: true,
     angle: Math.PI * 0.30
   }))
+
   blocks.push(new Block({
-    x: 230,
-    y: 3650,
-    w: 30,
-    h: 20,
-    color: 'purple',
+    x: 290,
+    y: 3750,
+    w: 90,
+    h: 10,
+    color: 'grey',
     visible: true
   }, {
     isStatic: true
@@ -594,8 +619,8 @@ function setup() {
 
   //durchichtiger block
   blocks.push(new Block({
-    x: 500,
-    y: 3450,
+    x: 650,
+    y: 3700,
     w: 100,
     h: 60,
     color: '#292F36',
@@ -606,8 +631,8 @@ function setup() {
   }))
   //bunte Knöpfe
   blocks.push(new Block({
-    x: 700,
-    y: 3490,
+    x: 820,
+    y: 3738,
     w: 50,
     h: 20,
     color: '#FF8A35',
@@ -617,19 +642,19 @@ function setup() {
     // angle: degToRad(3)
   }))
   blocks.push(new Block({
-    x: 800,
-    y: 3495,
+    x: 910,
+    y: 3735,
     w: 50,
     h: 20,
-    color: '#3BF4FB',
+    color: '#32f4da',
     visible: false
   }, {
     isStatic: true,
     // angle: degToRad(3)
   }))
   blocks.push(new Block({
-    x: 900,
-    y: 3500,
+    x: 1000,
+    y: 3735,
     w: 50,
     h: 20,
     color: '#C879FF',
@@ -638,51 +663,54 @@ function setup() {
     isStatic: true,
     // angle: degToRad(3)
   }))
-  // untere Ebene
+  //ground-floor
+    blocks.push(new Block({
+      x: 615,
+      y: 3755,
+      w: 500,
+      h: 10,
+      color: 'gray',
+      visible: true
+    }, {
+      isStatic: true,
+      // angle: degToRad(3)
+    }))
+
+  // untere Ebene-Stack
   blocks.push(new Block({
-    x: 0,
+    x: 180,
     y: 4040,
-    w: windowWidth,
+    w: 1700,
     h: 20,
     color: 'black',
     visible: true
-  }, {
-    isStatic: true
-  }))
-  //seitliche Schranken
-  blocks.push(new Block({
-    x: 0,
-    y: 3920,
-    w: 5,
-    h: 1500,
-    color: 'black',
-    visible: false
-  }, {
-    isStatic: true
-  }))
-  blocks.push(new Block({
-    x: 1920,
-    y: 3920,
-    w: 5,
-    h: 1500,
-    color: 'black',
-    visible: false
   }, {
     isStatic: true
   }))
 
-//ground-floor
-  blocks.push(new Block({
-    x: 486,
-    y: 3510,
-    w: 500,
-    h: 20,
-    color: 'gray',
-    visible: true
-  }, {
-    isStatic: true,
-    // angle: degToRad(3)
-  }))
+  //seitliche Schranken
+
+  // blocks.push(new Block({
+  //   x: 180,
+  //   y: 3920,
+  //   w: 5,
+  //   h: 1500,
+  //   color: 'black',
+  //   visible: true
+  // }, {
+  //   isStatic: true
+  // }))
+
+  // blocks.push(new Block({
+  //   x: windowWidth,
+  //   y: 3920,
+  //   w: 5,
+  //   h: 1500,
+  //   color: 'yellow',
+  //   visible: true
+  // }, {
+  //   isStatic: true
+  // }))
 
   // Composites.stack(x,y, anzahl pro zeile, anzahl pro spalte, abstand x, abstand y)
   bullets = Composites.stack(180, 3922, 100, 3, 1, 1, function(x, y) {
@@ -775,18 +803,18 @@ function draw() {
   background('#4B5056');
 
   //TRANSPORTMITTEL
-  // Matter.Body.setPosition(blocks[15].body, {
-  //   x: 964 + Math.sin(frameCount / 100) * 280,
-  //   y: 3270
-  // })
-  // Matter.Body.setPosition(blocks[16].body, {
-  //   x: 1164 + Math.sin(frameCount / 100) * 280,
-  //   y: 3270
-  // })
-  // Matter.Body.setPosition(blocks[17].body, {
-  //   x: 1064 + Math.sin(frameCount / 100) * 280,
-  //   y: 3285
-  // })
+  Matter.Body.setPosition(blocks[18].body, {
+    x: 964 + Math.sin(frameCount / 100) * 280,
+    y: 3270
+  })
+  Matter.Body.setPosition(blocks[19].body, {
+    x: 1164 + Math.sin(frameCount / 100) * 280,
+    y: 3270
+  })
+  Matter.Body.setPosition(blocks[20].body, {
+    x: 1064 + Math.sin(frameCount / 100) * 280,
+    y: 3285
+  })
 
 
   blocks.forEach((block, i) => {
