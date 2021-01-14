@@ -560,9 +560,7 @@ function setup() {
       h: 38,
       color: 'lightblue',
       visible: true
-    }, {
-      isStatic: false,
-    }))
+    }, {isStatic:false}))
 
     blocks.push(new Block({
       x: 275,
@@ -671,16 +669,16 @@ function setup() {
     }))
 
   // untere Ebene-Stack
-  blocks.push(new Block({
-    x: 180,
-    y: 4060,
-    w: 1700,
-    h: 20,
-    color: 'black',
-    visible: true
-  }, {
-    isStatic: true
-  }))
+  // blocks.push(new Block({
+  //   x: 180,
+  //   y: 4060,
+  //   w: 1700,
+  //   h: 20,
+  //   color: 'black',
+  //   visible: true
+  // }, {
+  //   isStatic: true
+  // }))
 
   //seitliche Schranken
 
@@ -992,7 +990,8 @@ function setup() {
         }, {
           isStatic: false,
           restitution: 0.5,
-          friction: 0
+          friction: 0,
+          airFriction: 1
         })
 
 //Trichter
@@ -1022,6 +1021,9 @@ blocks.push(new Block({
 
 //Portal
 
+Matter.Bodies.circle(550, 5000, 20);
+
+World.add(engine.world, [circle])
 });
 
 // Balken zum Orientierung
@@ -1074,6 +1076,7 @@ blocks.push(new Block({
     }
   })
 
+Matter.World.add(engine.world, [bullets]);
 
   Matter.Events.on(engine, 'beforeUpdate', function(event) {
       // process collisions at the right time
@@ -1092,6 +1095,8 @@ blocks.push(new Block({
   canvas.mousePressed(startEngine);
 
   document.addEventListener('keyup', onKeyUp)
+
+  Matter.Engine.run(engine)
 }
 
 function onKeyUp(evt) {
@@ -1110,46 +1115,27 @@ function startEngine() {
   }
 }
 
-Matter.World.add(engine.world, [bullets]);
-
-let body = blocks[5].body
-let constraint = Matter.Constraint.create({
-  bodyA: body,
-  pointB: {
-    x: body.position.x,
-    y: body.position.y
-  }
-});
-
-
-Matter.World.add(engine.world, [constraint]);
-
-Matter.Engine.run(engine)
-
-
-
 function draw() {
   background('#4B5056');
 
   //TRANSPORTMITTEL
-  // Matter.Body.setPosition(blocks[17].body, {
-  //   x: 964 + Math.sin(frameCount / 100) * 280,
-  //   y: 3270
-  // })
-  // Matter.Body.setPosition(blocks[18].body, {
-  //   x: 1164 + Math.sin(frameCount / 100) * 280,
-  //   y: 3270
-  // })
-  // Matter.Body.setPosition(blocks[19].body, {
-  //   x: 1064 + Math.sin(frameCount / 100) * 280,
-  //   y: 3285
-  // })
+  Matter.Body.setPosition(blocks[16].body, {
+    x: 964 + Math.sin(frameCount / 100) * 280,
+    y: 3270
+  })
+  Matter.Body.setPosition(blocks[17].body, {
+    x: 1164 + Math.sin(frameCount / 100) * 280,
+    y: 3270
+  })
+  Matter.Body.setPosition(blocks[18].body, {
+    x: 1064 + Math.sin(frameCount / 100) * 280,
+    y: 3285
+  })
 
 
   blocks.forEach((block, i) => {
-    block.show()
+  block.show()
   });
-
   ball.show()
   fill('black')
   drawBodies(bullets.bodies);
