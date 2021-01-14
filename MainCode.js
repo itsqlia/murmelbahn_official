@@ -870,6 +870,32 @@ function setup() {
 
   blocks.push(new Block({
     x: 1020,
+    y: 4400,
+    w: 80,
+    h: 80,
+    color: '#C879FF',
+    visible: true,
+  }, {
+    isStatic: false,
+    restitution: 0,
+    angle: Math.PI/4
+  }))
+
+  blocks.push(new Block({
+    x: 1020,
+    y: 4600,
+    w: 80,
+    h: 80,
+    color: '#C879FF',
+    visible: true,
+  }, {
+    isStatic: false,
+    restitution: 0,
+    angle: Math.PI/4
+  }))
+
+  blocks.push(new Block({
+    x: 1020,
     y: 4800,
     w: 80,
     h: 80,
@@ -894,10 +920,59 @@ function setup() {
     angle: Math.PI/4
   }))
 
+  //5.Reihe
+
+  blocks.push(new Block({
+    x: 1220,
+    y: 4300,
+    w: 80,
+    h: 80,
+    color: '#32f4da',
+    visible: true,
+  }, {
+    isStatic: false,
+    restitution: 0
+  }))
+
+  blocks.push(new Block({
+    x: 1220,
+    y: 4500,
+    w: 80,
+    h: 80,
+    color: '#32f4da',
+    visible: true,
+  }, {
+    isStatic: false,
+    restitution: 0
+  }))
+
+  blocks.push(new Block({
+    x: 1220,
+    y: 4700,
+    w: 80,
+    h: 80,
+    color: '#32f4da',
+    visible: true,
+  }, {
+    isStatic: false,
+    restitution: 0
+  }))
+
+  blocks.push(new Block({
+    x: 1220,
+    y: 4900,
+    w: 80,
+    h: 80,
+    color: '#32f4da',
+    visible: true,
+  }, {
+    isStatic: false,
+    restitution: 0
+  }))
 
 
   //Funktion für drehende Platten
-    blocks.slice(38, 51).forEach((block, i) => {
+    blocks.slice(38, 59).forEach((block, i) => {
       let constraint = Matter.Constraint.create({
         bodyA: block.body,
         pointB: { x: block.body.position.x , y: block.body.position.y }
