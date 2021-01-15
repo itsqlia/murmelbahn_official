@@ -996,7 +996,20 @@ blocks.push(new Block({
 
 //Portal
 
-Matter.Bodies.circle(550, 5000, 20, 'yellow');
+balls.push(new Ball({
+  x: 600,
+  y: 6000,
+  color: 'yellow',
+  size: 100,
+  position: {
+    x: 10,
+    y: 1500
+  }
+}, {
+  isStatic: true,
+  restitution: 0.5,
+  friction: 0
+}))
 
 Matter.World.add(engine.world, circle)
 });
@@ -1024,6 +1037,7 @@ Matter.World.add(engine.world, circle)
     isStatic: true,
 
   }))
+
 
   // Process collisions - check whether ball hits a Block object
   Matter.Events.on(engine, 'collisionStart', function(event) {
