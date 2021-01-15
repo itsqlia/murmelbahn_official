@@ -652,17 +652,28 @@ balls.push(new Ball({
       // angle: degToRad(3)
     }))
 
-  // untere Ebene-Stack
-  // blocks.push(new Block({
-  //   x: 180,
-  //   y: 4060,
-  //   w: 1700,
-  //   h: 20,
-  //   color: 'black',
-  //   visible: true
-  // }, {
-  //   isStatic: true
-  // }))
+  // untere Klappen-Stack
+  blocks.push(new Block({
+    x: 180,
+    y: 4060,
+    w: 630,
+    h: 20,
+    color: 'black',
+    visible: true
+  }, {
+    isStatic: true
+  }))
+
+  blocks.push(new Block({
+    x: 810,
+    y: 4060,
+    w: 630,
+    h: 20,
+    color: 'black',
+    visible: true
+  }, {
+    isStatic: true
+  }))
 
   //seitliche Schranken
 
@@ -689,7 +700,7 @@ balls.push(new Ball({
   // }))
 
   // Composites.stack(x,y, anzahl pro zeile, anzahl pro spalte, abstand x, abstand y)
-  bullets = Composites.stack(180, 3922, 100, 3, 1, 1, function(x, y) {
+  bullets = Composites.stack(180, 3922, 31, 3, 1, 1, function(x, y) {
     return Bodies.circle(x, y, 23);
   });
 
