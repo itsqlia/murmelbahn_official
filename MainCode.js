@@ -16,7 +16,7 @@ let collisions = []
 let bullets
 let spaceCount = +1
 let direction = 0.2
-
+let attractorActiv = false
 function degToRad(deg) {
   return deg / 360 * (2 * PI)
 }
@@ -221,10 +221,10 @@ function setup() {
   }))
 //GELB
   blocks.push(new Block({
-    x: 180,
-    y: 1825,
-    w: 1100,
-    h: 20,
+    x: 700,
+    y: 1780,
+    w: 580,
+    h: 30,
     color: 'yellow',
     visible: true
   }, {
@@ -235,7 +235,7 @@ function setup() {
     x: 1250,
     y: 1680,
     w: 215,
-    h: 20,
+    h: 30,
     color: 'yellow',
     visible: true
   }, {
@@ -244,10 +244,10 @@ function setup() {
   }))
   //GRÜN
   blocks.push(new Block({
-    x: 180,
-    y: 2175,
-    w: 1260,
-    h: 20,
+    x: 720,
+    y: 2070,
+    w: 720,
+    h: 30,
     color: 'green',
     visible: true
   }, {
@@ -256,17 +256,40 @@ function setup() {
   }))
   //GELB
   blocks.push(new Block({
-    x: 180,
-    y: 2485,
-    w: 1260,
-    h: 20,
+    x: 720,
+    y: 2350,
+    w: 720,
+    h: 30,
     color: 'yellow',
     visible: true
   }, {
     isStatic: true,
     angle: -Math.PI * 0.05
   }))
-
+  //GRÜN
+  blocks.push(new Block({
+    x: 720,
+    y: 2650,
+    w: 720,
+    h: 30,
+    color: 'green',
+    visible: true
+  }, {
+    isStatic: true,
+    angle: Math.PI * 0.05
+  }))
+  // Trennwand
+  blocks.push(new Block({
+    x: 60,
+    y: 2150,
+    w: 1300,
+    h: 20,
+    color: 'grey',
+    visible: true
+  }, {
+    isStatic: true,
+    angle: -Math.PI * 2.5
+  }))
 //CODE: FALLENDE KÄSTCHEN & TRANSPORTMITTEL
 
   //graue schräge Schiene
@@ -1003,8 +1026,7 @@ blocks.push(new Block({
 }))
 
 //Portal
-
-balls.push(new Ball({
+portal =balls.push(new Ball({
   x: 840,
   y: 6000,
   color: 'yellow',
@@ -1117,15 +1139,15 @@ function draw() {
   background('#4B5056');
 
   //TRANSPORTMITTEL
-  Matter.Body.setPosition(blocks[16].body, {
+  Matter.Body.setPosition(blocks[18].body, {
     x: 964 + Math.sin(frameCount / 100) * 280,
     y: 3270
   })
-  Matter.Body.setPosition(blocks[17].body, {
+  Matter.Body.setPosition(blocks[19].body, {
     x: 1164 + Math.sin(frameCount / 100) * 280,
     y: 3270
   })
-  Matter.Body.setPosition(blocks[18].body, {
+  Matter.Body.setPosition(blocks[20].body, {
     x: 1064 + Math.sin(frameCount / 100) * 280,
     y: 3285
   })
@@ -1152,6 +1174,15 @@ function draw() {
 //   let body = Matter.Bodies.fromVertices(0, 0, Matter.Vertices.scale(Matter.Svg.pathToVertices(path, 10), scale, scale), options);
 //   Matter.Body.setPosition(body, { x: x, y: y });
 //   return body;
+// }
+
+// //Portal
+// function attract(){
+//   let force ={
+//     x:(portal.body.position.x- balls[0].body.position.x) *1e-6,
+//     y:(portal.body.position.y- balls[0].body.position.y) *1e-6
+//   }
+//   Body.applyForce(balls[0].body.position, force)
 // }
 
 function drawBodies(bodies) {
