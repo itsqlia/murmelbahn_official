@@ -108,7 +108,7 @@ function keyPressed() {
 
 function setup() {
   engine = Matter.Engine.create()
-  let canvas = createCanvas(1444, 7000)
+  let canvas = createCanvas(1480, 7000)
 
 //CODE: BALL
 
@@ -130,9 +130,9 @@ function setup() {
 //CODE: WOlKEN & PENDEL
 
   //*WOlKEN DEF
-  let wolke = document.getElementById('wolke');
-  if (null != wolke)
-    blocks.push(bodyFromPath(wolke, 200, 150, 1.0, { color: 'white', visible:true, isStatic: true, friction: 0.0 } ));
+  // let wolke = document.getElementById('wolke');
+  // if (null != wolke)
+  //   blocks.push(bodyFromPath(wolke, 200, 150, 1.0, { color: 'white', visible:true, isStatic: true, friction: 0.0 } ));
 
   // blocks.push(new Block('path', { x: 200, y: 150, elem: 'wolke', scale: 1.0, color: 'white' }, { isStatic: true, friction: 0.0 }))
 
@@ -964,28 +964,14 @@ balls.push(new Ball({
   }))
 
   //Funktion für drehende Platten
-    blocks.slice(38, 59).forEach((block, i) => {
+    blocks.slice(38, 61).forEach((block, i) => {
       let constraint = Matter.Constraint.create({
         bodyA: block.body,
         pointB: { x: block.body.position.x , y: block.body.position.y }
       });
       Matter.World.add(engine.world, [constraint]);
 
-        balls.push(new Ball({
-          x: 780,
-          y: 4100,
-          color: 'black',
-          size: 45,
-          position: {
-            x: 10,
-            y: 1500
-          }
-        }, {
-          isStatic: false,
-          restitution: 0.5,
-          friction:0,
-          airFriction: 1
-        }))
+
 
 //Trichter
 blocks.push(new Block({
@@ -1015,10 +1001,10 @@ blocks.push(new Block({
 //Portal
 
 balls.push(new Ball({
-  x: 600,
+  x: 840,
   y: 6000,
   color: 'yellow',
-  size: 100,
+  size: 200,
   position: {
     x: 10,
     y: 1500
@@ -1036,7 +1022,7 @@ Matter.World.add(engine.world, circle)
   blocks.push(new Block({
     x: 1440,
     y: 0,
-    w: 10,
+    w: 30,
     h: 7000,
     color: 'black',
     visible: true
@@ -1047,7 +1033,7 @@ Matter.World.add(engine.world, circle)
   blocks.push(new Block({
     x: 180,
     y: 0,
-    w: 10,
+    w: 30,
     h: 7000,
     color: 'black',
     visible: true
@@ -1140,28 +1126,29 @@ function draw() {
     y: 3285
   })
 
-  fill('white');
-  blocks.forEach(wolke => drawBody(wolke));
-
-  balls.forEach(ball => drawBody(ball));
-
-  // blocks.forEach((block, i) => {
-  // block.show()
-  // });
+  // fill('white');
+  // blocks.forEach(wolke => drawBody(wolke));
   //
-  // balls.forEach((ball, i) => {
-  //   ball.show()
-// });
+  // balls.forEach(ball => drawBody(ball));
+
+  blocks.forEach((block, i) => {
+  block.show()
+  });
+
+  balls.forEach((ball, i) => {
+    ball.show()
+});
+
   fill('black')
   drawBodies(bullets.bodies);
 
 }
 
-function bodyFromPath(path, x, y, scale, options) {
-  let body = Matter.Bodies.fromVertices(0, 0, Matter.Vertices.scale(Matter.Svg.pathToVertices(path, 10), scale, scale), options);
-  Matter.Body.setPosition(body, { x: x, y: y });
-  return body;
-}
+// function bodyFromPath(path, x, y, scale, options) {
+//   let body = Matter.Bodies.fromVertices(0, 0, Matter.Vertices.scale(Matter.Svg.pathToVertices(path, 10), scale, scale), options);
+//   Matter.Body.setPosition(body, { x: x, y: y });
+//   return body;
+// }
 
 function drawBodies(bodies) {
   for (let i = 0; i < bodies.length; i++) {
