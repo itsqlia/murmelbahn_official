@@ -129,11 +129,18 @@ function setup() {
 
 //CODE: WOlKEN & PENDEL
 
-  /*WOlKEN DEF
+  //*WOlKEN DEF
   let wolke = document.getElementById('wolke');
-  if (null != wolke) {
-    blocks.push(bodyFromPath(wolke, 200, 150, 1.0, { color: 'white', visible:true, isStatic: true, friction: 0.0 } }));
-  }*/
+  if (null != wolke)
+    blocks.push(bodyFromPath(wolke, 200, 150, 1.0, { color: 'white', visible:true, isStatic: true, friction: 0.0 } ));
+
+  // blocks.push(new Block('path', { x: 200, y: 150, elem: 'wolke', scale: 1.0, color: 'white' }, { isStatic: true, friction: 0.0 }))
+
+  // let ramp = document.getElementById('ramp');
+  // if (null != ramp) {
+  //   blocks.push(bodyFromPath(ramp, 970, 850, 1.0, { isStatic: true, friction: 0.0, plugin: { force: { x: 0.0, y: -1.0 } } }));
+  // }
+
 
 //Wolken Demo
   blocks.push(new Block({
@@ -1122,16 +1129,27 @@ function draw() {
     y: 3285
   })
 
+  fill('white');
+  blocks.forEach(wolke => drawBody(wolke));
 
-  blocks.forEach((block, i) => {
-  block.show()
-  });
+  balls.forEach(ball => drawBody(ball));
 
-  balls.forEach((ball, i) => {
-    ball.show()
-});
+  // blocks.forEach((block, i) => {
+  // block.show()
+  // });
+  //
+  // balls.forEach((ball, i) => {
+  //   ball.show()
+// });
   fill('black')
   drawBodies(bullets.bodies);
+
+}
+
+function bodyFromPath(path, x, y, scale, options) {
+  let body = Matter.Bodies.fromVertices(0, 0, Matter.Vertices.scale(Matter.Svg.pathToVertices(path, 10), scale, scale), options);
+  Matter.Body.setPosition(body, { x: x, y: y });
+  return body;
 }
 
 function drawBodies(bodies) {
