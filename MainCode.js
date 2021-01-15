@@ -130,9 +130,9 @@ function setup() {
 //CODE: WOlKEN & PENDEL
 
   //*WOlKEN DEF
-  let wolke = document.getElementById('wolke');
-  if (null != wolke)
-    blocks.push(bodyFromPath(wolke, 200, 150, 1.0, { color: 'white', visible:true, isStatic: true, friction: 0.0 } ));
+  // let wolke = document.getElementById('wolke');
+  // if (null != wolke)
+    // blocks.push(bodyFromPath(wolke, 200, 150, 1.0, { color: 'white', visible:true, isStatic: true, friction: 0.0 } ));
 
   // blocks.push(new Block('path', { x: 200, y: 150, elem: 'wolke', scale: 1.0, color: 'white' }, { isStatic: true, friction: 0.0 }))
 
@@ -1141,27 +1141,27 @@ function draw() {
   })
 
   fill('white');
-  blocks.forEach(wolke => drawBody(wolke));
-
-  balls.forEach(ball => drawBody(ball));
-
-  // blocks.forEach((block, i) => {
-  // block.show()
-  // });
+  // blocks.forEach(wolke => drawBody(wolke));
   //
-  // balls.forEach((ball, i) => {
-  //   ball.show()
-// });
+  // balls.forEach(ball => drawBody(ball));
+
+  blocks.forEach((block, i) => {
+  block.show()
+  });
+
+  balls.forEach((ball, i) => {
+    ball.show()
+});
   fill('black')
   drawBodies(bullets.bodies);
 
 }
 
-function bodyFromPath(path, x, y, scale, options) {
-  let body = Matter.Bodies.fromVertices(0, 0, Matter.Vertices.scale(Matter.Svg.pathToVertices(path, 10), scale, scale), options);
-  Matter.Body.setPosition(body, { x: x, y: y });
-  return body;
-}
+// function bodyFromPath(path, x, y, scale, options) {
+//   let body = Matter.Bodies.fromVertices(0, 0, Matter.Vertices.scale(Matter.Svg.pathToVertices(path, 10), scale, scale), options);
+//   Matter.Body.setPosition(body, { x: x, y: y });
+//   return body;
+// }
 
 function drawBodies(bodies) {
   for (let i = 0; i < bodies.length; i++) {
