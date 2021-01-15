@@ -1,3 +1,4 @@
+//Matter.use('matter-wrap');
 const Engine = Matter.Engine;
 const Render = Matter.Render;
 const World = Matter.World;
@@ -109,7 +110,10 @@ function keyPressed() {
 function setup() {
   engine = Matter.Engine.create()
   let canvas = createCanvas(1480, 7000)
-
+  // balls[0].plugin.wrap = {
+  //     min: { x: 0, y: 0 },
+  //     max: { x: width, y: height }
+  //   };
 //CODE: BALL
 
   balls.push(new Ball({
