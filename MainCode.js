@@ -13,6 +13,7 @@ const Constraint = Matter.Constraint;
 let blocks = []
 let balls = []
 let collisions = []
+let wolken = []
 
 let bullets
 let spaceCount = +1
@@ -128,8 +129,8 @@ function setup() {
  portalSound = loadSound("lib/PortalWhoosh.mp3")
 
   balls.push(new Ball({
-    x: 250,
-    y: 400,
+    x: 270,
+    y: 0,
     color: 'black',
     size: 45,
     position: {
@@ -145,45 +146,41 @@ function setup() {
   // CODE: WOlKEN & PENDEL
   //
   // *WOlKEN DEF
-  // let wolkeElem = document.getElementById('wolke');
-  // if (null != wolkeElem){
-  //   //wolke = bodyFromPath(wolkeElem, 200, 150, 1.0, { color: 'white', visible:true, isStatic: true, friction: 0.0 } );
-  //   wolke= new Block('path', { x: 200, y: 150, elem: 'wolke', scale: 1.0, color: 'white' }, { isStatic: true, friction: 0.0 })
-  //   blocks.push(wolke)
-  //
-  // }
+  let wolkeElem = document.getElementById('wolke');
+  if (null != wolkeElem) {
+    wolken.push(bodyFromPath(wolkeElem, 350, 230, 1.0, { color: 'white', visible: true, isStatic: true, friction: 0.0 }));
+    wolken.push(bodyFromPath(wolkeElem, 600, 390, 1.0, { color: 'white', visible: true, isStatic: true, friction: 0.0 }));
 
-
-
+  }
 
   //Wolken Demo
-  blocks.push(new Block({
-    x: 200,
-    y: 130,
-    w: 200,
-    h: 100,
-    color: 'white',
-    visible: true,
-    chgStatic: true
-  }, {
-    isStatic: true,
-    airFriction: 0.15,
-    density: 500,
-  }))
-
-  blocks.push(new Block({
-    x: 650,
-    y: 150,
-    w: 200,
-    h: 100,
-    color: 'white',
-    visible: true,
-    chgStatic: true
-  }, {
-    isStatic: true,
-    airFriction: 0.15,
-    density: 500,
-  }))
+  // blocks.push(new Block({
+  //   x: 200,
+  //   y: 130,
+  //   w: 200,
+  //   h: 100,
+  //   color: 'white',
+  //   visible: true,
+  //   chgStatic: true
+  // }, {
+  //   isStatic: true,
+  //   airFriction: 0.15,
+  //   density: 500,
+  // }))
+  //
+  // blocks.push(new Block({
+  //   x: 650,
+  //   y: 150,
+  //   w: 200,
+  //   h: 100,
+  //   color: 'white',
+  //   visible: true,
+  //   chgStatic: true
+  // }, {
+  //   isStatic: true,
+  //   airFriction: 0.15,
+  //   density: 500,
+  // }))
 
   //Boden
   blocks.push(new Block({
@@ -543,20 +540,20 @@ function setup() {
     density: 500,
   }))
 
-  balls.push(new Ball({
-    x: 570,
-    y: 3100,
-    color: 'black',
-    size: 45,
-    position: {
-      x: 10,
-      y: 1500
-    }
-  }, {
-    isStatic: false,
-    restitution: 0.5,
-    friction: 0
-  }))
+  // balls.push(new Ball({
+  //   x: 570,
+  //   y: 3100,
+  //   color: 'black',
+  //   size: 45,
+  //   position: {
+  //     x: 10,
+  //     y: 1500
+  //   }
+  // }, {
+  //   isStatic: false,
+  //   restitution: 0.5,
+  //   friction: 0
+  // }))
 
   //ground-transparent (later: color change to - #4B5056!) (Block [23])
   blocks.push(new Block({
@@ -1209,15 +1206,15 @@ function draw() {
   background('#4B5056');
 
   //TRANSPORTMITTEL
-  Matter.Body.setPosition(blocks[20].body, {
+  Matter.Body.setPosition(blocks[18].body, {
     x: 964 + Math.sin(frameCount / 100) * 280,
     y: 3270
   })
-  Matter.Body.setPosition(blocks[21].body, {
+  Matter.Body.setPosition(blocks[19].body, {
     x: 1164 + Math.sin(frameCount / 100) * 280,
     y: 3270
   })
-  Matter.Body.setPosition(blocks[22].body, {
+  Matter.Body.setPosition(blocks[20].body, {
     x: 1064 + Math.sin(frameCount / 100) * 280,
     y: 3285
   })
@@ -1246,11 +1243,8 @@ function draw() {
   // }
 
   //wolken
-  fill('white');
-   //blocks.forEach(wolke => drawBody(wolke));
-   //drawBody(wolke);
-  //
-  // balls.forEach(ball => drawBody(ball));
+ fill('white');
+ wolken.forEach(wolke => drawBody(wolke));
 
   blocks.forEach((block, i) => {
     block.show()
