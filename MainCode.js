@@ -20,6 +20,7 @@ let direction = 0.2
 let attractorActiv = false
 let pendel
 let constraint2
+let wolke
 
 function degToRad(deg) {
   return deg / 360 * (2 * PI)
@@ -135,18 +136,18 @@ function setup() {
     friction: 0
   }))
 
-  //CODE: WOlKEN & PENDEL
-
-  // *WOlKEN DEF
-  // let wolke = document.getElementById('wolke');
-  // if (null != wolke)
-  //   blocks.push(bodyFromPath(wolke, 200, 150, 1.0, { color: 'white', visible:true, isStatic: true, friction: 0.0 } ));
-  // blocks.push(new Block('path', { x: 200, y: 150, elem: 'wolke', scale: 1.0, color: 'white' }, { isStatic: true, friction: 0.0 }))
+  // CODE: WOlKEN & PENDEL
   //
-  // let ramp = document.getElementById('ramp');
-  // if (null != ramp) {
-  //   blocks.push(bodyFromPath(ramp, 970, 850, 1.0, { isStatic: true, friction: 0.0, plugin: { force: { x: 0.0, y: -1.0 } } }));
+  // *WOlKEN DEF
+  // let wolkeElem = document.getElementById('wolke');
+  // if (null != wolkeElem){
+  //   //wolke = bodyFromPath(wolkeElem, 200, 150, 1.0, { color: 'white', visible:true, isStatic: true, friction: 0.0 } );
+  //   wolke= new Block('path', { x: 200, y: 150, elem: 'wolke', scale: 1.0, color: 'white' }, { isStatic: true, friction: 0.0 })
+  //   blocks.push(wolke)
+  //
   // }
+
+  
 
 
   //Wolken Demo
@@ -1246,7 +1247,8 @@ function draw() {
 
   //wolken
   fill('white');
-  // blocks.forEach(wolke => drawBody(wolke));
+   //blocks.forEach(wolke => drawBody(wolke));
+   //drawBody(wolke);
   //
   // balls.forEach(ball => drawBody(ball));
 
