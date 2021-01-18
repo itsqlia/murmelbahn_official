@@ -21,6 +21,11 @@ let attractorActiv = false
 let pendel
 let constraint2
 let wolke
+let portalSound
+
+function preload(){
+ portalSound = loadSound("lib/PortalWhoosh.mp3")
+}
 
 function degToRad(deg) {
   return deg / 360 * (2 * PI)
@@ -120,6 +125,7 @@ function setup() {
   //     max: { x: width, y: height }
   //   };
 //CODE: BALL
+ portalSound = loadSound("lib/PortalWhoosh.mp3")
 
   balls.push(new Ball({
     x: 250,
@@ -147,7 +153,7 @@ function setup() {
   //
   // }
 
-  
+
 
 
   //Wolken Demo
@@ -1312,7 +1318,6 @@ function drawBodies(bodies) {
     drawVertices(bodies[i].vertices);
   }
 }
-
 
 function drawBody(body) {
   if (body.parts && body.parts.length > 1) {
