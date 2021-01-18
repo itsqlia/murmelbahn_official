@@ -307,6 +307,30 @@ function setup() {
     isStatic: true,
     angle: -Math.PI * 0.05
   }))
+  //GRÜN
+  blocks.push(new Block({
+    x: 720,
+    y: 2650,
+    w: 720,
+    h: 30,
+    color: 'green',
+    visible: true
+  }, {
+    isStatic: true,
+    angle: Math.PI * 0.05
+  }))
+  // Trennwand
+  blocks.push(new Block({
+    x: 60,
+    y: 2150,
+    w: 1300,
+    h: 20,
+    color: 'grey',
+    visible: true
+  }, {
+    isStatic: true,
+    angle: -Math.PI * 2.5
+  }))
 
   //CODE: FALLENDE KÄSTCHEN & TRANSPORTMITTEL
 
@@ -1199,15 +1223,15 @@ function draw() {
   background('#4B5056');
 
   //TRANSPORTMITTEL
-  Matter.Body.setPosition(blocks[18].body, {
+  Matter.Body.setPosition(blocks[20].body, {
     x: 964 + Math.sin(frameCount / 100) * 280,
     y: 3270
   })
-  Matter.Body.setPosition(blocks[19].body, {
+  Matter.Body.setPosition(blocks[21].body, {
     x: 1164 + Math.sin(frameCount / 100) * 280,
     y: 3270
   })
-  Matter.Body.setPosition(blocks[20].body, {
+  Matter.Body.setPosition(blocks[22].body, {
     x: 1064 + Math.sin(frameCount / 100) * 280,
     y: 3285
   })
