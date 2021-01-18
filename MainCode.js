@@ -1,3 +1,4 @@
+//Matter.use('matter-wrap');
 const Engine = Matter.Engine;
 const Render = Matter.Render;
 const World = Matter.World;
@@ -16,6 +17,7 @@ let collisions = []
 let bullets
 let spaceCount = +1
 let direction = 0.2
+let attractorActiv = false
 let pendel
 let constraint2
 
@@ -111,9 +113,12 @@ function keyPressed() {
 
 function setup() {
   engine = Matter.Engine.create()
-  let canvas = createCanvas(1444, 7000)
-
-  //CODE: BALL
+  let canvas = createCanvas(1480, 7000)
+  // balls[0].plugin.wrap = {
+  //     min: { x: 0, y: 0 },
+  //     max: { x: width, y: height }
+  //   };
+//CODE: BALL
 
   balls.push(new Ball({
     x: 250,
@@ -136,7 +141,6 @@ function setup() {
   // let wolke = document.getElementById('wolke');
   // if (null != wolke)
   //   blocks.push(bodyFromPath(wolke, 200, 150, 1.0, { color: 'white', visible:true, isStatic: true, friction: 0.0 } ));
-  //
   // blocks.push(new Block('path', { x: 200, y: 150, elem: 'wolke', scale: 1.0, color: 'white' }, { isStatic: true, friction: 0.0 }))
   //
   // let ramp = document.getElementById('ramp');
@@ -258,10 +262,10 @@ function setup() {
   }))
   //GELB
   blocks.push(new Block({
-    x: 180,
-    y: 1825,
-    w: 1100,
-    h: 20,
+    x: 700,
+    y: 1780,
+    w: 580,
+    h: 30,
     color: 'yellow',
     visible: true
   }, {
@@ -272,7 +276,7 @@ function setup() {
     x: 1250,
     y: 1680,
     w: 215,
-    h: 20,
+    h: 30,
     color: 'yellow',
     visible: true
   }, {
@@ -281,10 +285,10 @@ function setup() {
   }))
   //GRÜN
   blocks.push(new Block({
-    x: 180,
-    y: 2175,
-    w: 1260,
-    h: 20,
+    x: 720,
+    y: 2070,
+    w: 720,
+    h: 30,
     color: 'green',
     visible: true
   }, {
@@ -293,10 +297,10 @@ function setup() {
   }))
   //GELB
   blocks.push(new Block({
-    x: 180,
-    y: 2485,
-    w: 1260,
-    h: 20,
+    x: 720,
+    y: 2350,
+    w: 720,
+    h: 30,
     color: 'yellow',
     visible: true
   }, {
@@ -1018,43 +1022,55 @@ function setup() {
   }))
 
   //Funktion für drehende Platten
-  blocks.slice(38, 61).forEach((block, i) => {
-    let constraint = Matter.Constraint.create({
-      bodyA: block.body,
-      pointB: {
-        x: block.body.position.x,
-        y: block.body.position.y
-      }
-    });
-    Matter.World.add(engine.world, [constraint]);
-    balls.push(new Ball({
-      x: 780,
-      y: 4100,
-      color: 'black',
-      size: 45,
-      position: {
-        x: 10,
-        y: 1500
-      }
-    }, {
-      isStatic: false,
-      restitution: 0.5,
-      friction: 0,
-      airFriction: 1
-    }))
+    blocks.slice(38, 61).forEach((block, i) => {
+      let constraint = Matter.Constraint.create({
+        bodyA: block.body,
+        pointB: { x: block.body.position.x , y: block.body.position.y }
+      });
+      Matter.World.add(engine.world, [constraint]);
 
-    //Trichter
-    blocks.push(new Block({
-      x: 150,
-      y: 5390,
-      w: 680,
-      h: 20,
-      color: 'gray',
-      visible: true
-    }, {
-      isStatic: true,
-      angle: Math.PI * 2.11
-    }))
+
+
+//Trichter
+blocks.push(new Block({
+  x: 150,
+  y: 5390,
+  w: 680,
+  h: 20,
+  color: 'gray',
+  visible: true
+}, {
+  isStatic: true,
+  angle: Math.PI * 2.11
+}))
+
+blocks.push(new Block({
+  x: 850,
+  y: 5415,
+  w: 650,
+  h: 20,
+  color: 'gray',
+  visible: true
+}, {
+  isStatic: true,
+  angle: Math.PI * 2.91
+}))
+
+//Portal
+portal =balls.push(new Ball({
+  x: 840,
+  y: 6000,
+  color: 'yellow',
+  size: 200,
+  position: {
+    x: 10,
+    y: 1500
+  }
+}, {
+  isStatic: true,
+  restitution: 0.5,
+  friction: 0
+}))
 
     blocks.push(new Block({
       x: 850,
@@ -1092,7 +1108,7 @@ function setup() {
   blocks.push(new Block({
     x: 1440,
     y: 0,
-    w: 10,
+    w: 30,
     h: 7000,
     color: 'black',
     visible: true
@@ -1103,7 +1119,7 @@ function setup() {
   blocks.push(new Block({
     x: 180,
     y: 0,
-    w: 10,
+    w: 30,
     h: 7000,
     color: 'black',
     visible: true
@@ -1183,15 +1199,15 @@ function draw() {
   background('#4B5056');
 
   //TRANSPORTMITTEL
-  Matter.Body.setPosition(blocks[16].body, {
+  Matter.Body.setPosition(blocks[18].body, {
     x: 964 + Math.sin(frameCount / 100) * 280,
     y: 3270
   })
-  Matter.Body.setPosition(blocks[17].body, {
+  Matter.Body.setPosition(blocks[19].body, {
     x: 1164 + Math.sin(frameCount / 100) * 280,
     y: 3270
   })
-  Matter.Body.setPosition(blocks[18].body, {
+  Matter.Body.setPosition(blocks[20].body, {
     x: 1064 + Math.sin(frameCount / 100) * 280,
     y: 3285
   })
@@ -1267,6 +1283,15 @@ function drawConstraint(constraint) {
     posB.y + offsetB.y
   );
 }
+
+// //Portal
+// function attract(){
+//   let force ={
+//     x:(portal.body.position.x- balls[0].body.position.x) *1e-6,
+//     y:(portal.body.position.y- balls[0].body.position.y) *1e-6
+//   }
+//   Body.applyForce(balls[0].body.position, force)
+// }
 
 function drawBodies(bodies) {
   for (let i = 0; i < bodies.length; i++) {
