@@ -1053,14 +1053,13 @@ function setup() {
   }))
 
   //Funktion für drehende Platten
-    blocks.slice(38, 65).forEach((block, i) => {
-      let constraint = Matter.Constraint.create({
-        bodyA: block.body,
-        pointB: { x: block.body.position.x , y: block.body.position.y }
-      });
-      Matter.World.add(engine.world, [constraint]);
-
-
+    blocks.slice(38,65).forEach((block, i) => {
+    let constraint = Matter.Constraint.create({
+      bodyA: block.body,
+      pointB: { x: block.body.position.x , y: block.body.position.y }
+    });
+    Matter.World.add(engine.world, [constraint]);
+});
 
 //Trichter
 blocks.push(new Block({
@@ -1115,10 +1114,7 @@ portal =balls.push(new Ball({
       angle: Math.PI * 2.91
     }))
 
-
-
-    Matter.World.add(engine.world, circle)
-  });
+  // });
 
   // Balken zum Orientierung
   blocks.push(new Block({
@@ -1170,7 +1166,9 @@ portal =balls.push(new Ball({
       }
     }
   })
+  Matter.World.add(engine.world, [bullets]);
 
+  Matter.Engine.run(engine)
 
   Matter.Events.on(engine, 'beforeUpdate', function(event) {
     // process collisions at the right time
@@ -1186,30 +1184,26 @@ portal =balls.push(new Ball({
     collisions = []
   })
 
-  Matter.World.add(engine.world, [bullets]);
+    canvas.mousePressed(startEngine);
 
-  // canvas.mousePressed(startEngine);
-
-  // document.addEventListener('keyup', onKeyUp)
-
-  Matter.Engine.run(engine)
+    document.addEventListener('keyup', onKeyUp)
 }
 
-// function onKeyUp(evt) {
-//   switch (evt.key) {
-//     case ' ':
-//       startEngine()
-//       evt.preventDefault()
-//       break
-//   }
-// }
+function onKeyUp(evt) {
+  switch (evt.key) {
+    case ' ':
+      startEngine()
+      evt.preventDefault()
+      break
+  }
+}
 
-// function startEngine() {
-//   if (0 == engine.timing.timestamp) {
-//     Matter.Engine.run(engine)
-//     userStartAudio()
-//   }
-// }
+function startEngine() {
+  if (0 == engine.timing.timestamp) {
+    Matter.Engine.run(engine)
+    userStartAudio()
+  }
+}
 
 function draw() {
   background('#4B5056');
