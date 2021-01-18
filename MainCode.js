@@ -81,33 +81,34 @@ function keyPressed() {
   if (keyCode === 13) {
     switch (spaceCount) {
 
-      case 0:
+      case 1:
+      console.log('Taste 3')
+      if ((balls[0].body.position.x - balls[0].body.positionPrev.x) < 0) {
+        direction // circle runs right to left <-
+      } // use current direction and velocity for the jump
+      Matter.Body.applyForce(
+        balls[0].body, {
+          x: balls[0].body.position.x,
+          y: balls[0].body.position.y
+        }, {
+          x: (0.05 * direction) + balls[0].body.velocity.x / 100,
+          y: -0.05
+        }
+      );
         console.log('Taste 0')
-        balls[0].body
+        
         balls[0].color = 'black'
         break;
-      case 1:
+      case 2:
         console.log('Taste 1')
         balls[0].color = 'yellow'
         break;
-      case 2:
+      case 3:
         console.log('Taste 2')
         balls[0].color = 'green'
         break;
-      case 3:
-        console.log('Taste 3')
-        if ((balls[0].body.position.x - balls[0].body.positionPrev.x) < 0) {
-          direction // circle runs right to left <-
-        } // use current direction and velocity for the jump
-        Matter.Body.applyForce(
-          balls[0].body, {
-            x: balls[0].body.position.x,
-            y: balls[0].body.position.y
-          }, {
-            x: (0.05 * direction) + balls[0].body.velocity.x / 100,
-            y: -0.05
-          }
-        );
+
+
 
       default:
         console.log('SpaceCount' + spaceCount)
