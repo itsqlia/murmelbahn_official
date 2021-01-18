@@ -1108,22 +1108,7 @@ portal =balls.push(new Ball({
       angle: Math.PI * 2.91
     }))
 
-    //Portal
-
-    balls.push(new Ball({
-      x: 600,
-      y: 6000,
-      color: 'yellow',
-      size: 100,
-      position: {
-        x: 10,
-        y: 1500
-      }
-    }, {
-      isStatic: true,
-      restitution: 0.5,
-      friction: 0
-    }))
+  
 
     Matter.World.add(engine.world, circle)
   });
@@ -1275,6 +1260,9 @@ function draw() {
   fill('black')
   drawBodies(bullets.bodies);
 
+  //Balken FARBIG
+  //if ((block[] && ball[0])== color:'yellow'){
+    // ?????Wie definieren??????
 }
 
 function bodyFromPath(path, x, y, scale, options) {
