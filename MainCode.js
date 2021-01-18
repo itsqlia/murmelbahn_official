@@ -662,7 +662,7 @@ function setup() {
   }))
 
   //Funktion für drehende Platten
-  blocks.slice(30, 33).forEach((block, i) => {
+  blocks.slice(31, 35).forEach((block, i) => {
     let constraint = Matter.Constraint.create({
       bodyA: block.body,
       pointB: {
@@ -1046,7 +1046,7 @@ function setup() {
   }))
 
   //Funktion für drehende Platten
-    blocks.slice(38, 62).forEach((block, i) => {
+    blocks.slice(38, 65).forEach((block, i) => {
       let constraint = Matter.Constraint.create({
         bodyA: block.body,
         pointB: { x: block.body.position.x , y: block.body.position.y }
@@ -1108,7 +1108,7 @@ portal =balls.push(new Ball({
       angle: Math.PI * 2.91
     }))
 
-  
+
 
     Matter.World.add(engine.world, circle)
   });
