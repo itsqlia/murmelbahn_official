@@ -1,4 +1,3 @@
-//Matter.use('matter-wrap');
 const Engine = Matter.Engine;
 const Render = Matter.Render;
 const World = Matter.World;
@@ -139,8 +138,8 @@ function setup() {
     }
   }, {
     isStatic: false,
-    restitution: 0.5,
-    friction: 0
+    //restitution: 0.5,
+    ////friction: 0.1
   }))
 
   // CODE: WOlKEN & PENDEL
@@ -148,8 +147,8 @@ function setup() {
   // *WOlKEN DEF
   let wolkeElem = document.getElementById('wolke');
   if (null != wolkeElem) {
-    wolken.push(bodyFromPath(wolkeElem, 350, 230, 1.0, { color: 'white', visible: true, isStatic: true, friction: 0.0 }));
-    wolken.push(bodyFromPath(wolkeElem, 600, 390, 1.0, { color: 'white', visible: true, isStatic: true, friction: 0.0 }));
+    wolken.push(bodyFromPath(wolkeElem, 350, 230, 1.0, { color: 'white', visible: true, isStatic: true,})); //friction: 0.1
+    wolken.push(bodyFromPath(wolkeElem, 600, 390, 1.0, { color: 'white', visible: true, isStatic: true, }));//friction: 0.1}));
 
   }
 
@@ -372,8 +371,8 @@ function setup() {
     visible: true
   }, {
     isStatic: true,
-    restitution: 0.5,
-    friction: 0
+    //restitution: 0.5,
+    //friction: 0
   }))
 
   blocks.push(new Block({
@@ -386,8 +385,8 @@ function setup() {
   }, {
     isStatic: true,
     angle: -Math.PI * 2.5,
-    restitution: 0.5,
-    friction: 0
+    ////restitution: 0.5,
+    //friction: 0
   }))
   blocks.push(new Block({
     x: 1290,
@@ -399,8 +398,8 @@ function setup() {
   }, {
     isStatic: true,
     angle: -Math.PI * 2.5,
-    restitution: 0.5,
-    friction: 0
+    //restitution: 0.5,
+    //friction: 0
   }))
   blocks.push(new Block({
     x: 1149,
@@ -412,8 +411,8 @@ function setup() {
   }, {
     isStatic: true,
     angle: -Math.PI * 2.7,
-    restitution: 0.5,
-    friction: 0
+    //restitution: 0.5,
+    //friction: 0
   }))
   blocks.push(new Block({
     x: 1272,
@@ -425,8 +424,8 @@ function setup() {
   }, {
     isStatic: true,
     angle: Math.PI * 2.7,
-    restitution: 0.5,
-    friction: 0
+    //restitution: 0.5,
+    //friction: 0
   }))
 
   //moving platform
@@ -551,8 +550,8 @@ function setup() {
     }
   }, {
     isStatic: false,
-    restitution: 0.5,
-    friction: 0
+    //restitution: 0.5,
+    //friction: 0
   }))
 
   //ground-transparent (later: color change to - #4B5056!) (Block [23])
@@ -802,7 +801,7 @@ function setup() {
     visible: true,
   }, {
     isStatic: false,
-    restitution: 0
+    //restitution: 0
   }))
 
   blocks.push(new Block({
@@ -814,7 +813,7 @@ function setup() {
     visible: true
   }, {
     isStatic: false,
-    restitution: 0
+    //restitution: 0
   }))
 
   blocks.push(new Block({
@@ -826,7 +825,7 @@ function setup() {
     visible: true
   }, {
     isStatic: false,
-    restitution: 0
+    //restitution: 0
   }))
 
   blocks.push(new Block({
@@ -838,7 +837,7 @@ function setup() {
     visible: true
   }, {
     isStatic: false,
-    restitution: 0
+    //restitution: 0
   }))
 
   //2.Reihe
@@ -852,7 +851,7 @@ function setup() {
     visible: true,
   }, {
     isStatic: false,
-    restitution: 0,
+    //restitution: 0,
     angle: Math.PI / 4
   }))
 
@@ -865,7 +864,7 @@ function setup() {
     visible: true,
   }, {
     isStatic: false,
-    restitution: 0,
+    //restitution: 0,
     angle: Math.PI / 4
   }))
 
@@ -878,7 +877,7 @@ function setup() {
     visible: true,
   }, {
     isStatic: false,
-    restitution: 0,
+    //restitution: 0,
     angle: Math.PI / 4
   }))
 
@@ -891,7 +890,7 @@ function setup() {
     visible: true,
   }, {
     isStatic: false,
-    restitution: 0,
+    //restitution: 0,
     angle: Math.PI / 4
   }))
 
@@ -905,7 +904,7 @@ function setup() {
     visible: true,
   }, {
     isStatic: false,
-    restitution: 0
+    //restitution: 0
   }))
 
   blocks.push(new Block({
@@ -917,7 +916,7 @@ function setup() {
     visible: true,
   }, {
     isStatic: false,
-    restitution: 0
+    //restitution: 0
   }))
 
   blocks.push(new Block({
@@ -929,7 +928,7 @@ function setup() {
     visible: true,
   }, {
     isStatic: false,
-    restitution: 0
+    //restitution: 0
   }))
 
   blocks.push(new Block({
@@ -941,7 +940,7 @@ function setup() {
     visible: true,
   }, {
     isStatic: false,
-    restitution: 0
+    //restitution: 0
   }))
 
   //4.Reihe
@@ -955,7 +954,7 @@ function setup() {
     visible: true,
   }, {
     isStatic: false,
-    restitution: 0,
+    //restitution: 0,
     angle: Math.PI / 4
   }))
 
@@ -968,7 +967,7 @@ function setup() {
     visible: true,
   }, {
     isStatic: false,
-    restitution: 0,
+    //restitution: 0,
     angle: Math.PI / 4
   }))
 
@@ -981,7 +980,7 @@ function setup() {
     visible: true,
   }, {
     isStatic: false,
-    restitution: 0,
+    //restitution: 0,
     angle: Math.PI / 4
   }))
 
@@ -994,7 +993,7 @@ function setup() {
     visible: true,
   }, {
     isStatic: false,
-    restitution: 0,
+    //restitution: 0,
     angle: Math.PI / 4
   }))
 
@@ -1009,7 +1008,7 @@ function setup() {
     visible: true,
   }, {
     isStatic: false,
-    restitution: 0
+    //restitution: 0
   }))
 
   blocks.push(new Block({
@@ -1021,7 +1020,7 @@ function setup() {
     visible: true,
   }, {
     isStatic: false,
-    restitution: 0
+    //restitution: 0
   }))
 
   blocks.push(new Block({
@@ -1033,7 +1032,7 @@ function setup() {
     visible: true,
   }, {
     isStatic: false,
-    restitution: 0
+    //restitution: 0
   }))
 
   blocks.push(new Block({
@@ -1045,7 +1044,7 @@ function setup() {
     visible: true,
   }, {
     isStatic: false,
-    restitution: 0
+    //restitution: 0
   }))
 
   //Funktion für drehende Platten
@@ -1138,32 +1137,32 @@ portal =balls.push(new Ball({
 
 
   // Process collisions - check whether ball hits a Block object
-  Matter.Events.on(engine, 'collisionStart', function(event) {
-    let pairs = event.pairs
-    pairs.forEach((pair, i) => {
-      balls.forEach(ball => {
-        if (ball.body == pair.bodyA) {
-          collide(pair.bodyB, pair.bodyA)
-        }
-        if (ball.body == pair.bodyB) {
-          collide(pair.bodyA, pair.bodyB)
-        }
-      })
-    })
-    // check for collision between Block and ball
-    function collide(bodyBlock, bodyBall) {
-      // check if bodyBlock is really a body in a Block class
-      if (bodyBlock.plugin && bodyBlock.plugin.block) {
-        // remember the collision for processing in 'beforeUpdate'
-        collisions.push({
-          hit: bodyBlock.plugin.block,
-          ball: bodyBall
-        })
-      }
-    }
-  })
+  // Matter.Events.on(engine, 'collisionStart', function(event) {
+  //   let pairs = event.pairs[0]
+  //   pairs.forEach((pair, i) => {
+  //     balls.forEach(ball => {
+  //       if (ball.body == pair.bodyA) {
+  //         collide(pair.bodyB, pair.bodyA)
+  //       }
+  //       if (ball.body == pair.bodyB) {
+  //         collide(pair.bodyA, pair.bodyB)
+  //       }
+  //     })
+  //   })
+  //   // check for collision between Block and ball
+  //   function collide(bodyBlock, bodyBall) {
+  //     // check if bodyBlock is really a body in a Block class
+  //     if (bodyBlock.plugin && bodyBlock.plugin.block) {
+  //       // remember the collision for processing in 'beforeUpdate'
+  //       collisions.push({
+  //         hit: bodyBlock.plugin.block,
+  //         ball: bodyBall
+  //       })
+  //     }
+  //   }
+  // })
   Matter.World.add(engine.world, [bullets]);
-
+  Matter.World.add(engine.world, wolken);
   Matter.Engine.run(engine)
 
   Matter.Events.on(engine, 'beforeUpdate', function(event) {
