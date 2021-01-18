@@ -5,6 +5,7 @@ const Bodies = Matter.Bodies;
 const Mouse = Matter.Mouse;
 const MouseConstraint = Matter.MouseConstraint;
 const Composites = Matter.Composites;
+const Constraint = Matter.Constraint;
 
 
 // let ball, engine
@@ -15,6 +16,8 @@ let collisions = []
 let bullets
 let spaceCount = +1
 let direction = 0.2
+let pendel
+let constraint2
 
 function degToRad(deg) {
   return deg / 360 * (2 * PI)
@@ -41,7 +44,7 @@ class Block {
   show() {
     fill(this.color)
     noStroke()
-    if (this.visible == true){
+    if (this.visible == true) {
       drawBody(this.body)
     }
   }
@@ -66,7 +69,7 @@ class Ball {
 
 function keyPressed() {
 
-//Enter-Tastatur
+  //Enter-Tastatur
   if (keyCode === 13) {
     switch (spaceCount) {
 
@@ -110,7 +113,7 @@ function setup() {
   engine = Matter.Engine.create()
   let canvas = createCanvas(1444, 7000)
 
-//CODE: BALL
+  //CODE: BALL
 
   balls.push(new Ball({
     x: 250,
@@ -127,22 +130,22 @@ function setup() {
     friction: 0
   }))
 
-//CODE: WOlKEN & PENDEL
+  //CODE: WOlKEN & PENDEL
 
-  //*WOlKEN DEF
+  // *WOlKEN DEF
   // let wolke = document.getElementById('wolke');
   // if (null != wolke)
-    // blocks.push(bodyFromPath(wolke, 200, 150, 1.0, { color: 'white', visible:true, isStatic: true, friction: 0.0 } ));
-
+  //   blocks.push(bodyFromPath(wolke, 200, 150, 1.0, { color: 'white', visible:true, isStatic: true, friction: 0.0 } ));
+  //
   // blocks.push(new Block('path', { x: 200, y: 150, elem: 'wolke', scale: 1.0, color: 'white' }, { isStatic: true, friction: 0.0 }))
-
+  //
   // let ramp = document.getElementById('ramp');
   // if (null != ramp) {
   //   blocks.push(bodyFromPath(ramp, 970, 850, 1.0, { isStatic: true, friction: 0.0, plugin: { force: { x: 0.0, y: -1.0 } } }));
   // }
 
 
-//Wolken Demo
+  //Wolken Demo
   blocks.push(new Block({
     x: 200,
     y: 130,
@@ -171,37 +174,75 @@ function setup() {
     density: 500,
   }))
 
+  //Boden
   blocks.push(new Block({
     x: 200,
-    y: 650,
-    w: 1050,
-    h: 10,
-    color: 'red',
+    y: 625,
+    w: 900,
+    h: 40,
+    color: 'grey',
     visible: true,
-    chgStatic: true
   }, {
     isStatic: true,
-    airFriction: 0.15,
-    density: 500,
+    //angle: Math.PI * 2.5
   }))
 
-//Pendel-Demo
   blocks.push(new Block({
-    x: 400,
-    y: 755,
-    w: 200,
-    h: 10,
-    color: 'blue',
+    x: 1350,
+    y: 625,
+    w: 100,
+    h: 40,
+    color: 'grey',
+    visible: true,
+  }, {
+    isStatic: true,
+  }))
+
+  //Klappe
+  blocks.push(new Block({
+    x: 1100,
+    y: 625,
+    w: 250,
+    h: 40,
+    color: '#C879FF',
+    visible: true,
+  }, {
+    isStatic: true,
+  }))
+
+  blocks.push(new Block({
+    x: 900,
+    y: 585,
+    w: 100,
+    h: 40,
+    color: '#C879FF',
     visible: true,
     chgStatic: true
   }, {
     isStatic: true,
     airFriction: 0.15,
     density: 500,
-    angle: Math.PI * 2.5
   }))
 
-//CODE: FARBIGE BALKEN
+  //pendel
+  pendel = Bodies.circle(400, 950, 60, 30), {
+    isStatic: false,
+    density: 0.5
+  };
+  constraint2 = Constraint.create({
+    pointA: {
+      x: 500,
+      y: 650
+    },
+    bodyB: pendel,
+    pointB: {
+      x: 0,
+      y: 0
+    }
+  });
+  World.add(engine.world, [pendel, constraint2]);
+
+  //CODE: FARBIGE BALKEN
 
   //Anfang - farbigen Balken
   blocks.push(new Block({
@@ -215,7 +256,7 @@ function setup() {
     isStatic: true,
     angle: Math.PI * 0.05
   }))
-//GELB
+  //GELB
   blocks.push(new Block({
     x: 180,
     y: 1825,
@@ -263,7 +304,7 @@ function setup() {
     angle: -Math.PI * 0.05
   }))
 
-//CODE: FALLENDE KÄSTCHEN & TRANSPORTMITTEL
+  //CODE: FALLENDE KÄSTCHEN & TRANSPORTMITTEL
 
   //graue schräge Schiene
   blocks.push(new Block({
@@ -415,7 +456,9 @@ function setup() {
     visible: true
   }, {
     isStatic: true,
-    plugin: {chgStatic:true},
+    plugin: {
+      chgStatic: true
+    },
     airFriction: 0.15,
     density: 500,
   }))
@@ -428,7 +471,9 @@ function setup() {
     visible: true
   }, {
     isStatic: true,
-    plugin: {chgStatic: true},
+    plugin: {
+      chgStatic: true
+    },
     airFriction: 0.15,
     density: 500,
   }))
@@ -441,7 +486,9 @@ function setup() {
     visible: true,
   }, {
     isStatic: true,
-    plugin: {chgStatic: true},
+    plugin: {
+      chgStatic: true
+    },
     airFriction: 0.15,
     density: 500,
   }))
@@ -454,25 +501,27 @@ function setup() {
     visible: true,
   }, {
     isStatic: true,
-    plugin: {chgStatic: true},
+    plugin: {
+      chgStatic: true
+    },
     airFriction: 0.15,
     density: 500,
   }))
 
-balls.push(new Ball({
-  x: 570,
-  y: 3100,
-  color: 'black',
-  size: 45,
-  position: {
-    x: 10,
-    y: 1500
-  }
-}, {
-  isStatic: false,
-  restitution: 0.5,
-  friction: 0
-}))
+  balls.push(new Ball({
+    x: 570,
+    y: 3100,
+    color: 'black',
+    size: 45,
+    position: {
+      x: 10,
+      y: 1500
+    }
+  }, {
+    isStatic: false,
+    restitution: 0.5,
+    friction: 0
+  }))
 
   //ground-transparent (later: color change to - #4B5056!) (Block [23])
   blocks.push(new Block({
@@ -537,25 +586,27 @@ balls.push(new Ball({
   }))
 
   //drehende Platten
-    blocks.push(new Block({
-      x: 275,
-      y: 3575,
-      w: 38,
-      h: 38,
-      color: 'lightblue',
-      visible: true
-    }, {isStatic:false}))
+  blocks.push(new Block({
+    x: 275,
+    y: 3575,
+    w: 38,
+    h: 38,
+    color: 'lightblue',
+    visible: true
+  }, {
+    isStatic: false
+  }))
 
-    blocks.push(new Block({
-      x: 275,
-      y: 3475,
-      w: 38,
-      h: 38,
-      color: 'lightblue',
-      visible: true
-    }, {
-      isStatic: false,
-    }))
+  blocks.push(new Block({
+    x: 275,
+    y: 3475,
+    w: 38,
+    h: 38,
+    color: 'lightblue',
+    visible: true
+  }, {
+    isStatic: false,
+  }))
 
 
   //rest blocks
@@ -582,16 +633,19 @@ balls.push(new Ball({
     isStatic: true
   }))
 
-//Funktion für drehende Platten
+  //Funktion für drehende Platten
   blocks.slice(29, 31).forEach((block, i) => {
     let constraint = Matter.Constraint.create({
       bodyA: block.body,
-      pointB: { x: block.body.position.x , y: block.body.position.y }
+      pointB: {
+        x: block.body.position.x,
+        y: block.body.position.y
+      }
     });
     Matter.World.add(engine.world, [constraint]);
-});
+  });
 
-//CODE: KNÖPFE
+  //CODE: KNÖPFE
 
   //durchichtiger block
   blocks.push(new Block({
@@ -640,17 +694,17 @@ balls.push(new Ball({
     // angle: degToRad(3)
   }))
   //ground-floor
-    blocks.push(new Block({
-      x: 615,
-      y: 3755,
-      w: 500,
-      h: 10,
-      color: 'gray',
-      visible: true
-    }, {
-      isStatic: true,
-      // angle: degToRad(3)
-    }))
+  blocks.push(new Block({
+    x: 615,
+    y: 3755,
+    w: 500,
+    h: 10,
+    color: 'gray',
+    visible: true
+  }, {
+    isStatic: true,
+    // angle: degToRad(3)
+  }))
 
   // untere Klappen-Stack
   blocks.push(new Block({
@@ -704,9 +758,9 @@ balls.push(new Ball({
     return Bodies.circle(x, y, 23);
   });
 
-// CODE: VIELE DREHENDE PLATTEN
+  // CODE: VIELE DREHENDE PLATTEN
 
-//1.Reihe
+  //1.Reihe
 
   blocks.push(new Block({
     x: 300,
@@ -768,7 +822,7 @@ balls.push(new Ball({
   }, {
     isStatic: false,
     restitution: 0,
-    angle: Math.PI/4
+    angle: Math.PI / 4
   }))
 
   blocks.push(new Block({
@@ -781,7 +835,7 @@ balls.push(new Ball({
   }, {
     isStatic: false,
     restitution: 0,
-    angle: Math.PI/4
+    angle: Math.PI / 4
   }))
 
   blocks.push(new Block({
@@ -794,7 +848,7 @@ balls.push(new Ball({
   }, {
     isStatic: false,
     restitution: 0,
-    angle: Math.PI/4
+    angle: Math.PI / 4
   }))
 
   blocks.push(new Block({
@@ -807,10 +861,10 @@ balls.push(new Ball({
   }, {
     isStatic: false,
     restitution: 0,
-    angle: Math.PI/4
+    angle: Math.PI / 4
   }))
 
-//3.Reihe
+  //3.Reihe
   blocks.push(new Block({
     x: 760,
     y: 4300,
@@ -871,7 +925,7 @@ balls.push(new Ball({
   }, {
     isStatic: false,
     restitution: 0,
-    angle: Math.PI/4
+    angle: Math.PI / 4
   }))
 
   blocks.push(new Block({
@@ -884,7 +938,7 @@ balls.push(new Ball({
   }, {
     isStatic: false,
     restitution: 0,
-    angle: Math.PI/4
+    angle: Math.PI / 4
   }))
 
   blocks.push(new Block({
@@ -897,7 +951,7 @@ balls.push(new Ball({
   }, {
     isStatic: false,
     restitution: 0,
-    angle: Math.PI/4
+    angle: Math.PI / 4
   }))
 
   blocks.push(new Block({
@@ -910,7 +964,7 @@ balls.push(new Ball({
   }, {
     isStatic: false,
     restitution: 0,
-    angle: Math.PI/4
+    angle: Math.PI / 4
   }))
 
   //5.Reihe
@@ -964,75 +1018,77 @@ balls.push(new Ball({
   }))
 
   //Funktion für drehende Platten
-    blocks.slice(38, 59).forEach((block, i) => {
-      let constraint = Matter.Constraint.create({
-        bodyA: block.body,
-        pointB: { x: block.body.position.x , y: block.body.position.y }
-      });
-      Matter.World.add(engine.world, [constraint]);
+  blocks.slice(38, 61).forEach((block, i) => {
+    let constraint = Matter.Constraint.create({
+      bodyA: block.body,
+      pointB: {
+        x: block.body.position.x,
+        y: block.body.position.y
+      }
+    });
+    Matter.World.add(engine.world, [constraint]);
+    balls.push(new Ball({
+      x: 780,
+      y: 4100,
+      color: 'black',
+      size: 45,
+      position: {
+        x: 10,
+        y: 1500
+      }
+    }, {
+      isStatic: false,
+      restitution: 0.5,
+      friction: 0,
+      airFriction: 1
+    }))
 
-        balls.push(new Ball({
-          x: 780,
-          y: 4100,
-          color: 'black',
-          size: 45,
-          position: {
-            x: 10,
-            y: 1500
-          }
-        }, {
-          isStatic: false,
-          restitution: 0.5,
-          friction:0,
-          airFriction: 1
-        }))
+    //Trichter
+    blocks.push(new Block({
+      x: 150,
+      y: 5390,
+      w: 680,
+      h: 20,
+      color: 'gray',
+      visible: true
+    }, {
+      isStatic: true,
+      angle: Math.PI * 2.11
+    }))
 
-//Trichter
-blocks.push(new Block({
-  x: 150,
-  y: 5390,
-  w: 680,
-  h: 20,
-  color: 'gray',
-  visible: true
-}, {
-  isStatic: true,
-  angle: Math.PI * 2.11
-}))
+    blocks.push(new Block({
+      x: 850,
+      y: 5415,
+      w: 650,
+      h: 20,
+      color: 'gray',
+      visible: true
+    }, {
+      isStatic: true,
+      angle: Math.PI * 2.91
+    }))
 
-blocks.push(new Block({
-  x: 850,
-  y: 5415,
-  w: 650,
-  h: 20,
-  color: 'gray',
-  visible: true
-}, {
-  isStatic: true,
-  angle: Math.PI * 2.91
-}))
+    //Portal
 
-//Portal
+    balls.push(new Ball({
+      x: 600,
+      y: 6000,
+      color: 'yellow',
+      size: 100,
+      position: {
+        x: 10,
+        y: 1500
+      }
+    }, {
+      isStatic: true,
+      restitution: 0.5,
+      friction: 0
+    }))
 
-balls.push(new Ball({
-  x: 600,
-  y: 6000,
-  color: 'yellow',
-  size: 100,
-  position: {
-    x: 10,
-    y: 1500
-  }
-}, {
-  isStatic: true,
-  restitution: 0.5,
-  friction: 0
-}))
+    Matter.World.add(engine.world, circle)
+  });
 
-Matter.World.add(engine.world, circle)
-});
-
-// Balken zum Orientierung
+  // Balken zum Orientierung
   blocks.push(new Block({
     x: 1440,
     y: 0,
@@ -1085,18 +1141,18 @@ Matter.World.add(engine.world, circle)
 
 
   Matter.Events.on(engine, 'beforeUpdate', function(event) {
-      // process collisions at the right time
-      collisions.forEach((collision, i) => {
-        if (collision.hit.plugin.force) {
-          Matter.Body.applyForce(collision.ball, collision.ball.position, collision.hit.plugin.force)
-        }
-        if (collision.hit.plugin.chgStatic) {
-          console.log(collision.hit)
-          Matter.Body.setStatic(collision.hit, false)
-        }
-      });
-      collisions = []
-    })
+    // process collisions at the right time
+    collisions.forEach((collision, i) => {
+      if (collision.hit.plugin.force) {
+        Matter.Body.applyForce(collision.ball, collision.ball.position, collision.hit.plugin.force)
+      }
+      if (collision.hit.plugin.chgStatic) {
+        console.log(collision.hit)
+        Matter.Body.setStatic(collision.hit, false)
+      }
+    });
+    collisions = []
+  })
 
   Matter.World.add(engine.world, [bullets]);
 
@@ -1140,28 +1196,77 @@ function draw() {
     y: 3285
   })
 
+  //pendel
+  stroke(128);
+  strokeWeight(8);
+  drawConstraint(constraint2);
+
+  noStroke(255);
+  fill('#3BF4FB');
+  drawVertices(pendel.vertices);
+
+  Body = pendel
+  // if (frameCount % 120 == 0){
+  //   console.log(frameCount);
+  //   let direction = 1; // circle runs left to right ->
+  //   if ((pendel.position.x - pendel.positionPrev.x) < 0) {
+  //     direction = -1; // circle runs right to left <-
+  //   }
+  //     Body.applyForce (
+  //     pendel,
+  //     {x:pendel.position.x, y: pendel.position.y},
+  //     {x: (0.01 * direction) + pendel.velocity.x/100}
+  //   );
+  // }
+
+  //wolken
   fill('white');
   // blocks.forEach(wolke => drawBody(wolke));
   //
   // balls.forEach(ball => drawBody(ball));
 
   blocks.forEach((block, i) => {
-  block.show()
+    block.show()
   });
 
   balls.forEach((ball, i) => {
     ball.show()
-});
+  });
   fill('black')
   drawBodies(bullets.bodies);
 
 }
 
-// function bodyFromPath(path, x, y, scale, options) {
-//   let body = Matter.Bodies.fromVertices(0, 0, Matter.Vertices.scale(Matter.Svg.pathToVertices(path, 10), scale, scale), options);
-//   Matter.Body.setPosition(body, { x: x, y: y });
-//   return body;
-// }
+function bodyFromPath(path, x, y, scale, options) {
+  let body = Matter.Bodies.fromVertices(0, 0, Matter.Vertices.scale(Matter.Svg.pathToVertices(path, 10), scale, scale), options);
+  Matter.Body.setPosition(body, { x: x, y: y });
+  return body;
+}
+
+function drawConstraint(constraint) {
+  const offsetA = constraint.pointA;
+  let posA = {
+    x: 0,
+    y: 0
+  };
+  if (constraint.bodyA) {
+    posA = constraint.bodyA.position;
+  }
+  const offsetB = constraint.pointB;
+  let posB = {
+    x: 0,
+    y: 0
+  };
+  if (constraint.bodyB) {
+    posB = constraint.bodyB.position;
+  }
+  line(
+    posA.x + offsetA.x,
+    posA.y + offsetA.y,
+    posB.x + offsetB.x,
+    posB.y + offsetB.y
+  );
+}
 
 function drawBodies(bodies) {
   for (let i = 0; i < bodies.length; i++) {
