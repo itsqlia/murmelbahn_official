@@ -540,20 +540,20 @@ function setup() {
     density: 500,
   }))
 
-  // balls.push(new Ball({
-  //   x: 570,
-  //   y: 3100,
-  //   color: 'black',
-  //   size: 45,
-  //   position: {
-  //     x: 10,
-  //     y: 1500
-  //   }
-  // }, {
-  //   isStatic: false,
-  //   restitution: 0.5,
-  //   friction: 0
-  // }))
+  balls.push(new Ball({
+    x: 300,
+    y: 3100,
+    color: 'black',
+    size: 45,
+    position: {
+      x: 10,
+      y: 1500
+    }
+  }, {
+    isStatic: false,
+    restitution: 0.5,
+    friction: 0
+  }))
 
   //ground-transparent (later: color change to - #4B5056!) (Block [23])
   blocks.push(new Block({
@@ -605,7 +605,7 @@ function setup() {
     angle: PI / 2
   }))
   blocks.push(new Block({
-    x: 230,
+    x: 240,
     y: 3550,
     w: 250,
     h: 10,
@@ -619,18 +619,7 @@ function setup() {
 
   //drehende Platten
   blocks.push(new Block({
-    x: 275,
-    y: 3575,
-    w: 38,
-    h: 38,
-    color: 'lightblue',
-    visible: true
-  }, {
-    isStatic: false
-  }))
-
-  blocks.push(new Block({
-    x: 275,
+    x: 285,
     y: 3475,
     w: 38,
     h: 38,
@@ -640,6 +629,16 @@ function setup() {
     isStatic: false,
   }))
 
+  blocks.push(new Block({
+    x: 285,
+    y: 3575,
+    w: 38,
+    h: 38,
+    color: 'lightblue',
+    visible: true
+  }, {
+    isStatic: false
+  }))
 
   //rest blocks
   blocks.push(new Block({
