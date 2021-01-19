@@ -115,7 +115,7 @@ function setup() {
 //CODE: BALL
  portalSound = loadSound("lib/PortalWhoosh.mp3")
 
- balls.push(new Ball({x: 500, y: 3000, color: 'black', size: 45, position: {x: 10,y: 1500}},{isStatic: false, restitution: 0.5, label:"murmel"}))
+ balls.push(new Ball({x: 550, y: 3000, color: 'black', size: 45, position: {x: 10,y: 1500}},{isStatic: false, restitution: 0.5, label:"murmel"}))
 
   // CODE: WOlKEN & PENDEL
 
@@ -296,18 +296,18 @@ function setup() {
   blocks.push(new Block({x: 180, y: 0, w: 30, h: 7000, color: 'black', visible: true}, {isStatic: true}))
 
   // Process collisions - check whether ball hits a Block object
-  Matter.Events.on(engine, 'collisionStart', function(event) {
-    var pairs = event.pairs
-    pairs.forEach((pair, i) => {
-      if (balls.includes(pair.bodyA)) {collide(pair.bodyB, pair.bodyA)}
-      if (balls.includes(pair.bodyB)) {collide(pair.bodyA, pair.bodyB)}})
-      // check for collision between Block and ball
-    function collide(bodyBlock, bodyBall) {
-      // check if bodyBlock is really a body in a Block class
-      if (bodyBlock.plugin && bodyBlock.plugin.block) {
-        // remember the collision for processing in 'beforeUpdate'
-        collisions.push({ hit: bodyBlock.plugin.block, ball: bodyBall })}}
-  })
+  // Matter.Events.on(engine, 'collisionStart', function(event) {
+  //   var pairs = event.pairs
+  //   pairs.forEach((pair, i) => {
+  //     if (balls.includes(pair.bodyA)) {collide(pair.bodyB, pair.bodyA)}
+  //     if (balls.includes(pair.bodyB)) {collide(pair.bodyA, pair.bodyB)}})
+  //     // check for collision between Block and ball
+  //   function collide(bodyBlock, bodyBall) {
+  //     // check if bodyBlock is really a body in a Block class
+  //     if (bodyBlock.plugin && bodyBlock.plugin.block) {
+  //       // remember the collision for processing in 'beforeUpdate'
+  //       collisions.push({ hit: bodyBlock.plugin.block, ball: bodyBall })}}
+  // })
 
   Matter.World.add(engine.world, [bullets]);
   Matter.World.add(engine.world, wolken);
@@ -317,20 +317,47 @@ function setup() {
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "kasten" || bodyB.label === "kasten") {
-    blocks[35].color = 'red'
-
+    // blocks[35].color = 'red'
+    blocks[35].visible = false
+    }
+  });
+  Matter.Events.on(engine, 'collisionStart', function(event) {
+    const pairs = event.pairs[0];
+    const bodyA = pairs.bodyA;
+    const bodyB = pairs.bodyB;
+    if (bodyA.label === "kasten" || bodyB.label === "kasten") {
+    // blocks[35].color = 'red'
+    blocks[36].visible = true
+    }
+  });
+  Matter.Events.on(engine, 'collisionStart', function(event) {
+    const pairs = event.pairs[0];
+    const bodyA = pairs.bodyA;
+    const bodyB = pairs.bodyB;
+    if (bodyA.label === "kasten" || bodyB.label === "kasten") {
+    // blocks[35].color = 'red'
+    blocks[37].visible = true
+    }
+  });
+  Matter.Events.on(engine, 'collisionStart', function(event) {
+    const pairs = event.pairs[0];
+    const bodyA = pairs.bodyA;
+    const bodyB = pairs.bodyB;
+    if (bodyA.label === "kasten" || bodyB.label === "kasten") {
+    // blocks[35].color = 'red'
+    blocks[38].visible = true
     }
   });
 
   Matter.Engine.run(engine)
 
-  Matter.Events.on(engine, 'beforeUpdate', function(event) {
-    // process collisions at the right time
-    collisions.forEach((collision, i) => {
-      if (collision.hit.plugin.force) {Matter.Body.applyForce(collision.ball, collision.ball.position, collision.hit.plugin.force)}
-      if (collision.hit.plugin.chgStatic) {console.log(collision.hit)
-        Matter.Body.setStatic(collision.hit, false)}});
-    collisions = []})
+  // Matter.Events.on(engine, 'beforeUpdate', function(event) {
+  //   // process collisions at the right time
+  //   collisions.forEach((collision, i) => {
+  //     if (collision.hit.plugin.force) {Matter.Body.applyForce(collision.ball, collision.ball.position, collision.hit.plugin.force)}
+  //     if (collision.hit.plugin.chgStatic) {console.log(collision.hit)
+  //       Matter.Body.setStatic(collision.hit, false)}});
+  //   collisions = []})
 
     // canvas.mousePressed(startEngine);
 
