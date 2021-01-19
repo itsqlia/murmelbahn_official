@@ -1,3 +1,4 @@
+
 const Engine = Matter.Engine;
 const Render = Matter.Render;
 const World = Matter.World;
@@ -23,6 +24,7 @@ let constraint2
 let wolke
 let schanze
 let portalSound
+let isMagnetisch = true
 
 function preload(){portalSound = loadSound("lib/PortalWhoosh.mp3")}
 
@@ -131,8 +133,6 @@ function setup() {
     schanzen.push(bodyFromPath(schanzeElem, 1200, 1000, 1.25, { color: 'white', visible: true, isStatic: true, friction: 0.0 }));
     //schanzen.push(bodyFromPath(schanzeElem, 350, 230, 1.0, { color: 'white', visible: true, isStatic: true, friction: 0.0 }));
   }
-
-
   //Boden
   blocks.push(new Block({x: 200, y: 625, w: 900, h: 40, color: 'grey', visible: true}, {isStatic: true}))
 
@@ -144,7 +144,34 @@ function setup() {
   blocks.push(new Block({x: 900, y: 585, w: 100, h: 40, color: '#C879FF', visible: true, chgStatic: true}, {isStatic: true, airFriction: 0.15, density: 500}))
 
   //pendel
-  pendel = Bodies.circle(400, 950, 60, 30), {isStatic: false,density: 0.5};
+
+  // pendel = Matter.Bodies.circle(400, 950, 60, 30), {
+  //   isStatic: false,
+  //   density: 0.5
+  // };
+
+
+  pendel = balls.push(new Ball({
+    x: 400,
+    y: 950,
+    color: 'yellow',
+    size: 60,
+    position: {
+      x: 400,
+      y: 950
+    }
+  }, {
+    isStatic: false,
+    density: 0.5,
+  }))
+
+  //blocks.push(pendel)
+
+  // pendel = Bodies.circle(400, 950, 60, 30), {
+  //   isStatic: false,
+  //   density: 0.5
+  // };
+
   constraint2 = Constraint.create({
      pointA: {x: 500,y: 650},
     bodyB: pendel,
@@ -324,7 +351,7 @@ function setup() {
   Matter.Engine.run(engine)
 
   Matter.Events.on(engine, 'beforeUpdate', function(event) {
-    // process collisions at the right time
+  // process collisions at the right time
     collisions.forEach((collision, i) => {
       if (collision.hit.plugin.force) {Matter.Body.applyForce(collision.ball, collision.ball.position, collision.hit.plugin.force)}
       if (collision.hit.plugin.chgStatic) {console.log(collision.hit)
@@ -370,7 +397,7 @@ function draw() {
   // if (frameCount % 120 == 0){
   //   console.log(frameCount);
   //   let direction = 1; // circle runs left to right ->
-  //   if ((pendel.position.x - pendel.positionPrev.x) < 0) {
+  //   if ((pendel.body.position.x - pendel.body.positionPrev.x) < 0) {
   //     direction = -1; // circle runs right to left <-
   //     }
   //     Body.applyForce (
@@ -417,9 +444,21 @@ function drawConstraint(constraint) {
   line(posA.x + offsetA.x, posA.y + offsetA.y, posB.x + offsetB.x, posB.y + offsetB.y);}
 
 // //Portal
-function attract(){
-  let force ={x:(portal.body.position.x- balls[0].body.position.x) *1e-6, y:(portal.body.position.y- balls[0].body.position.y) *1e-6}
-  Body.applyForce(balls[0].body.position, force)}
+// function attract(){
+//   let force ={x:(portal.body.position.x- balls[0].body.position.x) *1e-6, y:(portal.body.position.y- balls[0].body.position.y) *1e-6}
+//   Body.applyForce(balls[0].body.position, force)}
+
+function attract(ball) {
+  if (isMagnetisch) {
+    let force = {
+      x: (pendel.body.position.x - ball[0].body.position.x) * 1e-3,
+      y: (pendel.body.position.y - ball[0].body.position.y) * 1e-3,
+    }
+    console.log(force)
+    //Matter.Body.applyForce(ball, ball.position, Matter.Vector.neg(force));
+    Matter.Body.applyForce(ball[0].body, ball[0].body.position, force)
+  }
+}
 
 function drawBodies(bodies) {
   for (let i = 0; i < bodies.length; i++) {drawVertices(bodies[i].vertices);}}
