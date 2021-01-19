@@ -8,6 +8,7 @@ const Composites = Matter.Composites;
 const Constraint = Matter.Constraint;
 
 
+
 let blocks = []
 let balls = []
 let collisions = []
@@ -21,6 +22,9 @@ let pendel
 let constraint2
 let wolke
 let portalSound
+let engine
+
+
 
 function preload(){portalSound = loadSound("lib/PortalWhoosh.mp3")}
 
@@ -75,33 +79,30 @@ function keyPressed() {
   if (keyCode === 13) {
     switch (spaceCount) {
 
-      case 0:
-        console.log('Taste 0')
-        balls[0].color = 'black'
-        break;
       case 1:
-        console.log('Taste 1')
-        balls[0].color = 'yellow'
-        break;
+      console.log('Taste 1')
+      if ((balls[0].body.position.x - balls[0].body.positionPrev.x) < 0) {
+        direction // circle runs to left <-
+      } // use current direction and velocity for the jump
+      Matter.Body.applyForce(
+        balls[0].body, {
+          x: balls[0].body.position.x,
+          y: balls[0].body.position.y
+        }, {
+          x: (0.05 * direction) + balls[0].body.velocity.x / 100,
+          y: -0.05
+        }
+      );
+      console.log ('Taste 2')
+      balls[0].color = 'black'
+      break;
       case 2:
         console.log('Taste 2')
-        balls[0].color = 'green'
+        balls[0].color = 'yellow'
         break;
       case 3:
         console.log('Taste 3')
-        if ((balls[0].body.position.x - balls[0].body.positionPrev.x) < 0) {
-          direction // circle runs right to left <-
-        } // use current direction and velocity for the jump
-        Matter.Body.applyForce(
-          balls[0].body, {
-            x: balls[0].body.position.x,
-            y: balls[0].body.position.y
-          }, {
-            x: (0.05 * direction) + balls[0].body.velocity.x / 100,
-            y: -0.05
-          }
-        );
-
+        balls[0].color = 'green'
       default:
         console.log('SpaceCount' + spaceCount)}
     spaceCount = (spaceCount + 1) % 4}
@@ -114,7 +115,7 @@ function setup() {
 //CODE: BALL
  portalSound = loadSound("lib/PortalWhoosh.mp3")
 
-  balls.push(new Ball({x: 250, y: 0, color: 'black', size: 45, position: {x: 10,y: 1500}},{isStatic: false, restitution: 0.5}))
+ balls.push(new Ball({x: 500, y: 3000, color: 'black', size: 45, position: {x: 10,y: 1500}},{isStatic: false, restitution: 0.5, label:"murmel"}))
 
   // CODE: WOlKEN & PENDEL
 
@@ -226,7 +227,7 @@ function setup() {
   //CODE: KNÖPFE
 
   //durchichtiger block
-  blocks.push(new Block({x: 650, y: 3700, w: 100, h: 60, color: '#292F36', visible: true}, {isStatic: true}))
+  blocks.push(new Block({x: 700, y: 3550, w: 150, h: 200, color: '#292F36', visible: true}, {isStatic: true, label: "kasten"}))
 
   //bunte Knöpfe
   blocks.push(new Block({x: 820, y: 3738, w: 50, h: 20, color: '#FF8A35', visible: false}, {isStatic: true}))
@@ -310,6 +311,16 @@ function setup() {
 
   Matter.World.add(engine.world, [bullets]);
   Matter.World.add(engine.world, wolken);
+
+  Matter.Events.on(engine, 'collisionStart', function(event) {
+    const pairs = event.pairs[0];
+    const bodyA = pairs.bodyA;
+    const bodyB = pairs.bodyB;
+    if (bodyA.label === "kasten" || bodyB.label === "kasten") {
+    blocks[35].color = 'red'
+
+    }
+  });
 
   Matter.Engine.run(engine)
 
