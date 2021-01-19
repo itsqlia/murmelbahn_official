@@ -133,7 +133,7 @@ function setup() {
   //Klappe
   blocks.push(new Block({x: 1100, y: 625, w: 250, h: 40, color: '#C879FF', visible: true}, {isStatic: true}))
 
-  blocks.push(new Block({x: 900, y: 585, w: 100, h: 40, color: '#C879FF', visible: true, chgStatic: true}, {isStatic: true, airFriction: 0.15, density: 500}))
+  blocks.push(new Block({x: 900, y: 585, w: 100, h: 40, color: '#C879FF', visible: true, chgStatic: true}, {isStatic: true, airFriction: 0.15, density: 500, label: "auslöser"}))
 
   //pendel
   pendel = Bodies.circle(400, 950, 60, 30), {isStatic: false,density: 0.5};
@@ -189,13 +189,13 @@ function setup() {
   blocks.push(new Block({x: 750, y: 3100, w: 20, h: 150, color: 'grey', visible: true}, {isStatic: true, angle: -Math.PI * 0.65}))
 
   //fallende Kästchen
-  blocks.push(new Block({x: 550, y: 3300, w: 50, h: 50, color: '#32f4da', visible: true, chgStatic: true}, {isStatic: true, airFriction: 0.15, density: 500}))
-  blocks.push(new Block({x: 500, y: 3310, w: 50, h: 50, color: '#32f4da', visible: true, chgStatic: true}, {isStatic: true, airFriction: 0.15, density: 500}))
-  blocks.push(new Block({x: 450, y: 3320, w: 50, h: 50, color: '#32f4da', visible: true, chgStatic: true}, {isStatic: true, airFriction: 0.15, density: 500}))
-  blocks.push(new Block({x: 400, y: 3330, w: 50, h: 50, color: '#32f4da', visible: true, chgStatic: true}, {isStatic: true, airFriction: 0.15, density: 500}))
+  blocks.push(new Block({x: 550, y: 3300, w: 50, h: 50, color: '#32f4da', visible: true, chgStatic: true}, {isStatic: true, airFriction: 0.15, density: 500, label: "fall1"}))
+  blocks.push(new Block({x: 500, y: 3310, w: 50, h: 50, color: '#32f4da', visible: true, chgStatic: true}, {isStatic: true, airFriction: 0.15, density: 500, label: "fall2"}))
+  blocks.push(new Block({x: 450, y: 3320, w: 50, h: 50, color: '#32f4da', visible: true, chgStatic: true}, {isStatic: true, airFriction: 0.15, density: 500, label: "fall3"}))
+  blocks.push(new Block({x: 400, y: 3330, w: 50, h: 50, color: '#32f4da', visible: true, chgStatic: true}, {isStatic: true, airFriction: 0.15, density: 500, label: "fall4"}))
 
   //demo-Ball
-  // balls.push(new Ball({x: 450, y: 3100, color: 'black', size: 45, position: {x: 10, y: 1500}}, {isStatic: false, restitution: 0.5}))
+  // balls.push(new Ball({x: 550, y: 3000, color: 'black', size: 45, position: {x: 10, y: 1500}}, {isStatic: false, restitution: 0.5}))
 
   //ground-transparent (later: color change to - #4B5056!)
   blocks.push(new Block({x: 380, y: 3800, w: 235, h: 10, color: 'black', visible: true}, {isStatic: true}))
@@ -317,7 +317,6 @@ function setup() {
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "kasten" || bodyB.label === "kasten") {
-    // blocks[35].color = 'red'
     blocks[35].visible = false
     }
   });
@@ -326,7 +325,6 @@ function setup() {
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "kasten" || bodyB.label === "kasten") {
-    // blocks[35].color = 'red'
     blocks[36].visible = true
     }
   });
@@ -335,7 +333,6 @@ function setup() {
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "kasten" || bodyB.label === "kasten") {
-    // blocks[35].color = 'red'
     blocks[37].visible = true
     }
   });
@@ -344,8 +341,24 @@ function setup() {
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "kasten" || bodyB.label === "kasten") {
-    // blocks[35].color = 'red'
     blocks[38].visible = true
+    }
+  });
+  Matter.Events.on(engine, 'collisionStart', function(event) {
+    const pairs = event.pairs[0];
+    const bodyA = pairs.bodyA;
+    const bodyB = pairs.bodyB;
+    if (bodyA.label === "fall1" || bodyB.label === "fall1") {
+    blocks[22].isStatic = false
+    // blocks[22].color = 'red'
+    }
+  });
+  Matter.Events.on(engine, 'collisionStart', function(event) {
+    const pairs = event.pairs[0];
+    const bodyA = pairs.bodyA;
+    const bodyB = pairs.bodyB;
+    if (bodyA.label === "auslöser" || bodyB.label === "auslöser") {
+    blocks[2].color = 'red'
     }
   });
 
