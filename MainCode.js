@@ -12,6 +12,7 @@ let blocks = []
 let balls = []
 let collisions = []
 let wolken = []
+let schanzen = []
 
 let bullets
 let spaceCount = +1
@@ -20,6 +21,7 @@ let attractorActiv = false
 let pendel
 let constraint2
 let wolke
+let schanze
 let portalSound
 
 function preload(){portalSound = loadSound("lib/PortalWhoosh.mp3")}
@@ -123,6 +125,13 @@ function setup() {
     wolken.push(bodyFromPath(wolkeElem, 350, 230, 1.0, { color: 'white', visible: true, isStatic: true, friction: 0.0 }));
     wolken.push(bodyFromPath(wolkeElem, 600, 390, 1.0, { color: 'white', visible: true, isStatic: true, friction: 0.0 }));
   }
+
+  let schanzeElem = document.getElementById('schanze1');
+  if (null != schanzeElem) {
+    schanzen.push(bodyFromPath(schanzeElem, 1200, 1000, 1.25, { color: 'white', visible: true, isStatic: true, friction: 0.0 }));
+    //schanzen.push(bodyFromPath(schanzeElem, 350, 230, 1.0, { color: 'white', visible: true, isStatic: true, friction: 0.0 }));
+  }
+
 
   //Boden
   blocks.push(new Block({x: 200, y: 625, w: 900, h: 40, color: 'grey', visible: true}, {isStatic: true}))
@@ -310,6 +319,7 @@ function setup() {
 
   Matter.World.add(engine.world, [bullets]);
   Matter.World.add(engine.world, wolken);
+  Matter.World.add(engine.world, schanzen);
 
   Matter.Engine.run(engine)
 
@@ -371,6 +381,12 @@ function draw() {
   //Wolken
   fill('white');
   wolken.forEach(wolke => drawBody(wolke));
+
+  //schanze
+  // body.show(schanze);
+  //schanze.show()
+  fill('white');
+  schanzen.forEach(schanze => drawBody(schanze));
 
   //Blöcke
   blocks.forEach((block, i) => {block.show()});
