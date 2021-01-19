@@ -9,6 +9,7 @@ const Composites = Matter.Composites;
 const Constraint = Matter.Constraint;
 
 
+
 let blocks = []
 let balls = []
 let collisions = []
@@ -24,6 +25,7 @@ let constraint2
 let wolke
 let schanze
 let portalSound
+let engine
 let isMagnetisch = true
 
 function preload(){portalSound = loadSound("lib/PortalWhoosh.mp3")}
@@ -79,33 +81,30 @@ function keyPressed() {
   if (keyCode === 13) {
     switch (spaceCount) {
 
-      case 0:
-        console.log('Taste 0')
-        balls[0].color = 'black'
-        break;
       case 1:
-        console.log('Taste 1')
-        balls[0].color = 'yellow'
-        break;
+      console.log('Taste 1')
+      if ((balls[0].body.position.x - balls[0].body.positionPrev.x) < 0) {
+        direction // circle runs to left <-
+      } // use current direction and velocity for the jump
+      Matter.Body.applyForce(
+        balls[0].body, {
+          x: balls[0].body.position.x,
+          y: balls[0].body.position.y
+        }, {
+          x: (0.05 * direction) + balls[0].body.velocity.x / 100,
+          y: -0.05
+        }
+      );
+      console.log ('Taste 2')
+      balls[0].color = 'black'
+      break;
       case 2:
         console.log('Taste 2')
-        balls[0].color = 'green'
+        balls[0].color = 'yellow'
         break;
       case 3:
         console.log('Taste 3')
-        if ((balls[0].body.position.x - balls[0].body.positionPrev.x) < 0) {
-          direction // circle runs right to left <-
-        } // use current direction and velocity for the jump
-        Matter.Body.applyForce(
-          balls[0].body, {
-            x: balls[0].body.position.x,
-            y: balls[0].body.position.y
-          }, {
-            x: (0.05 * direction) + balls[0].body.velocity.x / 100,
-            y: -0.05
-          }
-        );
-
+        balls[0].color = 'green'
       default:
         console.log('SpaceCount' + spaceCount)}
     spaceCount = (spaceCount + 1) % 4}
@@ -118,7 +117,7 @@ function setup() {
 //CODE: BALL
  portalSound = loadSound("lib/PortalWhoosh.mp3")
 
-  balls.push(new Ball({x: 250, y: 0, color: 'black', size: 45, position: {x: 10,y: 1500}},{isStatic: false, restitution: 0.5}))
+ balls.push(new Ball({x: 550, y: 3000, color: 'black', size: 45, position: {x: 10,y: 1500}},{isStatic: false, restitution: 0.5, label:"murmel"}))
 
   // CODE: WOlKEN & PENDEL
 
@@ -141,7 +140,7 @@ function setup() {
   //Klappe
   blocks.push(new Block({x: 1100, y: 625, w: 250, h: 40, color: '#C879FF', visible: true}, {isStatic: true}))
 
-  blocks.push(new Block({x: 900, y: 585, w: 100, h: 40, color: '#C879FF', visible: true, chgStatic: true}, {isStatic: true, airFriction: 0.15, density: 500}))
+  blocks.push(new Block({x: 900, y: 585, w: 100, h: 40, color: '#C879FF', visible: true, chgStatic: true}, {isStatic: true, airFriction: 0.15, density: 500, label: "auslöser"}))
 
   //pendel
 
@@ -224,13 +223,13 @@ function setup() {
   blocks.push(new Block({x: 750, y: 3100, w: 20, h: 150, color: 'grey', visible: true}, {isStatic: true, angle: -Math.PI * 0.65}))
 
   //fallende Kästchen
-  blocks.push(new Block({x: 550, y: 3300, w: 50, h: 50, color: '#32f4da', visible: true, chgStatic: true}, {isStatic: true, airFriction: 0.15, density: 500}))
-  blocks.push(new Block({x: 500, y: 3310, w: 50, h: 50, color: '#32f4da', visible: true, chgStatic: true}, {isStatic: true, airFriction: 0.15, density: 500}))
-  blocks.push(new Block({x: 450, y: 3320, w: 50, h: 50, color: '#32f4da', visible: true, chgStatic: true}, {isStatic: true, airFriction: 0.15, density: 500}))
-  blocks.push(new Block({x: 400, y: 3330, w: 50, h: 50, color: '#32f4da', visible: true, chgStatic: true}, {isStatic: true, airFriction: 0.15, density: 500}))
+  blocks.push(new Block({x: 550, y: 3300, w: 50, h: 50, color: '#32f4da', visible: true, chgStatic: true}, {isStatic: true, airFriction: 0.15, density: 500, label: "fall1"}))
+  blocks.push(new Block({x: 500, y: 3310, w: 50, h: 50, color: '#32f4da', visible: true, chgStatic: true}, {isStatic: true, airFriction: 0.15, density: 500, label: "fall2"}))
+  blocks.push(new Block({x: 450, y: 3320, w: 50, h: 50, color: '#32f4da', visible: true, chgStatic: true}, {isStatic: true, airFriction: 0.15, density: 500, label: "fall3"}))
+  blocks.push(new Block({x: 400, y: 3330, w: 50, h: 50, color: '#32f4da', visible: true, chgStatic: true}, {isStatic: true, airFriction: 0.15, density: 500, label: "fall4"}))
 
   //demo-Ball
-  // balls.push(new Ball({x: 450, y: 3100, color: 'black', size: 45, position: {x: 10, y: 1500}}, {isStatic: false, restitution: 0.5}))
+  // balls.push(new Ball({x: 550, y: 3000, color: 'black', size: 45, position: {x: 10, y: 1500}}, {isStatic: false, restitution: 0.5}))
 
   //ground-transparent (later: color change to - #4B5056!)
   blocks.push(new Block({x: 380, y: 3800, w: 235, h: 10, color: 'black', visible: true}, {isStatic: true}))
@@ -262,7 +261,7 @@ function setup() {
   //CODE: KNÖPFE
 
   //durchichtiger block
-  blocks.push(new Block({x: 650, y: 3700, w: 100, h: 60, color: '#292F36', visible: true}, {isStatic: true}))
+  blocks.push(new Block({x: 700, y: 3550, w: 150, h: 200, color: '#292F36', visible: true}, {isStatic: true, label: "kasten"}))
 
   //bunte Knöpfe
   blocks.push(new Block({x: 820, y: 3738, w: 50, h: 20, color: '#FF8A35', visible: false}, {isStatic: true}))
@@ -331,22 +330,72 @@ function setup() {
   blocks.push(new Block({x: 180, y: 0, w: 30, h: 7000, color: 'black', visible: true}, {isStatic: true}))
 
   // Process collisions - check whether ball hits a Block object
-  Matter.Events.on(engine, 'collisionStart', function(event) {
-    var pairs = event.pairs
-    pairs.forEach((pair, i) => {
-      if (balls.includes(pair.bodyA)) {collide(pair.bodyB, pair.bodyA)}
-      if (balls.includes(pair.bodyB)) {collide(pair.bodyA, pair.bodyB)}})
-      // check for collision between Block and ball
-    function collide(bodyBlock, bodyBall) {
-      // check if bodyBlock is really a body in a Block class
-      if (bodyBlock.plugin && bodyBlock.plugin.block) {
-        // remember the collision for processing in 'beforeUpdate'
-        collisions.push({ hit: bodyBlock.plugin.block, ball: bodyBall })}}
-  })
+  // Matter.Events.on(engine, 'collisionStart', function(event) {
+  //   var pairs = event.pairs
+  //   pairs.forEach((pair, i) => {
+  //     if (balls.includes(pair.bodyA)) {collide(pair.bodyB, pair.bodyA)}
+  //     if (balls.includes(pair.bodyB)) {collide(pair.bodyA, pair.bodyB)}})
+  //     // check for collision between Block and ball
+  //   function collide(bodyBlock, bodyBall) {
+  //     // check if bodyBlock is really a body in a Block class
+  //     if (bodyBlock.plugin && bodyBlock.plugin.block) {
+  //       // remember the collision for processing in 'beforeUpdate'
+  //       collisions.push({ hit: bodyBlock.plugin.block, ball: bodyBall })}}
+  // })
 
   Matter.World.add(engine.world, [bullets]);
   Matter.World.add(engine.world, wolken);
   Matter.World.add(engine.world, schanzen);
+
+  Matter.Events.on(engine, 'collisionStart', function(event) {
+    const pairs = event.pairs[0];
+    const bodyA = pairs.bodyA;
+    const bodyB = pairs.bodyB;
+    if (bodyA.label === "kasten" || bodyB.label === "kasten") {
+    blocks[35].visible = false
+    }
+  });
+  Matter.Events.on(engine, 'collisionStart', function(event) {
+    const pairs = event.pairs[0];
+    const bodyA = pairs.bodyA;
+    const bodyB = pairs.bodyB;
+    if (bodyA.label === "kasten" || bodyB.label === "kasten") {
+    blocks[36].visible = true
+    }
+  });
+  Matter.Events.on(engine, 'collisionStart', function(event) {
+    const pairs = event.pairs[0];
+    const bodyA = pairs.bodyA;
+    const bodyB = pairs.bodyB;
+    if (bodyA.label === "kasten" || bodyB.label === "kasten") {
+    blocks[37].visible = true
+    }
+  });
+  Matter.Events.on(engine, 'collisionStart', function(event) {
+    const pairs = event.pairs[0];
+    const bodyA = pairs.bodyA;
+    const bodyB = pairs.bodyB;
+    if (bodyA.label === "kasten" || bodyB.label === "kasten") {
+    blocks[38].visible = true
+    }
+  });
+  Matter.Events.on(engine, 'collisionStart', function(event) {
+    const pairs = event.pairs[0];
+    const bodyA = pairs.bodyA;
+    const bodyB = pairs.bodyB;
+    if (bodyA.label === "fall1" || bodyB.label === "fall1") {
+    blocks[22].isStatic = false
+    // blocks[22].color = 'red'
+    }
+  });
+  Matter.Events.on(engine, 'collisionStart', function(event) {
+    const pairs = event.pairs[0];
+    const bodyA = pairs.bodyA;
+    const bodyB = pairs.bodyB;
+    if (bodyA.label === "auslöser" || bodyB.label === "auslöser") {
+    blocks[2].color = 'red'
+    }
+  });
 
   Matter.Engine.run(engine)
 
