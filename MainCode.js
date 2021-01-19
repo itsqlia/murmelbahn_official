@@ -1,4 +1,3 @@
-
 const Engine = Matter.Engine;
 const Render = Matter.Render;
 const World = Matter.World;
@@ -117,7 +116,7 @@ function setup() {
 //CODE: BALL
  portalSound = loadSound("lib/PortalWhoosh.mp3")
 
- balls.push(new Ball({x: 550, y: 3000, color: 'black', size: 45, position: {x: 10,y: 1500}},{isStatic: false, restitution: 0.5, label:"murmel"}))
+ balls.push(new Ball({x: 700, y: 3500, color: 'black', size: 45, position: {x: 10,y: 1500}},{isStatic: false, restitution: 0.5, label:"murmel"}))
 
   // CODE: WOlKEN & PENDEL
 
@@ -144,32 +143,10 @@ function setup() {
 
   //pendel
 
-  // pendel = Matter.Bodies.circle(400, 950, 60, 30), {
-  //   isStatic: false,
-  //   density: 0.5
-  // };
-
-
-  pendel = balls.push(new Ball({
-    x: 400,
-    y: 950,
-    color: 'yellow',
-    size: 60,
-    position: {
-      x: 400,
-      y: 950
-    }
-  }, {
+  pendel = Matter.Bodies.circle(400, 950, 60, 30), {
     isStatic: false,
-    density: 0.5,
-  }))
-
-  //blocks.push(pendel)
-
-  // pendel = Bodies.circle(400, 950, 60, 30), {
-  //   isStatic: false,
-  //   density: 0.5
-  // };
+    density: 0.5
+  };
 
   constraint2 = Constraint.create({
      pointA: {x: 500,y: 650},
@@ -360,23 +337,7 @@ function setup() {
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "kasten" || bodyB.label === "kasten") {
-    blocks[36].visible = true
-    }
-  });
-  Matter.Events.on(engine, 'collisionStart', function(event) {
-    const pairs = event.pairs[0];
-    const bodyA = pairs.bodyA;
-    const bodyB = pairs.bodyB;
-    if (bodyA.label === "kasten" || bodyB.label === "kasten") {
-    blocks[37].visible = true
-    }
-  });
-  Matter.Events.on(engine, 'collisionStart', function(event) {
-    const pairs = event.pairs[0];
-    const bodyA = pairs.bodyA;
-    const bodyB = pairs.bodyB;
-    if (bodyA.label === "kasten" || bodyB.label === "kasten") {
-    blocks[38].visible = true
+      blocks[36].visible = true, blocks[37].visible = true, blocks[38].visible = true
     }
   });
   Matter.Events.on(engine, 'collisionStart', function(event) {
@@ -384,8 +345,8 @@ function setup() {
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "fall1" || bodyB.label === "fall1") {
-    blocks[22].isStatic = false
-    // blocks[22].color = 'red'
+    // blocks[22].isStatic = false
+    blocks[22].color = 'red'
     }
   });
   Matter.Events.on(engine, 'collisionStart', function(event) {
