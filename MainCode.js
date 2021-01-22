@@ -26,6 +26,8 @@ let schanze
 let portalSound
 let engine
 let isMagnetisch = true
+// let higruImg
+
 
 function preload(){portalSound = loadSound("lib/PortalWhoosh.mp3")}
 
@@ -95,15 +97,15 @@ function keyPressed() {
         }
       );
       console.log ('Taste 2')
-      balls[0].color = 'black'
+      balls[0].color = '#FF8A35'
       break;
       case 2:
         console.log('Taste 2')
-        balls[0].color = 'yellow'
+        balls[0].color = '#32f4da'
         break;
       case 3:
         console.log('Taste 3')
-        balls[0].color = 'green'
+        balls[0].color = '#C879FF'
       default:
         console.log('SpaceCount' + spaceCount)}
     spaceCount = (spaceCount + 1) % 4}
@@ -113,10 +115,13 @@ function setup() {
   engine = Matter.Engine.create()
   let canvas = createCanvas(1480, 7000)
 
+  // higruImg = loadImage('lib/Hintergrund.png');
+
+
 //CODE: BALL
  portalSound = loadSound("lib/PortalWhoosh.mp3")
 
- balls.push(new Ball({x: 700, y: 3500, color: 'black', size: 45, position: {x: 10,y: 1500}},{isStatic: false, restitution: 0.5, label:"murmel"}))
+ balls.push(new Ball({x: 250, y: 0, color: 'black', size: 45, position: {x: 10,y: 1500}},{isStatic: false, restitution: 0.5, label:"murmel"}))
 
   // CODE: WOlKEN & PENDEL
 
@@ -238,12 +243,12 @@ function setup() {
   //CODE: KNÖPFE
 
   //durchichtiger block
-  blocks.push(new Block({x: 700, y: 3550, w: 150, h: 200, color: '#292F36', visible: true}, {isStatic: true, label: "kasten"}))
+  blocks.push(new Block({x: 650, y: 3550, w: 150, h: 200, color: '#292F36', visible: true}, {isStatic: true, label: "kasten"}))
 
   //bunte Knöpfe
-  blocks.push(new Block({x: 820, y: 3738, w: 50, h: 20, color: '#FF8A35', visible: false}, {isStatic: true}))
-  blocks.push(new Block({x: 910, y: 3735, w: 50, h: 20, color: '#32f4da', visible: false}, {isStatic: true}))
-  blocks.push(new Block({x: 1000, y: 3735, w: 50, h: 20, color: '#C879FF', visible: false}, {isStatic: true}))
+  blocks.push(new Block({x: 820, y: 3738, w: 50, h: 20, color: '#FF8A35', visible: false}, {isStatic: true, label:"knopf1"}))
+  blocks.push(new Block({x: 910, y: 3735, w: 50, h: 20, color: '#32f4da', visible: false}, {isStatic: true, label: "knopf2"}))
+  blocks.push(new Block({x: 1000, y: 3735, w: 50, h: 20, color: '#C879FF', visible: false}, {isStatic: true, label:"knopf3"}))
 
   //ground-floor
   blocks.push(new Block({x: 615, y: 3755, w: 500, h: 10, color: 'gray', visible: true}, {isStatic: true}))
@@ -306,19 +311,6 @@ function setup() {
   blocks.push(new Block({x: 1440, y: 0, w: 30, h: 7000, color: 'black', visible: true}, {isStatic: true}))
   blocks.push(new Block({x: 180, y: 0, w: 30, h: 7000, color: 'black', visible: true}, {isStatic: true}))
 
-  // Process collisions - check whether ball hits a Block object
-  // Matter.Events.on(engine, 'collisionStart', function(event) {
-  //   var pairs = event.pairs
-  //   pairs.forEach((pair, i) => {
-  //     if (balls.includes(pair.bodyA)) {collide(pair.bodyB, pair.bodyA)}
-  //     if (balls.includes(pair.bodyB)) {collide(pair.bodyA, pair.bodyB)}})
-  //     // check for collision between Block and ball
-  //   function collide(bodyBlock, bodyBall) {
-  //     // check if bodyBlock is really a body in a Block class
-  //     if (bodyBlock.plugin && bodyBlock.plugin.block) {
-  //       // remember the collision for processing in 'beforeUpdate'
-  //       collisions.push({ hit: bodyBlock.plugin.block, ball: bodyBall })}}
-  // })
 
   Matter.World.add(engine.world, [bullets]);
   Matter.World.add(engine.world, wolken);
@@ -360,13 +352,6 @@ function setup() {
 
   Matter.Engine.run(engine)
 
-  Matter.Events.on(engine, 'beforeUpdate', function(event) {
-  // process collisions at the right time
-    collisions.forEach((collision, i) => {
-      if (collision.hit.plugin.force) {Matter.Body.applyForce(collision.ball, collision.ball.position, collision.hit.plugin.force)}
-      if (collision.hit.plugin.chgStatic) {console.log(collision.hit)
-        Matter.Body.setStatic(collision.hit, false)}});
-    collisions = []})
 
     // canvas.mousePressed(startEngine);
 
@@ -387,7 +372,9 @@ function setup() {
 //   }}
 
 function draw() {
-  background('#4B5056');
+  // clear();
+  background ('#4B5056')
+
 
   //TRANSPORTMITTEL
   Matter.Body.setPosition(blocks[18].body, {x: 964 + Math.sin(frameCount / 100) * 280, y: 3270})
