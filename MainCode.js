@@ -25,6 +25,8 @@ let schanze
 let portalSound
 let engine
 let isMagnetisch = true
+// let higruImg
+
 
 function preload(){portalSound = loadSound("lib/PortalWhoosh.mp3")}
 
@@ -89,15 +91,15 @@ function keyPressed() {
         }
       );
       console.log ('Taste 2')
-      balls[0].color = 'black'
+      balls[0].color = '#FF8A35'
       break;
       case 2:
         console.log('Taste 2')
-        balls[0].color = 'yellow'
+        balls[0].color = '#32f4da'
         break;
       case 3:
         console.log('Taste 3')
-        balls[0].color = 'green'
+        balls[0].color = '#C879FF'
       default:
         console.log('SpaceCount' + spaceCount)}
     spaceCount = (spaceCount + 1) % 4}
@@ -107,10 +109,13 @@ function setup() {
   engine = Matter.Engine.create()
   let canvas = createCanvas(1480, 7000)
 
+  // higruImg = loadImage('lib/Hintergrund.png');
+
+
 //CODE: BALL
  portalSound = loadSound("lib/PortalWhoosh.mp3")
 
- balls.push(new Ball({x: 550, y: 3000, color: 'black', size: 45, position: {x: 10,y: 1500}},{isStatic: false, restitution: 0.5, label:"murmel"}))
+ balls.push(new Ball({x: 250, y: 0, color: 'black', size: 45, position: {x: 10,y: 1500}},{isStatic: false, restitution: 0.5, label:"murmel"}))
 
   // CODE: WOlKEN & PENDEL
 
@@ -229,12 +234,12 @@ function setup() {
   //CODE: KNÖPFE
 
   //durchichtiger block
-  blocks.push(new Block({x: 700, y: 3550, w: 150, h: 200, color: '#292F36', visible: true}, {isStatic: true, label: "kasten"}))
+  blocks.push(new Block({x: 650, y: 3550, w: 150, h: 200, color: '#292F36', visible: true}, {isStatic: true, label: "kasten"}))
 
   //bunte Knöpfe
-  blocks.push(new Block({x: 820, y: 3738, w: 50, h: 20, color: '#FF8A35', visible: false}, {isStatic: true}))
-  blocks.push(new Block({x: 910, y: 3735, w: 50, h: 20, color: '#32f4da', visible: false}, {isStatic: true}))
-  blocks.push(new Block({x: 1000, y: 3735, w: 50, h: 20, color: '#C879FF', visible: false}, {isStatic: true}))
+  blocks.push(new Block({x: 820, y: 3738, w: 50, h: 20, color: '#FF8A35', visible: false}, {isStatic: true, label:"knopf1"}))
+  blocks.push(new Block({x: 910, y: 3735, w: 50, h: 20, color: '#32f4da', visible: false}, {isStatic: true, label: "knopf2"}))
+  blocks.push(new Block({x: 1000, y: 3735, w: 50, h: 20, color: '#C879FF', visible: false}, {isStatic: true, label:"knopf3"}))
 
   //ground-floor
   blocks.push(new Block({x: 615, y: 3755, w: 500, h: 10, color: 'gray', visible: true}, {isStatic: true}))
@@ -353,13 +358,6 @@ function setup() {
 
   Matter.Engine.run(engine)
 
-  Matter.Events.on(engine, 'beforeUpdate', function(event) {
-  // process collisions at the right time
-    collisions.forEach((collision, i) => {
-      if (collision.hit.plugin.force) {Matter.Body.applyForce(collision.ball, collision.ball.position, collision.hit.plugin.force)}
-      if (collision.hit.plugin.chgStatic) {console.log(collision.hit)
-        Matter.Body.setStatic(collision.hit, false)}});
-    collisions = []})
 
     // canvas.mousePressed(startEngine);
 
