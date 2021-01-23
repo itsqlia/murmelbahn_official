@@ -115,7 +115,7 @@ function setup() {
 //CODE: BALL
  portalSound = loadSound("lib/PortalWhoosh.mp3")
 
- balls.push(new Ball({x: 250, y: 0, color: 'black', size: 45, position: {x: 10,y: 1500}},{isStatic: false, restitution: 0.5, label:"murmel"}))
+ balls.push(new Ball({x: 450, y: 3000, color: 'black', size: 45, position: {x: 10,y: 1500}},{isStatic: false, restitution: 0.5, label:"murmel"}))
 
   // CODE: WOlKEN & PENDEL
 
@@ -199,10 +199,10 @@ function setup() {
   blocks.push(new Block({x: 750, y: 3100, w: 20, h: 150, color: 'grey', visible: true}, {isStatic: true, angle: -Math.PI * 0.65}))
 
   //fallende Kästchen
-  blocks.push(new Block({x: 550, y: 3300, w: 50, h: 50, color: '#32f4da', visible: true, chgStatic: true}, {isStatic: true, airFriction: 0.15, density: 500, label: "fall1"}))
-  blocks.push(new Block({x: 500, y: 3310, w: 50, h: 50, color: '#32f4da', visible: true, chgStatic: true}, {isStatic: true, airFriction: 0.15, density: 500, label: "fall2"}))
-  blocks.push(new Block({x: 450, y: 3320, w: 50, h: 50, color: '#32f4da', visible: true, chgStatic: true}, {isStatic: true, airFriction: 0.15, density: 500, label: "fall3"}))
-  blocks.push(new Block({x: 400, y: 3330, w: 50, h: 50, color: '#32f4da', visible: true, chgStatic: true}, {isStatic: true, airFriction: 0.15, density: 500, label: "fall4"}))
+  blocks.push(new Block({x: 550, y: 3300, w: 50, h: 50, color: '#32f4da', visible: true}, {isStatic: true, airFriction: 0.15, density: 500, label: "fall"}))
+  blocks.push(new Block({x: 500, y: 3310, w: 50, h: 50, color: '#32f4da', visible: true}, {isStatic: true, airFriction: 0.15, density: 500, label: "fall"}))
+  blocks.push(new Block({x: 450, y: 3320, w: 50, h: 50, color: '#32f4da', visible: true}, {isStatic: true, airFriction: 0.15, density: 500, label: "fall"}))
+  blocks.push(new Block({x: 400, y: 3330, w: 50, h: 50, color: '#32f4da', visible: true}, {isStatic: true, airFriction: 0.15, density: 500, label: "fall"}))
 
   //ground-transparent (later: color change to - #4B5056!)
   blocks.push(new Block({x: 380, y: 3800, w: 235, h: 10, color: 'black', visible: true}, {isStatic: true}))
@@ -237,9 +237,9 @@ function setup() {
   blocks.push(new Block({x: 650, y: 3550, w: 150, h: 200, color: '#292F36', visible: true}, {isStatic: true, label: "kasten"}))
 
   //bunte Knöpfe
-  blocks.push(new Block({x: 820, y: 3738, w: 50, h: 20, color: '#FF8A35', visible: false}, {isStatic: true, label:"knopf1"}))
-  blocks.push(new Block({x: 910, y: 3735, w: 50, h: 20, color: '#32f4da', visible: false}, {isStatic: true, label: "knopf2"}))
-  blocks.push(new Block({x: 1000, y: 3735, w: 50, h: 20, color: '#C879FF', visible: false}, {isStatic: true, label:"knopf3"}))
+  blocks.push(new Block({x: 820, y: 3738, w: 50, h: 20, color: '#FF8A35', visible: false}, {isStatic: true, label:"knopf"}))
+  blocks.push(new Block({x: 910, y: 3735, w: 50, h: 20, color: '#32f4da', visible: false}, {isStatic: true, label: "knopf"}))
+  blocks.push(new Block({x: 1000, y: 3735, w: 50, h: 20, color: '#C879FF', visible: false}, {isStatic: true, label:"knopf"}))
 
   //ground-floor
   blocks.push(new Block({x: 615, y: 3755, w: 500, h: 10, color: 'gray', visible: true}, {isStatic: true}))
@@ -310,50 +310,22 @@ function setup() {
     const pairs = event.pairs[0];
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
-    if (bodyA.label === "kasten" || bodyB.label === "kasten") {
+
+    // Controls collision with "invisible" Block
+    if (bodyA.label === "murmel" && bodyB.label === "kasten") {
     blocks[35].visible = false
+    Matter.World.remove(engine.world, bodyB)
+    blocks[36].visible = true
+    blocks[37].visible = true
+    blocks[38].visible = true
     }
-  });
-
-  Matter.Events.on(engine, 'collisionStart', function(event) {
-    const pairs = event.pairs[0];
-    const bodyA = pairs.bodyA;
-    const bodyB = pairs.bodyB;
-    if (bodyA.label === "kasten" || bodyB.label === "kasten") {
-    blocks[36].visible = true, blocks[37].visible = true, blocks[38].visible = true
+    // Controls collision with falling blocks
+    else if (bodyA.label === "murmel" && bodyB.label === "fall") {
+     Matter.Body.setStatic(bodyB, false)
     }
-  });
-
-  Matter.Events.on(engine, 'collisionStart', function(event) {
-    const pairs = event.pairs[0];
-    const bodyA = pairs.bodyA;
-    const bodyB = pairs.bodyB;
-    if (bodyA.label === "fall1" || bodyB.label === "fall1") {
-      console.log(blocks[22].body.isStatic);
-      blocks[22].body.isStatic = false
-      console.log(blocks[22].body.isStatic);
-    blocks[22].color = 'yellow'
-    }
+    // else if (bodyA.label === "auslöser" || bodyB.label === "auslöser") {
+    // blocks[2].color = 'red'
     // }
-    // blocks.body[22].isStatic = Matter.Body.setStatic(false)
-    // if(blocks[22].isStatic)  = 'false'}
-    // if (collision.hit.plugin.chgStatic) {
-    //    Matter.Body.setStatic(false)}
-
-    // if(this.plugin.chgStatic) {
-    //   if(blocks[22].isStatic){
-    //   Matter.Body.setStatic(this.body, false)
-    // }
-  });
-
-
-  Matter.Events.on(engine, 'collisionStart', function(event) {
-    const pairs = event.pairs[0];
-    const bodyA = pairs.bodyA;
-    const bodyB = pairs.bodyB;
-    if (bodyA.label === "auslöser" || bodyB.label === "auslöser") {
-    blocks[2].color = 'red'
-    }
   });
 
   Matter.Engine.run(engine)
