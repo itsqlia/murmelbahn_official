@@ -69,36 +69,35 @@ class Ball {
   }
 
 };
-
+// if (bodyA.label === "murmel" && bodyB.label === "hürde1") {
+// Matter.World.remove(engine.world, bodyB)}
 function keyPressed() {
-
-  //Enter-Tastatur
   if (keyCode === 13) {
-    switch (spaceCount) {
-
-      case 1:
-      console.log('Taste 1')
-      if ((balls[0].body.position.x - balls[0].body.positionPrev.x) < 0) {
-        direction // circle runs to left <-
-      } // use current direction and velocity for the jump
-      Matter.Body.applyForce(
-        balls[0].body, {
-          x: balls[0].body.position.x,
-          y: balls[0].body.position.y
-        }, {
-          x: (0.05 * direction) + balls[0].body.velocity.x / 100,
-          y: -0.05
-        }
-      );
-      console.log ('Taste 2')
-      balls[0].color = '#FF8A35'
-      break;
-      case 2:
-        console.log('Taste 2')
-        balls[0].color = '#32f4da'
+      switch (spaceCount) {
+        case 1:
+        console.log('Taste 1')
+        if ((balls[0].body.position.x - balls[0].body.positionPrev.x) < 0) {
+          direction // circle runs to left <-
+        } // use current direction and velocity for the jump
+        Matter.Body.applyForce(
+          balls[0].body, {
+            x: balls[0].body.position.x,
+            y: balls[0].body.position.y
+          }, {
+            x: (0.05 * direction) + balls[0].body.velocity.x / 100,
+            y: -0.05
+          }
+        );
+        console.log ('Taste 2')
+        balls[0].color = '#FF8A35'
+        //Matter.World.remove(engine.world,blocks[])
         break;
-      case 3:
-        console.log('Taste 3')
+        case 2:
+          console.log('Taste 3')
+          balls[0].color = '#32f4da'
+          break;
+        case 3:
+          console.log('Taste 4')
         balls[0].color = '#C879FF'
       default:
         console.log('SpaceCount' + spaceCount)}
@@ -115,7 +114,7 @@ function setup() {
 //CODE: BALL
  portalSound = loadSound("lib/PortalWhoosh.mp3")
 
- balls.push(new Ball({x: 450, y: 3000, color: 'black', size: 45, position: {x: 10,y: 1500}},{isStatic: false, restitution: 0.5, label:"murmel"}))
+ balls.push(new Ball({x: 1300, y: 800, color: 'black', size: 45, position: {x: 10,y: 1500}},{isStatic: false, restitution: 0.5,friction:-0.01, label:"murmel"}))
 
   // CODE: WOlKEN & PENDEL
 
@@ -159,18 +158,21 @@ function setup() {
   //Anfang - farbigen Balken
   blocks.push(new Block({x: 180, y: 1480, w: 1050, h: 20, color: 'gray', visible: true}, {isStatic: true,angle: Math.PI * 0.05}))
 
-  //GELB
-  blocks.push(new Block({x: 700, y: 1785, w: 580, h: 30, color: 'yellow', visible: true}, {isStatic: true, angle: -Math.PI * 0.05}))
-  blocks.push(new Block({x: 1250, y: 1680, w: 215, h: 30, color: 'yellow', visible: true}, {isStatic: true, angle: -Math.PI * 0.20}))
+//GELB
+ blocks.push(new Block({x: 700, y: 1785, w: 580, h: 30, color: '#FF8A35', visible: true}, {isStatic: true, angle: -Math.PI * 0.05,label:'hürde1'}))
+ blocks.push(new Block({x: 1250, y: 1680, w: 215, h: 30, color: '#FF8A35', visible: true}, {isStatic: true, angle: -Math.PI * 0.20,label:'hürde1'}))
 
-  //GRÜN
-  blocks.push(new Block({x: 720, y: 2070, w: 720, h: 30, color: 'green', visible: true}, {isStatic: true, angle: Math.PI * 0.05}))
+//GRÜN
+  blocks.push(new Block({x: 720, y: 2070, w: 720, h: 30, color: '#32f4da', visible: true}, {isStatic: true, angle: Math.PI * 0.05,label:'hürde2'}))
 
-  //GELB
-  blocks.push(new Block({x: 715, y: 2350, w: 730, h: 30, color: 'yellow', visible: true}, {isStatic: true, angle: -Math.PI * 0.05}))
+//GELB
+blocks.push(new Block({x: 715, y: 2350, w: 730, h: 30, color: '#FF8A35', visible: true}, {isStatic: true, angle: -Math.PI * 0.05,label:'hürde1'}))
 
-  //GRÜN
-  blocks.push(new Block({x: 720, y: 2650, w: 720, h: 30, color: 'green', visible: true}, {isStatic: true, angle: Math.PI * 0.05}))
+//GRÜN
+  blocks.push(new Block({x: 720, y: 2650, w: 720, h: 30, color:'#32f4da', visible: true}, {isStatic: true, angle: Math.PI * 0.05,label:'hürde2'}))
+
+    // Trennwand
+    blocks.push(new Block({x: 60, y: 2150, w: 1300, h: 20, color: 'grey', visible: true}, {isStatic: true,angle: -Math.PI * 2.5}))
 
   // Trennwand
   blocks.push(new Block({x: 60, y: 2150, w: 1300, h: 20, color: 'grey', visible: true}, {isStatic: true,angle: -Math.PI * 2.5}))
@@ -323,9 +325,13 @@ function setup() {
     else if (bodyA.label === "murmel" && bodyB.label === "fall") {
      Matter.Body.setStatic(bodyB, false)
     }
-    // else if (bodyA.label === "auslöser" || bodyB.label === "auslöser") {
-    // blocks[2].color = 'red'
-    // }
+    // Farbige Balken
+    // Gelb
+    if (bodyA.label === "murmel" && bodyB.label === "hürde1") {
+    Matter.World.remove(engine.world, bodyB)}
+    //Grün
+    if (bodyA.label === "murmel" && bodyB.label === "hürde2") {
+    Matter.World.remove(engine.world, bodyB)}
   });
 
   Matter.Engine.run(engine)
@@ -354,9 +360,9 @@ function draw() {
   clear()
 
   //TRANSPORTMITTEL
-  Matter.Body.setPosition(blocks[18].body, {x: 964 + Math.sin(frameCount / 100) * 280, y: 3270})
-  Matter.Body.setPosition(blocks[19].body, {x: 1164 + Math.sin(frameCount / 100) * 280, y: 3270})
-  Matter.Body.setPosition(blocks[20].body, {x: 1064 + Math.sin(frameCount / 100) * 280, y: 3285})
+  Matter.Body.setPosition(blocks[19].body, {x: 964 + Math.sin(frameCount / 100) * 280, y: 3270})
+  Matter.Body.setPosition(blocks[20].body, {x: 1164 + Math.sin(frameCount / 100) * 280, y: 3270})
+  Matter.Body.setPosition(blocks[21].body, {x: 1064 + Math.sin(frameCount / 100) * 280, y: 3285})
 
   //pendel
   stroke(128);
