@@ -3,7 +3,6 @@ const Render = Matter.Render;
 const World = Matter.World;
 const Bodies = Matter.Bodies;
 const Mouse = Matter.Mouse;
-const MouseConstraint = Matter.MouseConstraint;
 const Composites = Matter.Composites;
 const Constraint = Matter.Constraint;
 
@@ -67,11 +66,6 @@ class Ball {
     drawBody(this.body)
   }
 
-  update() {
-    if (this.attrs.chgStatic) {
-      Matter.Body.setStatic(this.body, false)
-    }
-  }
 };
 
 function keyPressed() {
@@ -116,19 +110,19 @@ function setup() {
 //CODE: BALL
  portalSound = loadSound("lib/PortalWhoosh.mp3")
 
- balls.push(new Ball({x: 700, y: 3500, color: 'black', size: 45, position: {x: 10,y: 1500}},{isStatic: false, restitution: 0.5, label:"murmel"}))
+ balls.push(new Ball({x: 550, y: 3000, color: 'black', size: 45, position: {x: 10,y: 1500}},{isStatic: false, restitution: 0.5, label:"murmel"}))
 
   // CODE: WOlKEN & PENDEL
 
   let wolkeElem = document.getElementById('wolke');
   if (null != wolkeElem) {
-    wolken.push(bodyFromPath(wolkeElem, 350, 230, 1.0, { color: 'white', visible: true, isStatic: true, friction: 0.0 }));
-    wolken.push(bodyFromPath(wolkeElem, 600, 390, 1.0, { color: 'white', visible: true, isStatic: true, friction: 0.0 }));
+    wolken.push(bodyFromPath(wolkeElem, 350, 230, 1.0, { color: 'white', visible: true, isStatic: true}));
+    wolken.push(bodyFromPath(wolkeElem, 600, 390, 1.0, { color: 'white', visible: true, isStatic: true}));
   }
 
   let schanzeElem = document.getElementById('schanze1');
   if (null != schanzeElem) {
-    schanzen.push(bodyFromPath(schanzeElem, 1200, 1000, 1.25, { color: 'white', visible: true, isStatic: true, friction: 0.0 }));
+    schanzen.push(bodyFromPath(schanzeElem, 1200, 1000, 1.25, { color: 'white', visible: true, isStatic: true}));
     //schanzen.push(bodyFromPath(schanzeElem, 350, 230, 1.0, { color: 'white', visible: true, isStatic: true, friction: 0.0 }));
   }
   //Boden
@@ -161,14 +155,14 @@ function setup() {
   blocks.push(new Block({x: 180, y: 1480, w: 1050, h: 20, color: 'gray', visible: true}, {isStatic: true,angle: Math.PI * 0.05}))
 
   //GELB
-  blocks.push(new Block({x: 700, y: 1780, w: 580, h: 30, color: 'yellow', visible: true}, {isStatic: true, angle: -Math.PI * 0.05}))
+  blocks.push(new Block({x: 700, y: 1785, w: 580, h: 30, color: 'yellow', visible: true}, {isStatic: true, angle: -Math.PI * 0.05}))
   blocks.push(new Block({x: 1250, y: 1680, w: 215, h: 30, color: 'yellow', visible: true}, {isStatic: true, angle: -Math.PI * 0.20}))
 
   //GRÜN
   blocks.push(new Block({x: 720, y: 2070, w: 720, h: 30, color: 'green', visible: true}, {isStatic: true, angle: Math.PI * 0.05}))
 
   //GELB
-  blocks.push(new Block({x: 720, y: 2350, w: 720, h: 30, color: 'yellow', visible: true}, {isStatic: true, angle: -Math.PI * 0.05}))
+  blocks.push(new Block({x: 715, y: 2350, w: 730, h: 30, color: 'yellow', visible: true}, {isStatic: true, angle: -Math.PI * 0.05}))
 
   //GRÜN
   blocks.push(new Block({x: 720, y: 2650, w: 720, h: 30, color: 'green', visible: true}, {isStatic: true, angle: Math.PI * 0.05}))
@@ -204,9 +198,6 @@ function setup() {
   blocks.push(new Block({x: 500, y: 3310, w: 50, h: 50, color: '#32f4da', visible: true, chgStatic: true}, {isStatic: true, airFriction: 0.15, density: 500, label: "fall2"}))
   blocks.push(new Block({x: 450, y: 3320, w: 50, h: 50, color: '#32f4da', visible: true, chgStatic: true}, {isStatic: true, airFriction: 0.15, density: 500, label: "fall3"}))
   blocks.push(new Block({x: 400, y: 3330, w: 50, h: 50, color: '#32f4da', visible: true, chgStatic: true}, {isStatic: true, airFriction: 0.15, density: 500, label: "fall4"}))
-
-  //demo-Ball
-  // balls.push(new Ball({x: 550, y: 3000, color: 'black', size: 45, position: {x: 10, y: 1500}}, {isStatic: false, restitution: 0.5}))
 
   //ground-transparent (later: color change to - #4B5056!)
   blocks.push(new Block({x: 380, y: 3800, w: 235, h: 10, color: 'black', visible: true}, {isStatic: true}))
@@ -306,20 +297,6 @@ function setup() {
   blocks.push(new Block({x: 1440, y: 0, w: 30, h: 7000, color: 'black', visible: true}, {isStatic: true}))
   blocks.push(new Block({x: 180, y: 0, w: 30, h: 7000, color: 'black', visible: true}, {isStatic: true}))
 
-  // Process collisions - check whether ball hits a Block object
-  // Matter.Events.on(engine, 'collisionStart', function(event) {
-  //   var pairs = event.pairs
-  //   pairs.forEach((pair, i) => {
-  //     if (balls.includes(pair.bodyA)) {collide(pair.bodyB, pair.bodyA)}
-  //     if (balls.includes(pair.bodyB)) {collide(pair.bodyA, pair.bodyB)}})
-  //     // check for collision between Block and ball
-  //   function collide(bodyBlock, bodyBall) {
-  //     // check if bodyBlock is really a body in a Block class
-  //     if (bodyBlock.plugin && bodyBlock.plugin.block) {
-  //       // remember the collision for processing in 'beforeUpdate'
-  //       collisions.push({ hit: bodyBlock.plugin.block, ball: bodyBall })}}
-  // })
-
   Matter.World.add(engine.world, [bullets]);
   Matter.World.add(engine.world, wolken);
   Matter.World.add(engine.world, schanzen);
@@ -332,23 +309,39 @@ function setup() {
     blocks[35].visible = false
     }
   });
+
   Matter.Events.on(engine, 'collisionStart', function(event) {
     const pairs = event.pairs[0];
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "kasten" || bodyB.label === "kasten") {
-      blocks[36].visible = true, blocks[37].visible = true, blocks[38].visible = true
+    blocks[36].visible = true, blocks[37].visible = true, blocks[38].visible = true
     }
   });
+
   Matter.Events.on(engine, 'collisionStart', function(event) {
     const pairs = event.pairs[0];
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
     if (bodyA.label === "fall1" || bodyB.label === "fall1") {
-    // blocks[22].isStatic = false
-    blocks[22].color = 'red'
+      console.log(blocks[22].body.isStatic);
+      blocks[22].body.isStatic = false
+      console.log(blocks[22].body.isStatic);
+    blocks[22].color = 'yellow'
     }
+    // }
+    // blocks.body[22].isStatic = Matter.Body.setStatic(false)
+    // if(blocks[22].isStatic)  = 'false'}
+    // if (collision.hit.plugin.chgStatic) {
+    //    Matter.Body.setStatic(false)}
+
+    // if(this.plugin.chgStatic) {
+    //   if(blocks[22].isStatic){
+    //   Matter.Body.setStatic(this.body, false)
+    // }
   });
+
+
   Matter.Events.on(engine, 'collisionStart', function(event) {
     const pairs = event.pairs[0];
     const bodyA = pairs.bodyA;
@@ -387,7 +380,8 @@ function setup() {
 //   }}
 
 function draw() {
-  background('#4B5056');
+  // background('#4B5056');
+  clear()
 
   //TRANSPORTMITTEL
   Matter.Body.setPosition(blocks[18].body, {x: 964 + Math.sin(frameCount / 100) * 280, y: 3270})
