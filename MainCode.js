@@ -114,7 +114,7 @@ function setup() {
 //CODE: BALL
  portalSound = loadSound("lib/PortalWhoosh.mp3")
 
- balls.push(new Ball({x: 1300, y: 800, color: 'black', size: 45, position: {x: 10,y: 1500}},{isStatic: false, restitution: 0.5,friction:-0.01, label:"murmel"}))
+ balls.push(new Ball({x: 1300, y: 800, color: 'black', size: 45, position: {x: 10,y: 1500}},{isStatic: false, restitution: 0.3,friction:-0.01, label:"murmel"}))
 
   // CODE: WOlKEN & PENDEL
 
@@ -239,12 +239,12 @@ blocks.push(new Block({x: 715, y: 2350, w: 730, h: 30, color: '#FF8A35', visible
   blocks.push(new Block({x: 650, y: 3550, w: 150, h: 200, color: '#292F36', visible: true}, {isStatic: true, label: "kasten"}))
 
   //bunte Knöpfe
-  blocks.push(new Block({x: 820, y: 3738, w: 50, h: 20, color: '#FF8A35', visible: false}, {isStatic: true, label:"knopf"}))
-  blocks.push(new Block({x: 910, y: 3735, w: 50, h: 20, color: '#32f4da', visible: false}, {isStatic: true, label: "knopf"}))
-  blocks.push(new Block({x: 1000, y: 3735, w: 50, h: 20, color: '#C879FF', visible: false}, {isStatic: true, label:"knopf"}))
+  blocks.push(new Block({x: 820, y: 3738, w: 50, h: 20, color: '#FF8A35', visible: false}, {isStatic: true, label:"knopf1"}))
+  blocks.push(new Block({x: 910, y: 3735, w: 50, h: 20, color: '#32f4da', visible: false}, {isStatic: true, label: "knopf2"}))
+  blocks.push(new Block({x: 1000, y: 3735, w: 50, h: 20, color: '#C879FF', visible: false}, {isStatic: true, label:"knopf3"}))
 
   //ground-floor
-  blocks.push(new Block({x: 615, y: 3755, w: 500, h: 10, color: 'gray', visible: true}, {isStatic: true}))
+  blocks.push(new Block({x: 615, y: 3755, w: 900, h: 10, color: 'gray', visible: true}, {isStatic: true}))
 
   // untere Klappen-Stack
   blocks.push(new Block({x: 180, y: 4060, w: 630, h: 20, color: 'black', visible: true}, {isStatic: true}))
@@ -315,12 +315,26 @@ blocks.push(new Block({x: 715, y: 2350, w: 730, h: 30, color: '#FF8A35', visible
 
     // Controls collision with "invisible" Block
     if (bodyA.label === "murmel" && bodyB.label === "kasten") {
-    blocks[35].visible = false
+    blocks[36].visible = false
     Matter.World.remove(engine.world, bodyB)
-    blocks[36].visible = true
     blocks[37].visible = true
     blocks[38].visible = true
+    blocks[39].visible = true
     }
+    // Controls collision with Knöpfe
+    if (bodyA.label === "murmel" && bodyB.label === "knopf1") {
+    blocks[37].visible = false
+    Matter.World.remove(engine.world, bodyB)
+  }
+    if (bodyA.label === "murmel" && bodyB.label === "knopf2") {
+    blocks[38].visible = false
+    Matter.World.remove(engine.world, bodyB)
+  }
+    if (bodyA.label === "murmel" && bodyB.label === "knopf3") {
+    blocks[39].visible = false
+    Matter.World.remove(engine.world, bodyB)
+  }
+
     // Controls collision with falling blocks
     else if (bodyA.label === "murmel" && bodyB.label === "fall") {
      Matter.Body.setStatic(bodyB, false)
