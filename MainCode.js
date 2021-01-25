@@ -3,6 +3,7 @@ const Render = Matter.Render;
 const World = Matter.World;
 const Bodies = Matter.Bodies;
 const Mouse = Matter.Mouse;
+const MouseConstraint = Matter.MouseConstraint;
 const Composites = Matter.Composites;
 const Constraint = Matter.Constraint;
 
@@ -19,14 +20,12 @@ let spaceCount = +1
 let direction = 0.2
 let attractorActiv = false
 let pendel
-let constraint2
-let wolke
-let schanze
+let klappe
+let constraint1
+let constraint
 let portalSound
 let engine
 let isMagnetisch = true
-// let higruImg
-
 
 function preload(){portalSound = loadSound("lib/PortalWhoosh.mp3")}
 
@@ -68,10 +67,16 @@ class Ball {
     drawBody(this.body)
   }
 
+  update() {
+    if (this.attrs.chgStatic) {
+      Matter.Body.setStatic(this.body, false)
+    }
+  }
 };
-// if (bodyA.label === "murmel" && bodyB.label === "hürde1") {
-// Matter.World.remove(engine.world, bodyB)}
+
 function keyPressed() {
+
+  //Enter-Tastatur
   if (keyCode === 13) {
       switch (spaceCount) {
         case 1:
@@ -98,7 +103,7 @@ function keyPressed() {
           break;
         case 3:
           console.log('Taste 4')
-        balls[0].color = '#C879FF'
+        balls[0].color = '#EEAD0E'
       default:
         console.log('SpaceCount' + spaceCount)}
     spaceCount = (spaceCount + 1) % 4}
@@ -107,9 +112,6 @@ function keyPressed() {
 function setup() {
   engine = Matter.Engine.create()
   let canvas = createCanvas(1480, 7000)
-
-  // higruImg = loadImage('lib/Hintergrund.png');
-
 
 //CODE: BALL
  portalSound = loadSound("lib/PortalWhoosh.mp3")
@@ -120,13 +122,25 @@ function setup() {
 
   let wolkeElem = document.getElementById('wolke');
   if (null != wolkeElem) {
-    wolken.push(bodyFromPath(wolkeElem, 350, 230, 1.0, { color: 'white', visible: true, isStatic: true}));
-    wolken.push(bodyFromPath(wolkeElem, 600, 390, 1.0, { color: 'white', visible: true, isStatic: true}));
+    wolken.push(bodyFromPath(wolkeElem, 300, 250, 1.0, { color: 'white', visible: true, isStatic: true, restitution: 2}));
+    wolken.push(bodyFromPath(wolkeElem, 775, 550, 0.75, { color: 'white', visible: true, isStatic: true, restitution: 2 }));
+    wolken.push(bodyFromPath(wolkeElem, 550, 500, 1.2, { color: 'white', visible: true, isStatic: true, restitution: 2}));
+    wolken.push(bodyFromPath(wolkeElem, 1200, 300, 1.0, { color: 'white', visible: true, isStatic: true, restitution: 2}));
+    wolken.push(bodyFromPath(wolkeElem, 1400, 100, 0.5, { color: 'white', visible: true, isStatic: true, restitution: 2}));
   }
+
+  let wolke2Elem = document.getElementById('wolke2');
+  if (null != wolke2Elem) {
+    wolken.push(bodyFromPath(wolke2Elem, 400, 400, 1.00, { color: 'white', visible: true, isStatic: true }));
+    wolken.push(bodyFromPath(wolke2Elem, 700, 100, 0.75, { color: 'white', visible: true, isStatic: true }));
+    wolken.push(bodyFromPath(wolke2Elem, 800, 250, 1.00, { color: 'white', visible: true, isStatic: true }));
+    wolken.push(bodyFromPath(wolke2Elem, 1000, 200, 0.75, { color: 'white', visible: true, isStatic: true }));
+  }
+
 
   let schanzeElem = document.getElementById('schanze1');
   if (null != schanzeElem) {
-    schanzen.push(bodyFromPath(schanzeElem, 1200, 1000, 1.25, { color: 'white', visible: true, isStatic: true}));
+    schanzen.push(bodyFromPath(schanzeElem, 1200, 1000, 1.25, { color: 'white', visible: true, isStatic: true, friction: 0.0 }));
     //schanzen.push(bodyFromPath(schanzeElem, 350, 230, 1.0, { color: 'white', visible: true, isStatic: true, friction: 0.0 }));
   }
   //Boden
@@ -138,7 +152,21 @@ function setup() {
   blocks.push(new Block({x: 1100, y: 625, w: 250, h: 40, color: '#EEAD0E', visible: true}, {isStatic: true}))
 
   blocks.push(new Block({x: 900, y: 585, w: 100, h: 40, color: '#EEAD0E', visible: true, chgStatic: true}, {isStatic: true, airFriction: 0.15, density: 500, label: "auslöser"}))
+  // klappe = Bodies.rectangle(1100, 625, 600, 20);
+  // constraint = Constraint.create({
+  //   pointA: {x: 400, y: 520},
+  //   bodyB: catapult,
+  //   stiffness: 1,
+  //   length: 0
+  // });
+  // World.add(engine.world, [klappe, constraint]);
 
+
+  // constraint1 = Constraint.create({
+  //   pointA: {x: 1100, y:625},
+  //   bodyB: blocks[2]
+  // });
+  // World.add(engine.world, constraint1);
   //pendel
 
   pendel = Matter.Bodies.circle(400, 950, 60, 30), {
@@ -304,6 +332,20 @@ blocks.push(new Block({x: 715, y: 2350, w: 730, h: 30, color: '#34E0EB', visible
   blocks.push(new Block({x: 1440, y: 0, w: 30, h: 7000, color: 'black', visible: true}, {isStatic: true}))
   blocks.push(new Block({x: 180, y: 0, w: 30, h: 7000, color: 'black', visible: true}, {isStatic: true}))
 
+  // Process collisions - check whether ball hits a Block object
+  // Matter.Events.on(engine, 'collisionStart', function(event) {
+  //   var pairs = event.pairs
+  //   pairs.forEach((pair, i) => {
+  //     if (balls.includes(pair.bodyA)) {collide(pair.bodyB, pair.bodyA)}
+  //     if (balls.includes(pair.bodyB)) {collide(pair.bodyA, pair.bodyB)}})
+  //     // check for collision between Block and ball
+  //   function collide(bodyBlock, bodyBall) {
+  //     // check if bodyBlock is really a body in a Block class
+  //     if (bodyBlock.plugin && bodyBlock.plugin.block) {
+  //       // remember the collision for processing in 'beforeUpdate'
+  //       collisions.push({ hit: bodyBlock.plugin.block, ball: bodyBall })}}
+  // })
+
   Matter.World.add(engine.world, [bullets]);
   Matter.World.add(engine.world, wolken);
   Matter.World.add(engine.world, schanzen);
@@ -312,14 +354,8 @@ blocks.push(new Block({x: 715, y: 2350, w: 730, h: 30, color: '#34E0EB', visible
     const pairs = event.pairs[0];
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
-
-    // Controls collision with "invisible" Block
-    if (bodyA.label === "murmel" && bodyB.label === "kasten") {
-    blocks[36].visible = false
-    Matter.World.remove(engine.world, bodyB)
-    blocks[37].visible = true
-    blocks[38].visible = true
-    blocks[39].visible = true
+    if (bodyA.label === "kasten" || bodyB.label === "kasten") {
+    blocks[35].visible = false
     }
     // Controls collision with Knöpfe
     if (bodyA.label === "murmel" && balls[0].color == '#34E0EB'  && bodyB.label === "knopf1") {
@@ -369,13 +405,12 @@ blocks.push(new Block({x: 715, y: 2350, w: 730, h: 30, color: '#34E0EB', visible
 //   }}
 
 function draw() {
-  // background('#4B5056');
-  clear()
+  background('#4B5056');
 
   //TRANSPORTMITTEL
-  Matter.Body.setPosition(blocks[19].body, {x: 964 + Math.sin(frameCount / 100) * 280, y: 3270})
-  Matter.Body.setPosition(blocks[20].body, {x: 1164 + Math.sin(frameCount / 100) * 280, y: 3270})
-  Matter.Body.setPosition(blocks[21].body, {x: 1064 + Math.sin(frameCount / 100) * 280, y: 3285})
+  Matter.Body.setPosition(blocks[18].body, {x: 964 + Math.sin(frameCount / 100) * 280, y: 3270})
+  Matter.Body.setPosition(blocks[19].body, {x: 1164 + Math.sin(frameCount / 100) * 280, y: 3270})
+  Matter.Body.setPosition(blocks[20].body, {x: 1064 + Math.sin(frameCount / 100) * 280, y: 3285})
 
   //pendel
   stroke(128);
@@ -385,6 +420,9 @@ function draw() {
   noStroke(255);
   fill('#3BF4FB');
   drawVertices(pendel.vertices);
+
+  //Klappe
+  // drawConstraint1(constraint1);
 
   Body = pendel
   // if (frameCount % 120 == 0){
