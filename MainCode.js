@@ -284,9 +284,7 @@ function setup() {
   blocks.push(new Block({ x: 615, y: 3755, w: 900, h: 10, color: '#4F4850', visible: true }, { isStatic: true }))
 
   // untere Klappen-Stack
-  blocks.push(new Block({ x: 180, y: 4060, w: 630, h: 20, color: 'black', visible: true }, { isStatic: true }))
-
-  blocks.push(new Block({ x: 810, y: 4060, w: 630, h: 20, color: 'black', visible: true }, { isStatic: true }))
+  blocks.push(new Block({ x: 180, y: 4060, w: 1400, h: 20, color: 'black', visible: true }, { isStatic: true }))
 
   // Composites.stack(x,y, anzahl pro zeile, anzahl pro spalte, abstand x, abstand y)
   bullets = Composites.stack(180, 3922, 31, 3, 1, 1, function(x, y) { return Bodies.circle(x, y, 23) });
@@ -350,21 +348,42 @@ function setup() {
     const pairs = event.pairs[0];
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
-    if (bodyA.label === "kasten" || bodyB.label === "kasten") {
-      blocks[35].visible = false
+
+    //Controls collision with durchsichtigem Block
+    if (bodyA.label === "murmel" && bodyB.label === "kasten") {
+    blocks[38].visible = false
+    Matter.World.remove(engine.world, bodyB)
+    blocks[39].visible = true
+    blocks[40].visible = true
+    blocks[41].visible = true
     }
     // Controls collision with Knöpfe
     if (bodyA.label === "murmel" && balls[0].color == '#34E0EB' && bodyB.label === "knopf1") {
       blocks[37].visible = false
+      knopfCount --
       Matter.World.remove(engine.world, bodyB)
+      if (knopfCount === 0) {
+        blocks[43].visible = false
+        Matter.World.remove (engine.world, blocks[43])
+      }
     }
     if (bodyA.label === "murmel" && balls[0].color == '#A975FF' && bodyB.label === "knopf2") {
       blocks[38].visible = false
+      knopfCount --
       Matter.World.remove(engine.world, bodyB)
+      if (knopfCount === 0) {
+        blocks[43].visible = false
+        Matter.World.remove (engine.world, blocks[43])
+      }
     }
     if (bodyA.label === "murmel" && balls[0].color == '#C879FF' && bodyB.label === "knopf3") {
       blocks[39].visible = false
+      knopfCount --
       Matter.World.remove(engine.world, bodyB)
+      if (knopfCount === 0) {
+        blocks[43].visible = false
+        Matter.World.remove (engine.world, blocks[43])
+      }
     }
 
     // Controls collision with falling blocks
