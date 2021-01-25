@@ -405,12 +405,13 @@ blocks.push(new Block({x: 715, y: 2350, w: 730, h: 30, color: '#34E0EB', visible
 //   }}
 
 function draw() {
-  background('#4B5056');
+  //background('#4B5056');
+  clear()
 
   //TRANSPORTMITTEL
-  Matter.Body.setPosition(blocks[18].body, {x: 964 + Math.sin(frameCount / 100) * 280, y: 3270})
-  Matter.Body.setPosition(blocks[19].body, {x: 1164 + Math.sin(frameCount / 100) * 280, y: 3270})
-  Matter.Body.setPosition(blocks[20].body, {x: 1064 + Math.sin(frameCount / 100) * 280, y: 3285})
+  Matter.Body.setPosition(blocks[19].body, {x: 964 + Math.sin(frameCount / 100) * 280, y: 3270})
+  Matter.Body.setPosition(blocks[20].body, {x: 1164 + Math.sin(frameCount / 100) * 280, y: 3270})
+  Matter.Body.setPosition(blocks[21].body, {x: 1064 + Math.sin(frameCount / 100) * 280, y: 3285})
 
   //pendel
   stroke(128);
