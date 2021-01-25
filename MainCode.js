@@ -351,37 +351,37 @@ function setup() {
 
     //Controls collision with durchsichtigem Block
     if (bodyA.label === "murmel" && bodyB.label === "kasten") {
-    blocks[38].visible = false
+    blocks[37].visible = false
     Matter.World.remove(engine.world, bodyB)
+    blocks[38].visible = true
     blocks[39].visible = true
     blocks[40].visible = true
-    blocks[41].visible = true
     }
     // Controls collision with Knöpfe
     if (bodyA.label === "murmel" && balls[0].color == '#34E0EB' && bodyB.label === "knopf1") {
-      blocks[37].visible = false
-      knopfCount --
-      Matter.World.remove(engine.world, bodyB)
-      if (knopfCount === 0) {
-        blocks[43].visible = false
-        Matter.World.remove (engine.world, blocks[43])
-      }
-    }
-    if (bodyA.label === "murmel" && balls[0].color == '#A975FF' && bodyB.label === "knopf2") {
       blocks[38].visible = false
       knopfCount --
       Matter.World.remove(engine.world, bodyB)
       if (knopfCount === 0) {
-        blocks[43].visible = false
+        blocks[42].visible = false
         Matter.World.remove (engine.world, blocks[43])
       }
     }
-    if (bodyA.label === "murmel" && balls[0].color == '#C879FF' && bodyB.label === "knopf3") {
+    if (bodyA.label === "murmel" && balls[0].color == '#A975FF' && bodyB.label === "knopf2") {
       blocks[39].visible = false
       knopfCount --
       Matter.World.remove(engine.world, bodyB)
       if (knopfCount === 0) {
-        blocks[43].visible = false
+        blocks[42].visible = false
+        Matter.World.remove (engine.world, blocks[43])
+      }
+    }
+    if (bodyA.label === "murmel" && balls[0].color == '#C879FF' && bodyB.label === "knopf3") {
+      blocks[40].visible = false
+      knopfCount --
+      Matter.World.remove(engine.world, bodyB)
+      if (knopfCount === 0) {
+        blocks[42].visible = false
         Matter.World.remove (engine.world, blocks[43])
       }
     }
