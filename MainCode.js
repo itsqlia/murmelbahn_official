@@ -89,8 +89,8 @@ function keyPressed() {
             x: balls[0].body.position.x,
             y: balls[0].body.position.y
           }, {
-            x: (0.05 * direction) + balls[0].body.velocity.x / 100,
-            y: -0.05
+            x: (100 * direction) + balls[0].body.velocity.x / 100,
+            y: -200
           }
         );
         console.log ('Taste 2')
@@ -116,7 +116,7 @@ function setup() {
 //CODE: BALL
  portalSound = loadSound("lib/PortalWhoosh.mp3")
 
- balls.push(new Ball({x: 1300, y: 800, color: '#B9DEE7', size: 45, position: {x: 10,y: 1500}},{isStatic: false, restitution: 0.3,friction:-0.01, label:"murmel"}))
+ balls.push(new Ball({x: 1300, y: 800, color: '#B9DEE7', size: 45, position: {x: 10,y: 1500}},{isStatic: false, density: 5, restitution: 0.3,friction:-0.01, label:"murmel"}))
 
   // CODE: WOlKEN & PENDEL
 
