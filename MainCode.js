@@ -1,3 +1,6 @@
+//Matter.use('matter-attractors');
+
+
 const Engine = Matter.Engine;
 const Render = Matter.Render;
 const World = Matter.World;
@@ -26,7 +29,9 @@ let constraint1
 let constraint
 let portalSound
 let engine
-let isMagnetisch = true
+let isMagnetisch = false
+let attractorActive = false
+
 
 function preload() { portalSound = loadSound("lib/PortalWhoosh.mp3") }
 
@@ -93,8 +98,8 @@ function keyPressed() {
             x: balls[0].body.position.x,
             y: balls[0].body.position.y
           }, {
-            x: (100 * direction) + balls[0].body.velocity.x / 100,
-            y: -200
+            x: (200 * direction) + balls[0].body.velocity.x / 100,
+            y: -400
           }
         );
         console.log('Taste 2')
@@ -176,7 +181,7 @@ function setup() {
   // });
   // World.add(engine.world, constraint1);
 
-  //pendel
+
   pendel = Matter.Bodies.circle(400, 950, 60, 30), {
     isStatic: false,
     density: 0.5
@@ -412,6 +417,12 @@ function setup() {
     }
   });
   Matter.Engine.run(engine)
+
+  // Matter.Events.on(engine, 'afterUpdate', function(event) {
+  //   if (attractorActive) {
+  //   attract();
+  // }
+  // });
 }
 
 
@@ -444,6 +455,7 @@ function draw() {
     Matter.Body.applyForce(
       pendel, { x: pendel.position.x, y: pendel.position.y }, { x: (0.12 * direction) + pendel.velocity.x / 100, y: 0 });
   }
+  // attractorActive = true;
 
   //Wolken
   fill('white');
@@ -485,7 +497,7 @@ function drawConstraint(constraint) {
 //   Body.applyForce(balls[0].body.position, force)}
 
 function attract(ball) {
-  if (isMagnetisch) {
+  if (isMagnetisch = true) {
     let force = {
       x: (pendel.position.x - ball.body.position.x) * 1e-3,
       y: (pendel.position.y - ball.body.position.y) * 1e-3,
@@ -495,6 +507,10 @@ function attract(ball) {
     Matter.Body.applyForce(ball.body, ball.body.position, force)
   }
 }
+    // let collided = Matter.SAT.collides(balls[0], pendel);
+    //     if (collided.collided) {  Matter.World.remove(engine.world,balls[0]);
+    //     balls[0].color = "";
+    //      }
 
 function drawBodies(bodies) {
   for (let i = 0; i < bodies.length; i++) { drawVertices(bodies[i].vertices); }
