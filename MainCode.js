@@ -17,6 +17,7 @@ let schanzen = []
 
 let bullets
 let spaceCount = +1
+let knopfCount = 3
 let direction = 0.2
 let attractorActiv = false
 let pendel
@@ -93,8 +94,8 @@ function keyPressed() {
             x: balls[0].body.position.x,
             y: balls[0].body.position.y
           }, {
-            x: (0.05 * direction) + balls[0].body.velocity.x / 100,
-            y: -0.05
+            x: (100 * direction) + balls[0].body.velocity.x / 100,
+            y: 500
           }
         );
         console.log('Taste 2')
@@ -122,7 +123,7 @@ function setup() {
   //CODE: BALL
   portalSound = loadSound("lib/PortalWhoosh.mp3")
 
-  balls.push(new Ball({ x: 300, y: 10, color: '#B9DEE7', size: 45, position: { x: 10, y: 1500 } }, { isStatic: false, density: 5, restitution: 0.3, friction: -0.01, label: "murmel" }))
+  balls.push(new Ball({ x:750, y: 3400, color: '#B9DEE7', size: 45, position: { x: 10, y: 1500 } }, { isStatic: false, density: 5, restitution: 0.3, friction: -0.01, label: "murmel" }))
 
   // CODE: WOlKEN & PENDEL
 
@@ -341,20 +342,6 @@ function setup() {
   blocks.push(new Block({ x: 1440, y: 0, w: 30, h: 7000, color: 'black', visible: true }, { isStatic: true }))
   blocks.push(new Block({ x: 180, y: 0, w: 30, h: 7000, color: 'black', visible: true }, { isStatic: true }))
 
-  // Process collisions - check whether ball hits a Block object
-  // Matter.Events.on(engine, 'collisionStart', function(event) {
-  //   var pairs = event.pairs
-  //   pairs.forEach((pair, i) => {
-  //     if (balls.includes(pair.bodyA)) {collide(pair.bodyB, pair.bodyA)}
-  //     if (balls.includes(pair.bodyB)) {collide(pair.bodyA, pair.bodyB)}})
-  //     // check for collision between Block and ball
-  //   function collide(bodyBlock, bodyBall) {
-  //     // check if bodyBlock is really a body in a Block class
-  //     if (bodyBlock.plugin && bodyBlock.plugin.block) {
-  //       // remember the collision for processing in 'beforeUpdate'
-  //       collisions.push({ hit: bodyBlock.plugin.block, ball: bodyBall })}}
-  // })
-
   Matter.World.add(engine.world, [bullets]);
   Matter.World.add(engine.world, wolken);
   Matter.World.add(engine.world, schanzen);
@@ -395,25 +382,9 @@ function setup() {
       Matter.World.remove(engine.world, bodyB)
     }
   });
-
   Matter.Engine.run(engine)
-  // canvas.mousePressed(startEngine);
-
-  // document.addEventListener('keyup', onKeyUp)
 }
 
-// function onKeyUp(evt) {
-//   switch (evt.key) {
-//     case ' ':
-//       startEngine()
-//       evt.preventDefault()
-//       break}}
-
-// function startEngine() {
-//   if (0 == engine.timing.timestamp) {
-//     Matter.Engine.run(engine)
-//     userStartAudio()
-//   }}
 
 function draw() {
   //background('#4B5056');
