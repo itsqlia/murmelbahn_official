@@ -213,7 +213,7 @@ blocks.push(new Block({x: 715, y: 2350, w: 730, h: 30, color: '#34E0EB', visible
   blocks.push(new Block({x: 1340, y: 2890, w: 130, h: 20, color: '#4F4850', visible: true}, {isStatic: true}))
 
   //tube
-  blocks.push(new Block({x: 1225, y: 3087, w: 70, h: 15, color: '#EEAD0E', visible: true}, {isStatic: true}))
+  blocks.push(new Block({x: 1225, y: 3087, w: 70, h: 15, color: '#EEAD0E', visible: true}, {isStatic: true, label:'balken'}))
 
   blocks.push(new Block({x: 1110, y: 2948, w: 120, h: 20, color: '#4F4850', visible: true}, {isStatic: true, angle: -Math.PI * 2.5, restitution: 0.5}))
   blocks.push(new Block({x: 1290, y: 2948, w: 120, h: 20, color: '#4F4850', visible: true}, {isStatic: true, angle: -Math.PI * 2.5, restitution: 0.5}))
@@ -329,8 +329,8 @@ blocks.push(new Block({x: 715, y: 2350, w: 730, h: 30, color: '#34E0EB', visible
   blocks.push(new Block({x: 850, y: 5415, w: 650, h: 20, color: '#4F4850', visible: true}, {isStatic: true, angle: Math.PI * 2.91}))
 
   // Balken zum Orientierung
-  blocks.push(new Block({x: 1440, y: 0, w: 30, h: 7000, color: 'black', visible: true}, {isStatic: true}))
-  blocks.push(new Block({x: 180, y: 0, w: 30, h: 7000, color: 'black', visible: true}, {isStatic: true}))
+  blocks.push(new Block({x: 1440, y: 0, w: 30, h: 7000, color: 'black', visible: false}, {isStatic: true}))
+  blocks.push(new Block({x: 180, y: 0, w: 30, h: 7000, color: 'black', visible: false}, {isStatic: true}))
 
   // Process collisions - check whether ball hits a Block object
   // Matter.Events.on(engine, 'collisionStart', function(event) {
@@ -382,6 +382,9 @@ blocks.push(new Block({x: 715, y: 2350, w: 730, h: 30, color: '#34E0EB', visible
     Matter.World.remove(engine.world, bodyB)}
     //Grün
     if (bodyA.label === "murmel" && balls[0].color== '#A975FF'&& bodyB.label === "hürde2") {
+    Matter.World.remove(engine.world, bodyB)}
+    //Trichter Balken
+    if (bodyA.label === "murmel" && balls[0].color== '#EEAD0E'&& bodyB.label === "balken") {
     Matter.World.remove(engine.world, bodyB)}
   });
 
