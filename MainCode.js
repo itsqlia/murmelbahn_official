@@ -62,7 +62,6 @@ class Ball {
     this.y = attrs.y
     this.color = attrs.color
     this.size = attrs.size
-    this.position = (this.x, this.y)
     this.body = Matter.Bodies.circle(this.x, this.y, this.size / 2, options)
     Matter.World.add(engine.world, [this.body])
   }
@@ -123,9 +122,9 @@ function setup() {
   //CODE: BALL
   portalSound = loadSound("lib/PortalWhoosh.mp3")
 
-  balls.push(new Ball({ x:750, y: 3400, color: '#B9DEE7', size: 45, position: { x: 10, y: 1500 } }, { isStatic: false, density: 5, restitution: 0.3, friction: -0.01, label: "murmel" }))
+  balls.push(new Ball({ x:1300, y: 800, color: '#B9DEE7', size: 45, position: { x: 10, y: 1500 } }, { isStatic: false, density: 5, restitution: 0.3, friction: -0.01, label: "murmel" }))
 
-  // CODE: WOlKEN & PENDEL
+  // CODE: WOlKEN
 
   let wolkeElem = document.getElementById('wolke');
   if (null != wolkeElem) {
@@ -160,6 +159,7 @@ function setup() {
   blocks.push(new Block({ x: 1100, y: 625, w: 250, h: 40, color: '#EEAD0E', visible: true }, { isStatic: true }))
 
   blocks.push(new Block({ x: 900, y: 585, w: 100, h: 40, color: '#EEAD0E', visible: true, chgStatic: true }, { isStatic: true, airFriction: 0.15, density: 500, label: "auslöser" }))
+
   // klappe = Bodies.rectangle(1100, 625, 600, 20);
   // constraint = Constraint.create({
   //   pointA: {x: 400, y: 520},
@@ -175,8 +175,8 @@ function setup() {
   //   bodyB: blocks[2]
   // });
   // World.add(engine.world, constraint1);
-  //pendel
 
+  //pendel
   pendel = Matter.Bodies.circle(400, 950, 60, 30), {
     isStatic: false,
     density: 0.5
@@ -188,6 +188,12 @@ function setup() {
     pointB: { x: 0, y: 0 }
   });
   World.add(engine.world, [pendel, constraint2]);
+
+  Matter.Events.on(engine, 'beforeUpdate', function(event) {
+//console.log(balls[0])
+      attract(balls[0])
+
+  })
 
   //CODE: FARBIGE BALKEN
 
@@ -434,7 +440,6 @@ function draw() {
     }
     Matter.Body.applyForce(
       pendel, { x: pendel.position.x, y: pendel.position.y }, { x: (0.12 * direction) + pendel.velocity.x / 100, y: 0 });
-    console.log(frameCount, { x: (0.12 * direction) + pendel.velocity.x / 100 });
   }
 
   //Wolken
@@ -442,8 +447,6 @@ function draw() {
   wolken.forEach(wolke => drawBody(wolke));
 
   //schanze
-  // body.show(schanze);
-  //schanze.show()
   fill('#341B28');
   schanzen.forEach(schanze => drawBody(schanze));
 
@@ -474,7 +477,7 @@ function drawConstraint(constraint) {
   line(posA.x + offsetA.x, posA.y + offsetA.y, posB.x + offsetB.x, posB.y + offsetB.y);
 }
 
-// //Portal
+ //Portal
 // function attract(){
 //   let force ={x:(portal.body.position.x- balls[0].body.position.x) *1e-6, y:(portal.body.position.y- balls[0].body.position.y) *1e-6}
 //   Body.applyForce(balls[0].body.position, force)}
@@ -482,12 +485,12 @@ function drawConstraint(constraint) {
 function attract(ball) {
   if (isMagnetisch) {
     let force = {
-      x: (pendel.body.position.x - ball[0].body.position.x) * 1e-3,
-      y: (pendel.body.position.y - ball[0].body.position.y) * 1e-3,
+      x: (pendel.position.x - ball.body.position.x) * 1e-3,
+      y: (pendel.position.y - ball.body.position.y) * 1e-3,
     }
-    console.log(force)
+    // console.log(force)
     //Matter.Body.applyForce(ball, ball.position, Matter.Vector.neg(force));
-    Matter.Body.applyForce(ball[0].body, ball[0].body.position, force)
+    Matter.Body.applyForce(ball.body, ball.body.position, force)
   }
 }
 
