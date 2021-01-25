@@ -232,12 +232,12 @@ function setup() {
   blocks.push(new Block({ x: 1225, y: 3087, w: 70, h: 15, color: '#EEAD0E', visible: true }, { isStatic: true, label: "balken"}))
 
   //transportmittel
-  blocks.push(new Block({ x: 964, y: 3210, w: 50, h: 20, color: '#4F4850', visible: true }, { isStatic: true, angle: -Math.PI * 2.5 }))
-  blocks.push(new Block({ x: 1164, y: 3210, w: 50, h: 20, color: '#4F4850', visible: true }, { isStatic: true, angle: -Math.PI * 2.5 }))
+  blocks.push(new Block({ x: 964, y: 3210, w: 70, h: 20, color: '#4F4850', visible: true }, { isStatic: true, angle: -Math.PI * 2.5 }))
+  blocks.push(new Block({ x: 1164, y: 3210, w: 70, h: 20, color: '#4F4850', visible: true }, { isStatic: true, angle: -Math.PI * 2.5 }))
   blocks.push(new Block({ x: 1064, y: 3285, w: 30, h: 210, color: '#4F4850', visible: true }, { isStatic: true, angle: -Math.PI * 2.5 }))
 
   //schräge schiene für den Ball
-  blocks.push(new Block({ x: 750, y: 3350, w: 20, h: 150, color: '#4F4850', visible: true }, { isStatic: true, angle: -Math.PI * 0.65 }))
+  blocks.push(new Block({ x: 950, y: 3350, w: 20, h: 350, color: '#4F4850', visible: true }, { isStatic: true, angle: -Math.PI * 0.65 }))
 
   //fallende Kästchen
   blocks.push(new Block({ x: 550, y: 3500, w: 50, h: 50, color: '#EEAD0E', visible: true }, { isStatic: true, airFriction: 0.15, density: 500, label: "fall" }))
@@ -258,19 +258,19 @@ function setup() {
   //Propeller Section
 
   //Röhren (links-rechts)
-  blocks.push(new Block({ x: 110, y: 3840, w: 250, h: 20, color: '#4F4850', visible: true }, { isStatic: true, angle: PI / 2 }))
-  blocks.push(new Block({ x: 250, y: 3840, w: 250, h:20, color: '#4F4850', visible: true }, { isStatic: true, angle: PI / 2 }))
+  blocks.push(new Block({ x: 80, y: 3810, w: 290, h: 20, color: '#4F4850', visible: true }, { isStatic: true, angle: PI / 2 }))
+  blocks.push(new Block({ x: 220, y: 3800, w: 290, h:20, color: '#4F4850', visible: true }, { isStatic: true, angle: PI / 2 }))
 
   //drehende Platten
-  blocks.push(new Block({ x: 300, y: 3775, w: 38, h: 38, color: '#B9DEE7', visible: true }, { isStatic: false }))
-  blocks.push(new Block({ x: 300, y: 3975, w: 38, h: 38, color: '#B9DEE7', visible: true }, { isStatic: false }))
+  blocks.push(new Block({ x: 280, y: 3755, w: 38, h: 38, color: '#B9DEE7', visible: true }, { isStatic: false }))
+  blocks.push(new Block({ x: 280, y: 3875, w: 38, h: 38, color: '#B9DEE7', visible: true }, { isStatic: false }))
 
   //rest blocks
-  blocks.push(new Block({ x: 215, y: 4050, w: 100, h: 20, color: '#4F4850', visible: true }, { isStatic: true, angle: Math.PI * 0.30 }))
-  blocks.push(new Block({ x: 290, y: 4050, w: 90, h: 20, color: '#4F4850', visible: true }, { isStatic: true }))
+  blocks.push(new Block({ x: 200, y: 3990, w: 100, h: 20, color: '#4F4850', visible: true }, { isStatic: true, angle: Math.PI * 0.30 }))
+  blocks.push(new Block({ x: 280, y: 4020, w: 100, h: 20, color: '#4F4850', visible: true }, { isStatic: true }))
 
   //Funktion für drehende Platten
-  blocks.slice(31, 35).forEach((block, i) => {
+  blocks.slice(31, 34).forEach((block, i) => {
     let constraint = Matter.Constraint.create({
       bodyA: block.body,
       pointB: { x: block.body.position.x, y: block.body.position.y }
@@ -419,9 +419,9 @@ function draw() {
   clear()
 
   //TRANSPORTMITTEL
-  Matter.Body.setPosition(blocks[19].body, { x: 964 + Math.sin(frameCount/100) * 300, y: 3320 })
-  Matter.Body.setPosition(blocks[20].body, { x: 1164 + Math.sin(frameCount/100) * 300, y: 3320 })
-  Matter.Body.setPosition(blocks[21].body, { x: 1064 + Math.sin(frameCount/100) * 300, y: 3335 })
+  Matter.Body.setPosition(blocks[19].body, { x: 964 + Math.sin(frameCount/100) * 400, y: 3280 })
+  Matter.Body.setPosition(blocks[20].body, { x: 1164 + Math.sin(frameCount/100) * 400, y: 3280 })
+  Matter.Body.setPosition(blocks[21].body, { x: 1064 + Math.sin(frameCount/100) * 400, y: 3300 })
 
   //pendel
   stroke(128);
