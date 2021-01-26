@@ -20,7 +20,7 @@ let schanzen = []
 
 let bullets
 let spaceCount = +1
-let knopfCount = 3
+let knopfCount = 2
 let direction = 0.2
 let attractorActiv = false
 let pendel
@@ -75,12 +75,6 @@ class Ball {
     fill(this.color)
     drawBody(this.body)
   }
-
-  update() {
-    if (this.attrs.chgStatic) {
-      Matter.Body.setStatic(this.body, false)
-    }
-  }
 };
 
 function keyPressed() {
@@ -98,8 +92,8 @@ function keyPressed() {
             x: balls[0].body.position.x,
             y: balls[0].body.position.y
           }, {
-            x: (200 * direction) + balls[0].body.velocity.x / 100,
-            y: -400
+            x: (250 * direction) + balls[0].body.velocity.x / 100,
+            y: -200
           }
         );
         console.log('Taste 2')
@@ -108,11 +102,11 @@ function keyPressed() {
         break;
       case 2:
         console.log('Taste 3')
-        balls[0].color = '#A975FF'
+        balls[0].color = '#EEAD0E'
         break;
       case 3:
         console.log('Taste 4')
-        balls[0].color = '#EEAD0E'
+        balls[0].color = 'FFFFFF'
       default:
         console.log('SpaceCount' + spaceCount)
     }
@@ -127,7 +121,7 @@ function setup() {
   //CODE: BALL
   portalSound = loadSound("lib/PortalWhoosh.mp3")
 
-  balls.push(new Ball({ x:1300, y: 800, color: '#B9DEE7', size: 45, position: { x: 10, y: 1500 } }, { isStatic: false, density: 5, restitution: 0.3, friction: -0.01, label: "murmel" }))
+  balls.push(new Ball({ x:1300, y: 2000, color: 'FFFFFF', size: 45, position: { x: 10, y: 1500 } }, { isStatic: false, density: 5, restitution: 0.3, friction: -0.01, label: "murmel" }))
 
   // CODE: WOlKEN
 
@@ -174,7 +168,6 @@ function setup() {
   // });
   // World.add(engine.world, [klappe, constraint]);
 
-
   // constraint1 = Constraint.create({
   //   pointA: {x: 1100, y:625},
   //   bodyB: blocks[2]
@@ -203,79 +196,76 @@ function setup() {
   //CODE: FARBIGE BALKEN
 
   //Anfang - farbigen Balken
-  blocks.push(new Block({ x: 180, y: 1480, w: 1050, h: 20, color: '#4F4850', visible: true }, { isStatic: true, angle: Math.PI * 0.05 }))
+  blocks.push(new Block({ x: 180, y: 1480, w: 1050, h: 20, color: '#876466', visible: true }, { isStatic: true, angle: Math.PI * 0.05 }))
 
   //1.Balken
   blocks.push(new Block({ x: 720, y: 1785, w: 560, h: 30, color: '#34E0EB', visible: true }, { isStatic: true, angle: -Math.PI * 0.05, label: 'hürde1' }))
   blocks.push(new Block({ x: 1250, y: 1680, w: 215, h: 30, color: '#34E0EB', visible: true }, { isStatic: true, angle: -Math.PI * 0.20, label: 'hürde1' }))
 
   //2.Balken
-  blocks.push(new Block({ x: 720, y: 2070, w: 720, h: 30, color: '#A975FF', visible: true }, { isStatic: true, angle: Math.PI * 0.05, label: 'hürde2' }))
+  blocks.push(new Block({ x: 720, y: 2070, w: 730, h: 30, color: '#EEAD0E', visible: true }, { isStatic: true, angle: Math.PI * 0.05, label: 'hürde2' }))
 
   //3.Balken
   blocks.push(new Block({ x: 715, y: 2350, w: 730, h: 30, color: '#34E0EB', visible: true }, { isStatic: true, angle: -Math.PI * 0.05, label: 'hürde1' }))
 
   //4.Balken
-  blocks.push(new Block({ x: 720, y: 2650, w: 720, h: 30, color: '#A975FF', visible: true }, { isStatic: true, angle: Math.PI * 0.05, label: 'hürde2' }))
+  blocks.push(new Block({ x: 720, y: 2650, w: 730, h: 30, color: '#EEAD0E', visible: true }, { isStatic: true, angle: Math.PI * 0.05, label: 'hürde2' }))
 
   // Trennwand
-  blocks.push(new Block({ x: 60, y: 2140, w: 1310, h: 20, color: '#4F4850', visible: true }, { isStatic: true, angle: -Math.PI * 2.5 }))
+  blocks.push(new Block({ x: 60, y: 2140, w: 1310, h: 20, color: '#876466', visible: true }, { isStatic: true, angle: -Math.PI * 2.5 }))
 
   //CODE: FALLENDE KÄSTCHEN & TRANSPORTMITTEL
 
   //graue schräge Schiene
-  blocks.push(new Block({ x: 180, y: 2802, w: 1010, h: 20, color: '#4F4850', visible: true }, { isStatic: true, angle: Math.PI * 0.05 }))
+  blocks.push(new Block({ x: 180, y: 2802, w: 1010, h: 20, color: '#876466', visible: true }, { isStatic: true, angle: Math.PI * 0.05 }))
 
-  blocks.push(new Block({ x: 1340, y: 2880, w: 130, h: 20, color: '#4F4850', visible: true }, { isStatic: true, angle: -Math.PI * 0.07 }))
+  blocks.push(new Block({ x: 1340, y: 2880, w: 130, h: 20, color: '#876466', visible: true }, { isStatic: true, angle: -Math.PI * 0.07 }))
 
   //tube
-  blocks.push(new Block({ x: 1110, y: 2948, w: 120, h: 20, color: '#4F4850', visible: true }, { isStatic: true, angle: -Math.PI * 2.5, restitution: 0.5 }))
-  blocks.push(new Block({ x: 1290, y: 2948, w: 120, h: 20, color: '#4F4850', visible: true }, { isStatic: true, angle: -Math.PI * 2.5, restitution: 0.5 }))
-  blocks.push(new Block({ x: 1149, y: 3045, w: 100, h: 20, color: '#4F4850', visible: true }, { isStatic: true, angle: -Math.PI * 2.7, restitution: 0.5 }))
-  blocks.push(new Block({ x: 1272, y: 3045, w: 100, h: 20, color: '#4F4850', visible: true }, { isStatic: true, angle: Math.PI * 2.7, restitution: 0.5 }))
+  blocks.push(new Block({ x: 1225, y: 3087, w: 70, h: 15, color: '#34E0EB', visible: true }, { isStatic: true, label: "balken"}))
 
-  blocks.push(new Block({ x: 1225, y: 3087, w: 70, h: 15, color: '#EEAD0E', visible: true }, { isStatic: true, label: "balken"}))
+  blocks.push(new Block({ x: 1110, y: 2948, w: 120, h: 20, color: '#876466', visible: true }, { isStatic: true, angle: -Math.PI * 2.5, restitution: 0.5 }))
+  blocks.push(new Block({ x: 1290, y: 2948, w: 120, h: 20, color: '#876466', visible: true }, { isStatic: true, angle: -Math.PI * 2.5, restitution: 0.5 }))
+  blocks.push(new Block({ x: 1149, y: 3045, w: 100, h: 20, color: '#876466', visible: true }, { isStatic: true, angle: -Math.PI * 2.7, restitution: 0.5 }))
+  blocks.push(new Block({ x: 1272, y: 3045, w: 100, h: 20, color: '#876466', visible: true }, { isStatic: true, angle: Math.PI * 2.7, restitution: 0.5 }))
 
   //transportmittel
-  blocks.push(new Block({ x: 964, y: 3210, w: 70, h: 20, color: '#4F4850', visible: true }, { isStatic: true, angle: -Math.PI * 2.5 }))
-  blocks.push(new Block({ x: 1164, y: 3210, w: 70, h: 20, color: '#4F4850', visible: true }, { isStatic: true, angle: -Math.PI * 2.5 }))
-  blocks.push(new Block({ x: 1064, y: 3285, w: 30, h: 210, color: '#4F4850', visible: true }, { isStatic: true, angle: -Math.PI * 2.5 }))
+  blocks.push(new Block({ x: 964, y: 3210, w: 70, h: 20, color: '#876466', visible: true }, { isStatic: true, angle: -Math.PI * 2.5 }))
+  blocks.push(new Block({ x: 1164, y: 3210, w: 70, h: 20, color: '#876466', visible: true }, { isStatic: true, angle: -Math.PI * 2.5 }))
+  blocks.push(new Block({ x: 1064, y: 3285, w: 30, h: 210, color: '#876466', visible: true }, { isStatic: true, angle: -Math.PI * 2.5 }))
 
-  //schräge schiene für den Ball
-  blocks.push(new Block({ x: 950, y: 3350, w: 20, h: 350, color: '#4F4850', visible: true }, { isStatic: true, angle: -Math.PI * 0.65 }))
+  //schräge schiene + wrap
+  blocks.push(new Block({ x: 780, y: 3280, w: 20, h: 250, color: '#876466', visible: true }, { isStatic: true, angle: -Math.PI * 0.65 }))
+
+  blocks.push(new Block({ x: 1035, y: 3250, w: 20, h: 850, color: '#876466', visible: false }, { isStatic: true, angle: Math.PI/2, label: "wrap-block" }))
 
   //fallende Kästchen
-  blocks.push(new Block({ x: 550, y: 3500, w: 50, h: 50, color: '#EEAD0E', visible: true }, { isStatic: true, airFriction: 0.15, density: 500, label: "fall" }))
-  blocks.push(new Block({ x: 500, y: 3510, w: 50, h: 50, color: '#EEAD0E', visible: true }, { isStatic: true, airFriction: 0.15, density: 500, label: "fall" }))
-  blocks.push(new Block({ x: 450, y: 3520, w: 50, h: 50, color: '#EEAD0E', visible: true }, { isStatic: true, airFriction: 0.15, density: 500, label: "fall" }))
-  blocks.push(new Block({ x: 400, y: 3530, w: 50, h: 50, color: '#EEAD0E', visible: true }, { isStatic: true, airFriction: 0.15, density: 500, label: "fall" }))
-
-  // blocks.push(new Block({ x: 550, y: 3300, w: 50, h: 50, color: '#EEAD0E', visible: true }, { isStatic: true, airFriction: 0.15, density: 500, label: "fall" }))
-  // blocks.push(new Block({ x: 500, y: 3310, w: 50, h: 50, color: '#EEAD0E', visible: true }, { isStatic: true, airFriction: 0.15, density: 500, label: "fall" }))
-  // blocks.push(new Block({ x: 450, y: 3320, w: 50, h: 50, color: '#EEAD0E', visible: true }, { isStatic: true, airFriction: 0.15, density: 500, label: "fall" }))
-  // blocks.push(new Block({ x: 400, y: 3330, w: 50, h: 50, color: '#EEAD0E', visible: true }, { isStatic: true, airFriction: 0.15, density: 500, label: "fall" }))
+  blocks.push(new Block({ x: 550, y: 3500, w: 50, h: 50, color: '#B9DEE7', visible: true }, { isStatic: true, airFriction: 0.15, density: 500, label: "fall" }))
+  blocks.push(new Block({ x: 500, y: 3510, w: 50, h: 50, color: '#B9DEE7', visible: true }, { isStatic: true, airFriction: 0.15, density: 500, label: "fall" }))
+  blocks.push(new Block({ x: 450, y: 3520, w: 50, h: 50, color: '#B9DEE7', visible: true }, { isStatic: true, airFriction: 0.15, density: 500, label: "fall" }))
+  blocks.push(new Block({ x: 400, y: 3530, w: 50, h: 50, color: '#B9DEE7', visible: true }, { isStatic: true, airFriction: 0.15, density: 500, label: "fall" }))
 
   //ground-transparent
-  blocks.push(new Block({ x: 380, y: 4070, w: 235, h: 20, color: 'black', visible: true }, { isStatic: true }))
-  blocks.push(new Block({ x: 355, y: 4050, w: 50, h: 15, color: 'black', visible: true }, { isStatic: true, angle: PI / 2 }))
-  blocks.push(new Block({ x: 590, y: 4050, w: 50, h: 15, color: 'black', visible: true }, { isStatic: true, angle: PI / 2 }))
+  blocks.push(new Block({ x: 380, y: 4070, w: 235, h: 20, color: 'black', visible: false }, { isStatic: true }))
+  blocks.push(new Block({ x: 355, y: 4050, w: 50, h: 15, color: 'black', visible: false }, { isStatic: true, angle: PI / 2 }))
+  blocks.push(new Block({ x: 590, y: 4050, w: 50, h: 15, color: 'black', visible: false }, { isStatic: true, angle: PI / 2 }))
 
   //Propeller Section
 
   //Röhren (links-rechts)
-  blocks.push(new Block({ x: 80, y: 3810, w: 290, h: 20, color: '#4F4850', visible: true }, { isStatic: true, angle: PI / 2 }))
-  blocks.push(new Block({ x: 220, y: 3800, w: 290, h:20, color: '#4F4850', visible: true }, { isStatic: true, angle: PI / 2 }))
+  blocks.push(new Block({ x: 80, y: 3810, w: 290, h: 20, color: '#876466', visible: true }, { isStatic: true, angle: PI / 2 }))
+  blocks.push(new Block({ x: 220, y: 3800, w: 290, h:20, color: '#876466', visible: true }, { isStatic: true, angle: PI / 2 }))
 
   //drehende Platten
-  blocks.push(new Block({ x: 280, y: 3755, w: 38, h: 38, color: '#B9DEE7', visible: true }, { isStatic: false }))
-  blocks.push(new Block({ x: 280, y: 3875, w: 38, h: 38, color: '#B9DEE7', visible: true }, { isStatic: false }))
+  blocks.push(new Block({ x: 280, y: 3755, w: 40, h: 40, color: '#8A4F53', visible: true }, { isStatic: false }))
+  blocks.push(new Block({ x: 260, y: 3875, w: 40, h: 40, color: '#8A4F53', visible: true }, { isStatic: false }))
 
   //rest blocks
-  blocks.push(new Block({ x: 200, y: 3990, w: 100, h: 20, color: '#4F4850', visible: true }, { isStatic: true, angle: Math.PI * 0.30 }))
-  blocks.push(new Block({ x: 280, y: 4020, w: 100, h: 20, color: '#4F4850', visible: true }, { isStatic: true }))
+  blocks.push(new Block({ x: 200, y: 3990, w: 100, h: 20, color: '#876466', visible: true }, { isStatic: true, angle: Math.PI * 0.30 }))
+  blocks.push(new Block({ x: 275, y: 4025, w: 110, h: 20, color: '#876466', visible: true }, { isStatic: true }))
 
   //Funktion für drehende Platten
-  blocks.slice(31, 34).forEach((block, i) => {
+  blocks.slice(31, 35).forEach((block, i) => {
     let constraint = Matter.Constraint.create({
       bodyA: block.body,
       pointB: { x: block.body.position.x, y: block.body.position.y }
@@ -286,53 +276,52 @@ function setup() {
   //CODE: KNÖPFE
 
   //durchichtiger block
-  blocks.push(new Block({ x: 740, y: 3800, w: 150, h: 200, color: '#4A2A2F', visible: true }, { isStatic: true, label: "kasten" }))
+  blocks.push(new Block({ x: 740, y: 3850, w: 150, h: 200, color: '#4A2A2F', visible: true }, { isStatic: true, angle: Math.PI * 0.01, label: "kasten" }))
 
   //bunte Knöpfe
-  blocks.push(new Block({ x: 980, y: 3980, w: 50, h: 20, color: '#34E0EB', visible: true }, { isStatic: true, label: "knopf1" }))
-  blocks.push(new Block({ x: 1060, y: 3985, w: 50, h: 20, color: '#A975FF', visible: true }, { isStatic: true, label: "knopf2" }))
-  blocks.push(new Block({ x: 1150, y: 3985, w: 50, h: 20, color: '#EEAD0E', visible: true }, { isStatic: true, label: "knopf3" }))
+  blocks.push(new Block({ x: 980, y: 4000, w: 120, h: 50, color: '#34E0EB', visible: false }, { isStatic: true, angle: Math.PI * 0.01, label: "knopf1" }))
+  blocks.push(new Block({ x: 1200, y: 4010, w: 120, h:50, color: '#EEAD0E', visible: false }, { isStatic: true, angle: Math.PI * 0.01, label: "knopf3" }))
 
   //ground-floor
-  blocks.push(new Block({ x: 615, y: 4000, w: 900, h: 25, color: '#4F4850', visible: true }, { isStatic: true, density: 5 }))
+  blocks.push(new Block({ x: 615, y: 4050, w: 900, h: 25, color: '#876466', visible: true }, { isStatic: true, density: 5, angle: Math.PI * 0.01 }))
 
   // untere Klappen-Stack
-  blocks.push(new Block({ x: 180, y: 4460, w: 1290, h: 20, color: 'black', visible: true }, { isStatic: true }))
+  blocks.push(new Block({ x: 180, y: 4460, w: 1290, h: 20, color: '#876466', visible: true }, { isStatic: true }))
 
   // Composites.stack(x,y, anzahl pro zeile, anzahl pro spalte, abstand x, abstand y)
-  bullets = Composites.stack(180, 4315, 31, 3, 1, 1, function(x, y) { return Bodies.circle(x, y, 23) });
+  bullets = Composites.stack(180, 4315, 50, 3, 1, 1, function(x, y) { return Bodies.circle(x, y, 23) });
 
   // CODE: VIELE DREHENDE PLATTEN
 
   //1.Reihe
-  blocks.push(new Block({ x: 300, y: 4700, w: 80, h: 80, color: '#32f4da', visible: true }, { isStatic: false }))
-  blocks.push(new Block({ x: 300, y: 4900, w: 80, h: 80, color: '#32f4da', visible: true }, { isStatic: false }))
-  blocks.push(new Block({ x: 300, y: 5100, w: 80, h: 80, color: '#32f4da', visible: true }, { isStatic: false }))
-  blocks.push(new Block({ x: 300, y: 5300, w: 80, h: 80, color: '#32f4da', visible: true }, { isStatic: false }))
+  blocks.push(new Block({ x: 300, y: 4700, w: 80, h: 80, color: '#876466', visible: true }, { isStatic: false }))
+  blocks.push(new Block({ x: 300, y: 4900, w: 80, h: 80, color: '#876466', visible: true }, { isStatic: false }))
+  blocks.push(new Block({ x: 300, y: 5100, w: 80, h: 80, color: '#876466', visible: true }, { isStatic: false }))
+  blocks.push(new Block({ x: 300, y: 5300, w: 80, h: 80, color: '#876466', visible: true }, { isStatic: false }))
 
   //2.Reihe
-  blocks.push(new Block({ x: 530, y: 4800, w: 80, h: 80, color: '#C879FF', visible: true }, { isStatic: false, angle: Math.PI / 4 }))
-  blocks.push(new Block({ x: 530, y: 5000, w: 80, h: 80, color: '#C879FF', visible: true }, { isStatic: false, angle: Math.PI / 4 }))
-  blocks.push(new Block({ x: 530, y: 5200, w: 80, h: 80, color: '#C879FF', visible: true }, { isStatic: false, angle: Math.PI / 4 }))
-  blocks.push(new Block({ x: 530, y: 5400, w: 80, h: 80, color: '#C879FF', visible: true }, { isStatic: false, angle: Math.PI / 4 }))
+  blocks.push(new Block({ x: 530, y: 4800, w: 80, h: 80, color: '#8A4F53', visible: true }, { isStatic: false, angle: Math.PI / 4 }))
+  blocks.push(new Block({ x: 530, y: 5000, w: 80, h: 80, color: '#8A4F53', visible: true }, { isStatic: false, angle: Math.PI / 4 }))
+  blocks.push(new Block({ x: 530, y: 5200, w: 80, h: 80, color: '#8A4F53', visible: true }, { isStatic: false, angle: Math.PI / 4 }))
+  blocks.push(new Block({ x: 530, y: 5400, w: 80, h: 80, color: '#8A4F53', visible: true }, { isStatic: false, angle: Math.PI / 4 }))
 
   //3.Reihe
-  blocks.push(new Block({ x: 760, y: 4700, w: 80, h: 80, color: '#32f4da', visible: true }, { isStatic: false }))
-  blocks.push(new Block({ x: 760, y: 4900, w: 80, h: 80, color: '#32f4da', visible: true }, { isStatic: false }))
-  blocks.push(new Block({ x: 760, y: 5100, w: 80, h: 80, color: '#32f4da', visible: true }, { isStatic: false }))
-  blocks.push(new Block({ x: 760, y: 5300, w: 80, h: 80, color: '#32f4da', visible: true }, { isStatic: false }))
+  blocks.push(new Block({ x: 760, y: 4700, w: 80, h: 80, color: '#876466', visible: true }, { isStatic: false }))
+  blocks.push(new Block({ x: 760, y: 4900, w: 80, h: 80, color: '#876466', visible: true }, { isStatic: false }))
+  blocks.push(new Block({ x: 760, y: 5100, w: 80, h: 80, color: '#876466', visible: true }, { isStatic: false }))
+  blocks.push(new Block({ x: 760, y: 5300, w: 80, h: 80, color: '#876466', visible: true }, { isStatic: false }))
 
   //4.Reihe
-  blocks.push(new Block({ x: 1020, y: 4800, w: 80, h: 80, color: '#C879FF', visible: true }, { isStatic: false, angle: Math.PI / 4 }))
-  blocks.push(new Block({ x: 1020, y: 5000, w: 80, h: 80, color: '#C879FF', visible: true }, { isStatic: false, angle: Math.PI / 4 }))
-  blocks.push(new Block({ x: 1020, y: 5200, w: 80, h: 80, color: '#C879FF', visible: true }, { isStatic: false, angle: Math.PI / 4 }))
-  blocks.push(new Block({ x: 1020, y: 5400, w: 80, h: 80, color: '#C879FF', visible: true }, { isStatic: false, angle: Math.PI / 4 }))
+  blocks.push(new Block({ x: 1020, y: 4800, w: 80, h: 80, color: '#8A4F53', visible: true }, { isStatic: false, angle: Math.PI / 4 }))
+  blocks.push(new Block({ x: 1020, y: 5000, w: 80, h: 80, color: '#8A4F53', visible: true }, { isStatic: false, angle: Math.PI / 4 }))
+  blocks.push(new Block({ x: 1020, y: 5200, w: 80, h: 80, color: '#8A4F53', visible: true }, { isStatic: false, angle: Math.PI / 4 }))
+  blocks.push(new Block({ x: 1020, y: 5400, w: 80, h: 80, color: '#8A4F53', visible: true }, { isStatic: false, angle: Math.PI / 4 }))
 
   //5.Reihe
-  blocks.push(new Block({ x: 1220, y: 4700, w: 80, h: 80, color: '#32f4da', visible: true }, { isStatic: false }))
-  blocks.push(new Block({ x: 1220, y: 4900, w: 80, h: 80, color: '#32f4da', visible: true }, { isStatic: false }))
-  blocks.push(new Block({ x: 1220, y: 5100, w: 80, h: 80, color: '#32f4da', visible: true }, { isStatic: false }))
-  blocks.push(new Block({ x: 1220, y: 5300, w: 80, h: 80, color: '#32f4da', visible: true }, { isStatic: false }))
+  blocks.push(new Block({ x: 1220, y: 4700, w: 80, h: 80, color: '#876466', visible: true }, { isStatic: false }))
+  blocks.push(new Block({ x: 1220, y: 4900, w: 80, h: 80, color: '#876466', visible: true }, { isStatic: false }))
+  blocks.push(new Block({ x: 1220, y: 5100, w: 80, h: 80, color: '#876466', visible: true }, { isStatic: false }))
+  blocks.push(new Block({ x: 1220, y: 5300, w: 80, h: 80, color: '#876466', visible: true }, { isStatic: false }))
 
   //Funktion für drehende Platten
   blocks.slice(38, 65).forEach((block, i) => {
@@ -341,11 +330,11 @@ function setup() {
   });
 
   //Trichter
-  blocks.push(new Block({ x: 150, y: 5790, w: 680, h: 20, color: '#4F4850', visible: true }, { isStatic: true, angle: Math.PI * 2.11 }))
-  blocks.push(new Block({ x: 850, y: 5815, w: 650, h: 20, color: '#4F4850', visible: true }, { isStatic: true, angle: Math.PI * 2.91 }))
+  blocks.push(new Block({ x: 180, y: 5790, w: 650, h: 20, color: '#876466', visible: true }, { isStatic: true, angle: Math.PI * 2.11 }))
+  blocks.push(new Block({ x: 850, y: 5815, w: 650, h: 20, color: '#876466', visible: true }, { isStatic: true, angle: Math.PI * 2.91 }))
 
   //Portal
-  portal = balls.push(new Ball({ x: 840, y: 6400, color: '#4F4850', size: 200, position: { x: 10, y: 1500 } }, { isStatic: true, restitution: 0.5 }))
+  portal = balls.push(new Ball({ x: 840, y: 6400, color: '#876466', size: 200, position: { x: 10, y: 1500 } }, { isStatic: true, restitution: 0.5 }))
 
   // Balken zum Orientierung
   blocks.push(new Block({ x: 1440, y: 0, w: 30, h: 7000, color: 'black', visible: true }, { isStatic: true }))
@@ -359,6 +348,11 @@ function setup() {
     const pairs = event.pairs[0];
     const bodyA = pairs.bodyA;
     const bodyB = pairs.bodyB;
+
+    //wrap
+    console.log('wrap')
+    if (bodyA.label === "murmel" && bodyB.label === "wrap-block"){
+    Matter.Body.setPosition(balls[0].body, {x: 1225, y:3000})}
 
     //Controls collision with durchsichtigem Block
     if (bodyA.label === "murmel" && bodyB.label === "kasten") {
@@ -374,26 +368,18 @@ function setup() {
       knopfCount --
       Matter.World.remove(engine.world, bodyB)
       if (knopfCount === 0) {
-        blocks[42].visible = false
-        Matter.World.remove (engine.world, blocks[43])
+        blocks[41].visible = false
+        Matter.World.remove (engine.world, blocks[41])
       }
     }
-    if (bodyA.label === "murmel" && balls[0].color == '#A975FF' && bodyB.label === "knopf2") {
+
+    if (bodyA.label === "murmel" && balls[0].color == '#EEAD0E' && bodyB.label === "knopf3") {
       blocks[39].visible = false
       knopfCount --
       Matter.World.remove(engine.world, bodyB)
       if (knopfCount === 0) {
-        blocks[42].visible = false
-        Matter.World.remove (engine.world, blocks[43])
-      }
-    }
-    if (bodyA.label === "murmel" && balls[0].color == '#C879FF' && bodyB.label === "knopf3") {
-      blocks[40].visible = false
-      knopfCount --
-      Matter.World.remove(engine.world, bodyB)
-      if (knopfCount === 0) {
-        blocks[42].visible = false
-        Matter.World.remove (engine.world, blocks[43])
+        blocks[41].visible = false
+        Matter.World.remove (engine.world, blocks[41])
       }
     }
 
@@ -407,12 +393,13 @@ function setup() {
     if (bodyA.label === "murmel" && balls[0].color == '#34E0EB' && bodyB.label === "hürde1") {
       Matter.World.remove(engine.world, bodyB)
     }
-    //Lila
-    if (bodyA.label === "murmel" && balls[0].color == '#A975FF' && bodyB.label === "hürde2") {
+    //Orange
+    if (bodyA.label === "murmel" && balls[0].color == '#EEAD0E' && bodyB.label === "hürde2") {
       Matter.World.remove(engine.world, bodyB)
       }
-    //Orange
-    if (bodyA.label === "murmel" && balls[0].color == '#EEAD0E' && bodyB.label === "balken") {
+
+    //Small türkis block
+    if (bodyA.label === "murmel" && balls[0].color == '#34E0EB' && bodyB.label === "balken") {
       Matter.World.remove(engine.world, bodyB)
     }
   });
@@ -425,14 +412,13 @@ function setup() {
   // });
 }
 
-
 function draw() {
   clear()
 
   //TRANSPORTMITTEL
-  Matter.Body.setPosition(blocks[19].body, { x: 964 + Math.sin(frameCount/100) * 400, y: 3280 })
-  Matter.Body.setPosition(blocks[20].body, { x: 1164 + Math.sin(frameCount/100) * 400, y: 3280 })
-  Matter.Body.setPosition(blocks[21].body, { x: 1064 + Math.sin(frameCount/100) * 400, y: 3300 })
+  Matter.Body.setPosition(blocks[19].body, { x: 1050 + Math.sin(frameCount/100) * 300, y: 3240 })
+  Matter.Body.setPosition(blocks[20].body, { x: 1250 + Math.sin(frameCount/100) * 300, y: 3240 })
+  Matter.Body.setPosition(blocks[21].body, { x: 1150 + Math.sin(frameCount/100) * 300, y: 3260 })
 
   //pendel
   stroke(128);
