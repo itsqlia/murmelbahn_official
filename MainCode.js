@@ -121,7 +121,7 @@ function setup() {
   //CODE: BALL
   portalSound = loadSound("lib/PortalWhoosh.mp3")
 
-  balls.push(new Ball({ x:800, y: 3000, color: 'FFFFFF', size: 45, position: { x: 10, y: 1500 } }, { isStatic: false, density: 5, restitution: 0.3, friction: -0.01, label: "murmel" }))
+  balls.push(new Ball({ x:250, y: 0, color: 'FFFFFF', size: 45, position: { x: 10, y: 1500 } }, { isStatic: false, density: 5, restitution: 0.3, friction: -0.01, label: "murmel" }))
 
   // CODE: WOlKEN
 
@@ -149,16 +149,11 @@ function setup() {
   }
   blocks.push(new Block({ x: 650, y: 1060, w: 30, h: 30, color: '#341B28', visible: true }, { isStatic: true }))
 
-  //Boden
-  blocks.push(new Block({ x: 200, y: 625, w: 900, h: 40, color: '#E3BB7C', visible: true }, { isStatic: true }))
-
-  blocks.push(new Block({ x: 1350, y: 625, w: 100, h: 40, color: '#E3BB7C', visible: true }, { isStatic: true }))
-
-  //Klappe
-  blocks.push(new Block({ x: 1100, y: 625, w: 250, h: 40, color: '#EEAD0E', visible: true }, { isStatic: true, label: 'klappe' }))
-
+  //Boden + Klappe
   blocks.push(new Block({ x: 900, y: 585, w: 100, h: 40, color: '#EEAD0E', visible: true, chgStatic: true }, { isStatic: true, airFriction: 0.15, density: 500, label: 'auslöser' }))
-
+  blocks.push(new Block({ x: 200, y: 625, w: 900, h: 40, color: '#E3BB7C', visible: true }, { isStatic: true }))
+  blocks.push(new Block({ x: 1350, y: 625, w: 100, h: 40, color: '#E3BB7C', visible: true }, { isStatic: true }))
+  blocks.push(new Block({ x: 1100, y: 625, w: 250, h: 40, color: '#EEAD0E', visible: true }, { isStatic: true, label: 'klappe' }))
 
   pendel = Matter.Bodies.circle(400, 950, 60, 30), {
     isStatic: false,
@@ -220,20 +215,20 @@ function setup() {
   blocks.push(new Block({ x: 1064, y: 3285, w: 30, h: 210, color: '#876466', visible: true }, { isStatic: true, angle: -Math.PI * 2.5 }))
 
   //schräge schiene + wrap
-  blocks.push(new Block({ x: 780, y: 3280, w: 20, h: 250, color: '#876466', visible: true }, { isStatic: true, angle: -Math.PI * 0.65 }))
+  blocks.push(new Block({ x: 750, y: 3280, w: 20, h: 260, color: '#876466', visible: true }, { isStatic: true, angle: -Math.PI * 0.65 }))
 
   blocks.push(new Block({ x: 1035, y: 3250, w: 20, h: 850, color: '#876466', visible: false }, { isStatic: true, angle: Math.PI/2, label: "wrap-block" }))
 
   //fallende Kästchen
-  blocks.push(new Block({ x: 550, y: 3500, w: 50, h: 50, color: '#B9DEE7', visible: true }, { isStatic: true, airFriction: 0.15, density: 500, label: "fall" }))
-  blocks.push(new Block({ x: 500, y: 3510, w: 50, h: 50, color: '#B9DEE7', visible: true }, { isStatic: true, airFriction: 0.15, density: 500, label: "fall" }))
-  blocks.push(new Block({ x: 450, y: 3520, w: 50, h: 50, color: '#B9DEE7', visible: true }, { isStatic: true, airFriction: 0.15, density: 500, label: "fall" }))
-  blocks.push(new Block({ x: 400, y: 3530, w: 50, h: 50, color: '#B9DEE7', visible: true }, { isStatic: true, airFriction: 0.15, density: 500, label: "fall" }))
+  blocks.push(new Block({ x: 550, y: 3500, w: 50, h: 50, color: '#B9DEE7', visible: true }, { isStatic: true, airFriction: 0.15, density: 1000, label: "fall" }))
+  blocks.push(new Block({ x: 500, y: 3510, w: 50, h: 50, color: '#B9DEE7', visible: true }, { isStatic: true, airFriction: 0.15, density: 1000, label: "fall" }))
+  blocks.push(new Block({ x: 450, y: 3520, w: 50, h: 50, color: '#B9DEE7', visible: true }, { isStatic: true, airFriction: 0.15, density: 1000, label: "fall" }))
+  blocks.push(new Block({ x: 400, y: 3530, w: 50, h: 50, color: '#B9DEE7', visible: true }, { isStatic: true, airFriction: 0.15, density: 1000, label: "fall" }))
 
   //ground-transparent
-  blocks.push(new Block({ x: 380, y: 4070, w: 235, h: 20, color: 'black', visible: false }, { isStatic: true }))
-  blocks.push(new Block({ x: 355, y: 4050, w: 50, h: 15, color: 'black', visible: false }, { isStatic: true, angle: PI / 2 }))
-  blocks.push(new Block({ x: 590, y: 4050, w: 50, h: 15, color: 'black', visible: false }, { isStatic: true, angle: PI / 2 }))
+  blocks.push(new Block({ x: 380, y: 4080, w: 235, h: 20, color: 'black', visible: true }, { isStatic: true }))
+  blocks.push(new Block({ x: 355, y: 4060, w: 50, h: 15, color: 'black', visible: true }, { isStatic: true, angle: PI / 2 }))
+  blocks.push(new Block({ x: 590, y: 4060, w: 50, h: 15, color: 'black', visible: true }, { isStatic: true, angle: PI / 2 }))
 
   //Propeller Section
 
@@ -390,8 +385,9 @@ function setup() {
 
     //Klappe oben
     if (bodyA.label === "murmel" && bodyB.label === "auslöser") {
-    blocks[3].visible = false
-    Matter.World.remove(engine.world, blocks[3].body)
+    blocks[4].visible = false
+    Matter.World.remove(engine.world, blocks[4].body)
+    Matter.Body.setPosition(blocks[1].body, {x: 950, y:625})
     }
 
   });
