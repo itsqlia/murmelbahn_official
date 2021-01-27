@@ -93,7 +93,7 @@ function keyPressed() {
             y: balls[0].body.position.y
           }, {
             x: (250 * direction) + balls[0].body.velocity.x / 100,
-            y: -200
+            y: -300
           }
         );
         console.log('Taste 2')
@@ -121,7 +121,7 @@ function setup() {
   //CODE: BALL
   portalSound = loadSound("lib/PortalWhoosh.mp3")
 
-  balls.push(new Ball({ x:250, y: 0, color: 'FFFFFF', size: 45, position: { x: 10, y: 1500 } }, { isStatic: false, density: 5, restitution: 0.3, friction: -0.01, label: "murmel" }))
+  balls.push(new Ball({ x:250, y: 0, color: 'FFFFFF', size: 45, position: { x: 10, y: 1500 } }, { isStatic: false, density: 5, restitution: 0.3, friction: -0.07, label: "murmel" }))
 
   // CODE: WOlKEN
 
@@ -145,9 +145,9 @@ function setup() {
   //Schanze
   let schanzeElem = document.getElementById('schanze1');
   if (null != schanzeElem) {
-    schanzen.push(bodyFromPath(schanzeElem, 1200, 1000, 1.25, { color: 'white', visible: true, isStatic: true }));
+    schanzen.push(bodyFromPath(schanzeElem, 1200, 1080, 1.25, { color: 'white', visible: true, isStatic: true }));
   }
-  blocks.push(new Block({ x: 650, y: 1060, w: 30, h: 30, color: '#341B28', visible: true }, { isStatic: true }))
+//  blocks.push(new Block({ x: 650, y: 1060, w: 30, h: 30, color: '#341B28', visible: true }, { isStatic: true }))
 
   //Boden + Klappe
   blocks.push(new Block({ x: 900, y: 585, w: 100, h: 40, color: '#EEAD0E', visible: true, chgStatic: true }, { isStatic: true, airFriction: 0.15, density: 500, label: 'auslöser' }))
@@ -155,23 +155,23 @@ function setup() {
   blocks.push(new Block({ x: 1350, y: 625, w: 100, h: 40, color: '#E3BB7C', visible: true }, { isStatic: true }))
   blocks.push(new Block({ x: 1100, y: 625, w: 250, h: 40, color: '#EEAD0E', visible: true }, { isStatic: true, label: 'klappe' }))
 
-  pendel = Matter.Bodies.circle(400, 950, 60, 30), {
+  pendel = Matter.Bodies.circle(900, 1020, 80), {
     isStatic: false,
     density: 0.5
   };
 
   constraint2 = Constraint.create({
-    pointA: { x: 500, y: 650 },
+    pointA: { x: 900, y: 650 },
     bodyB: pendel,
     pointB: { x: 0, y: 0 }
   });
   World.add(engine.world, [pendel, constraint2]);
 
-  Matter.Events.on(engine, 'beforeUpdate', function(event) {
-//console.log(balls[0])
-      attract(balls[0])
+//   Matter.Events.on(engine, 'beforeUpdate', function(event) {
+// //console.log(balls[0])
+//       attract(balls[0])
 
-  })
+  // })
 
   //CODE: FARBIGE BALKEN
 
@@ -385,9 +385,9 @@ function setup() {
 
     //Klappe oben
     if (bodyA.label === "murmel" && bodyB.label === "auslöser") {
-    blocks[4].visible = false
-    Matter.World.remove(engine.world, blocks[4].body)
-    Matter.Body.setPosition(blocks[1].body, {x: 950, y:625})
+    blocks[3].visible = false
+    Matter.World.remove(engine.world, blocks[3].body)
+    Matter.Body.setPosition(blocks[0].body, {x: 950, y:625})
     }
 
   });
@@ -404,9 +404,9 @@ function draw() {
   clear()
 
   //TRANSPORTMITTEL
-  Matter.Body.setPosition(blocks[19].body, { x: 1050 + Math.sin(frameCount/100) * 300, y: 3240 })
-  Matter.Body.setPosition(blocks[20].body, { x: 1250 + Math.sin(frameCount/100) * 300, y: 3240 })
-  Matter.Body.setPosition(blocks[21].body, { x: 1150 + Math.sin(frameCount/100) * 300, y: 3260 })
+  Matter.Body.setPosition(blocks[18].body, { x: 1050 + Math.sin(frameCount/100) * 300, y: 3240 })
+  Matter.Body.setPosition(blocks[19].body, { x: 1250 + Math.sin(frameCount/100) * 300, y: 3240 })
+  Matter.Body.setPosition(blocks[20].body, { x: 1150 + Math.sin(frameCount/100) * 300, y: 3260 })
 
   //pendel
   stroke(128);
@@ -418,13 +418,13 @@ function draw() {
   drawVertices(pendel.vertices);
 
 
-  if (frameCount % 120 == 0) {
-    let direction = 1; // circle runs left to right ->
+  if (frameCount % 80 == 0) {
+    let direction = 1.5; // circle runs left to right ->
     if ((pendel.position.x - pendel.positionPrev.x) < 0) {
-      direction = -1; // circle runs right to left <-
+      direction = -1.5; // circle runs right to left <-
     }
     Matter.Body.applyForce(
-      pendel, { x: pendel.position.x, y: pendel.position.y }, { x: (0.12 * direction) + pendel.velocity.x / 100, y: 0 });
+      pendel, { x: pendel.position.x, y: pendel.position.y }, { x: (0.52 * direction) + pendel.velocity.x / 100, y: 0 });
   }
   // attractorActive = true;
 
@@ -435,6 +435,9 @@ function draw() {
   //schanze
   fill('#341B28');
   schanzen.forEach(schanze => drawBody(schanze));
+
+  //Wasser
+
 
   //Blöcke
   blocks.forEach((block, i) => { block.show() });
@@ -468,21 +471,21 @@ function drawConstraint(constraint) {
 //   let force ={x:(portal.body.position.x- balls[0].body.position.x) *1e-6, y:(portal.body.position.y- balls[0].body.position.y) *1e-6}
 //   Body.applyForce(balls[0].body.position, force)}
 
-function attract(ball) {
-  if (isMagnetisch = true) {
-    let force = {
-      x: (pendel.position.x - ball.body.position.x) * 1e-3,
-      y: (pendel.position.y - ball.body.position.y) * 1e-3,
-    }
-    // console.log(force)
-    //Matter.Body.applyForce(ball, ball.position, Matter.Vector.neg(force));
-    Matter.Body.applyForce(ball.body, ball.body.position, force)
-  }
-}
-    // let collided = Matter.SAT.collides(balls[0], pendel);
-    //     if (collided.collided) {  Matter.World.remove(engine.world,balls[0]);
-    //     balls[0].color = "";
-    //      }
+// function attract(ball) {
+//   if (isMagnetisch = true) {
+//     let force = {
+//       x: (pendel.position.x - ball.body.position.x) * 1e-3,
+//       y: (pendel.position.y - ball.body.position.y) * 1e-3,
+//     }
+//     // console.log(force)
+//     //Matter.Body.applyForce(ball, ball.position, Matter.Vector.neg(force));
+//     Matter.Body.applyForce(ball.body, ball.body.position, force)
+//   }
+// }
+//     // let collided = Matter.SAT.collides(balls[0], pendel);
+//     //     if (collided.collided) {  Matter.World.remove(engine.world,balls[0]);
+//     //     balls[0].color = "";
+//     //      }
 
 function drawBodies(bodies) {
   for (let i = 0; i < bodies.length; i++) { drawVertices(bodies[i].vertices); }
