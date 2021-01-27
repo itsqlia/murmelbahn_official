@@ -121,7 +121,7 @@ function setup() {
   //CODE: BALL
   portalSound = loadSound("lib/PortalWhoosh.mp3")
 
-  balls.push(new Ball({ x:1300, y: 2000, color: 'FFFFFF', size: 45, position: { x: 10, y: 1500 } }, { isStatic: false, density: 5, restitution: 0.3, friction: -0.01, label: "murmel" }))
+  balls.push(new Ball({ x:500, y: 200, color: 'FFFFFF', size: 45, position: { x: 10, y: 1500 } }, { isStatic: false, density: 5, restitution: 0.3, friction: -0.01, label: "murmel" }))
 
   // CODE: WOlKEN
 
@@ -155,24 +155,9 @@ function setup() {
   blocks.push(new Block({ x: 1350, y: 625, w: 100, h: 40, color: '#E3BB7C', visible: true }, { isStatic: true }))
 
   //Klappe
-  blocks.push(new Block({ x: 1100, y: 625, w: 250, h: 40, color: '#EEAD0E', visible: true }, { isStatic: true }))
+  blocks.push(new Block({ x: 1100, y: 625, w: 250, h: 40, color: '#EEAD0E', visible: true }, { isStatic: true, label: 'klappe' }))
 
-  blocks.push(new Block({ x: 900, y: 585, w: 100, h: 40, color: '#EEAD0E', visible: true, chgStatic: true }, { isStatic: true, airFriction: 0.15, density: 500, label: "auslöser" }))
-
-  // klappe = Bodies.rectangle(1100, 625, 600, 20);
-  // constraint = Constraint.create({
-  //   pointA: {x: 400, y: 520},
-  //   bodyB: catapult,
-  //   stiffness: 1,
-  //   length: 0
-  // });
-  // World.add(engine.world, [klappe, constraint]);
-
-  // constraint1 = Constraint.create({
-  //   pointA: {x: 1100, y:625},
-  //   bodyB: blocks[2]
-  // });
-  // World.add(engine.world, constraint1);
+  blocks.push(new Block({ x: 900, y: 585, w: 100, h: 40, color: '#EEAD0E', visible: true, chgStatic: true }, { isStatic: true, airFriction: 0.15, density: 500, label: 'auslöser' }))
 
 
   pendel = Matter.Bodies.circle(400, 950, 60, 30), {
@@ -285,7 +270,7 @@ function setup() {
   //ground-floor
   blocks.push(new Block({ x: 615, y: 4050, w: 900, h: 25, color: '#876466', visible: true }, { isStatic: true, density: 5, angle: Math.PI * 0.01 }))
 
-  // untere Klappen-Stack
+  // untere Klappe-Stack
   blocks.push(new Block({ x: 180, y: 4460, w: 1290, h: 20, color: '#876466', visible: true }, { isStatic: true }))
 
   // Composites.stack(x,y, anzahl pro zeile, anzahl pro spalte, abstand x, abstand y)
@@ -402,6 +387,13 @@ function setup() {
     if (bodyA.label === "murmel" && balls[0].color == '#34E0EB' && bodyB.label === "balken") {
       Matter.World.remove(engine.world, bodyB)
     }
+
+    //Klappe oben
+    if (bodyA.label === "murmel" && bodyB.label === "auslöser") {
+    blocks[3].visible = false
+    Matter.World.remove(engine.world, blocks[3].body)
+    }
+
   });
   Matter.Engine.run(engine)
 
@@ -428,9 +420,6 @@ function draw() {
   noStroke(255);
   fill('#3BF4FB');
   drawVertices(pendel.vertices);
-
-  //Klappe
-  // drawConstraint1(constraint1);
 
 
   if (frameCount % 120 == 0) {
@@ -476,6 +465,7 @@ function drawConstraint(constraint) {
   if (constraint.bodyB) { posB = constraint.bodyB.position; }
   line(posA.x + offsetA.x, posA.y + offsetA.y, posB.x + offsetB.x, posB.y + offsetB.y);
 }
+
 
  //Portal
 // function attract(){
