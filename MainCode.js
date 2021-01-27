@@ -121,7 +121,7 @@ function setup() {
   //CODE: BALL
   portalSound = loadSound("lib/PortalWhoosh.mp3")
 
-  balls.push(new Ball({ x:500, y: 200, color: 'FFFFFF', size: 45, position: { x: 10, y: 1500 } }, { isStatic: false, density: 5, restitution: 0.3, friction: -0.01, label: "murmel" }))
+  balls.push(new Ball({ x:800, y: 3000, color: 'FFFFFF', size: 45, position: { x: 10, y: 1500 } }, { isStatic: false, density: 5, restitution: 0.3, friction: -0.01, label: "murmel" }))
 
   // CODE: WOlKEN
 
@@ -265,7 +265,7 @@ function setup() {
 
   //bunte Knöpfe
   blocks.push(new Block({ x: 980, y: 4000, w: 120, h: 50, color: '#34E0EB', visible: false }, { isStatic: true, angle: Math.PI * 0.01, label: "knopf1" }))
-  blocks.push(new Block({ x: 1200, y: 4010, w: 120, h:50, color: '#EEAD0E', visible: false }, { isStatic: true, angle: Math.PI * 0.01, label: "knopf3" }))
+  blocks.push(new Block({ x: 1200, y: 4010, w: 120, h:50, color: '#EEAD0E', visible: false }, { isStatic: true, angle: Math.PI * 0.01, label: "knopf2" }))
 
   //ground-floor
   blocks.push(new Block({ x: 615, y: 4050, w: 900, h: 25, color: '#876466', visible: true }, { isStatic: true, density: 5, angle: Math.PI * 0.01 }))
@@ -354,17 +354,17 @@ function setup() {
       Matter.World.remove(engine.world, bodyB)
       if (knopfCount === 0) {
         blocks[41].visible = false
-        Matter.World.remove (engine.world, blocks[41])
+        Matter.World.remove (engine.world, blocks[41].body)
       }
     }
 
-    if (bodyA.label === "murmel" && balls[0].color == '#EEAD0E' && bodyB.label === "knopf3") {
+    if (bodyA.label === "murmel" && balls[0].color == '#EEAD0E' && bodyB.label === "knopf2") {
       blocks[39].visible = false
       knopfCount --
       Matter.World.remove(engine.world, bodyB)
       if (knopfCount === 0) {
         blocks[41].visible = false
-        Matter.World.remove (engine.world, blocks[41])
+        Matter.World.remove (engine.world, blocks[41].body)
       }
     }
 
