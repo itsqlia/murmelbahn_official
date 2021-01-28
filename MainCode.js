@@ -17,6 +17,8 @@ let balls = []
 let collisions = []
 let wolken = []
 let schanzen = []
+let wasser = []
+let wasser2= []
 
 let bullets
 let spaceCount = +1
@@ -314,8 +316,19 @@ function setup() {
   blocks.push(new Block({ x: 850, y: 5815, w: 650, h: 20, color: '#876466', visible: true }, { isStatic: true, angle: Math.PI * 2.91 }))
 
   //Portal
-  portal = balls.push(new Ball({ x: 840, y: 6400, color: '#876466', size: 200, position: { x: 10, y: 1500 } }, { isStatic: true, restitution: 0.5 }))
+  //portal = balls.push(new Ball({ x: 840, y: 6400, color: '#876466', size: 200, position: { x: 10, y: 1500 } }, { isStatic: true, restitution: 0.5 }))
 
+//Wasser
+let wasserElem = document.getElementById('wasser');
+if (null != wasserElem){
+      wasser.push(bodyFromPath(wasserElem, 900, 6200, 1.0, {visible: true, isStatic: true, restitution: 5 }));
+      wasser.push(bodyFromPath(wasserElem, 900, 6600, 1.0, {visible: true, isStatic: true, restitution: 5 }));
+}
+let wasser2Elem = document.getElementById('wasser2');
+if (null != wasser2Elem){
+      wasser2.push(bodyFromPath(wasser2Elem, 900, 6300, 1.0, {visible: true, isStatic: true, restitution: 5 }));
+      wasser2.push(bodyFromPath(wasser2Elem, 900, 6500, 1.0, {visible: true, isStatic: true, restitution: 5 }));
+}
   // Balken zum Orientierung
   blocks.push(new Block({ x: 1440, y: 0, w: 30, h: 7000, color: 'black', visible: true }, { isStatic: true }))
   blocks.push(new Block({ x: 180, y: 0, w: 30, h: 7000, color: 'black', visible: true }, { isStatic: true }))
@@ -323,6 +336,7 @@ function setup() {
   Matter.World.add(engine.world, [bullets]);
   Matter.World.add(engine.world, wolken);
   Matter.World.add(engine.world, schanzen);
+  Matter.World.add(engine.world,wasser)
 
   Matter.Events.on(engine, 'collisionStart', function(event) {
     const pairs = event.pairs[0];
@@ -437,7 +451,12 @@ function draw() {
   schanzen.forEach(schanze => drawBody(schanze));
 
   //Wasser
+  fill('#094BA0')
+wasser.forEach(wasser => drawBody(wasser));
 
+//Wasser2
+fill('#6795DA')
+wasser2.forEach(wasser2 => drawBody(wasser2));
 
   //Blöcke
   blocks.forEach((block, i) => { block.show() });
