@@ -95,7 +95,7 @@ function keyPressed() {
             y: balls[0].body.position.y
           }, {
             x: (250 * direction) + balls[0].body.velocity.x / 100,
-            y: -300
+            y: -200
           }
         );
         console.log('Taste 2')
@@ -219,7 +219,7 @@ function setup() {
   //schräge schiene + wrap
   blocks.push(new Block({ x: 750, y: 3280, w: 20, h: 260, color: '#876466', visible: true }, { isStatic: true, angle: -Math.PI * 0.65 }))
 
-  blocks.push(new Block({ x: 1035, y: 3250, w: 20, h: 850, color: '#876466', visible: false }, { isStatic: true, angle: Math.PI/2, label: "wrap-block" }))
+  blocks.push(new Block({ x: 1035, y: 3200, w: 20, h: 850, color: '#876466', visible: false }, { isStatic: true, angle: Math.PI/2, label: "wrap-block" }))
 
   //fallende Kästchen
   blocks.push(new Block({ x: 550, y: 3500, w: 50, h: 50, color: '#B9DEE7', visible: true }, { isStatic: true, airFriction: 0.15, density: 1000, label: "fall" }))
@@ -350,30 +350,33 @@ if (null != wasser2Elem){
 
     //Controls collision with durchsichtigem Block
     if (bodyA.label === "murmel" && bodyB.label === "kasten") {
-    blocks[37].visible = false
+    blocks[36].visible = false
     Matter.World.remove(engine.world, bodyB)
+    blocks[37].visible = true
     blocks[38].visible = true
-    blocks[39].visible = true
-    blocks[40].visible = true
     }
     // Controls collision with Knöpfe
     if (bodyA.label === "murmel" && balls[0].color == '#34E0EB' && bodyB.label === "knopf1") {
-      blocks[38].visible = false
-      knopfCount --
-      Matter.World.remove(engine.world, bodyB)
+      if (bodyA.color === bodyB.color) {
+        blocks[37].visible = false
+        knopfCount --
+        Matter.World.remove(engine.world, bodyB)
+      }
       if (knopfCount === 0) {
-        blocks[41].visible = false
-        Matter.World.remove (engine.world, blocks[41].body)
+        blocks[40].visible = false
+        Matter.World.remove (engine.world, blocks[40].body)
       }
     }
 
     if (bodyA.label === "murmel" && balls[0].color == '#EEAD0E' && bodyB.label === "knopf2") {
-      blocks[39].visible = false
-      knopfCount --
-      Matter.World.remove(engine.world, bodyB)
+      if(bodyA.color === bodyB.color) {
+        blocks[38].visible = false
+        knopfCount --
+        Matter.World.remove(engine.world, bodyB)
+      }
       if (knopfCount === 0) {
-        blocks[41].visible = false
-        Matter.World.remove (engine.world, blocks[41].body)
+        blocks[40].visible = false
+        Matter.World.remove (engine.world, blocks[40].body)
       }
     }
 
