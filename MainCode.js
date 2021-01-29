@@ -79,6 +79,7 @@ class Ball {
   }
 };
 
+
 function keyPressed() {
 
   //Enter-Tastatur
@@ -357,11 +358,9 @@ if (null != wasser2Elem){
     }
     // Controls collision with Knöpfe
     if (bodyA.label === "murmel" && balls[0].color == '#34E0EB' && bodyB.label === "knopf1") {
-      if (bodyA.color === bodyB.color) {
         blocks[37].visible = false
         knopfCount --
         Matter.World.remove(engine.world, bodyB)
-      }
       if (knopfCount === 0) {
         blocks[40].visible = false
         Matter.World.remove (engine.world, blocks[40].body)
@@ -369,11 +368,9 @@ if (null != wasser2Elem){
     }
 
     if (bodyA.label === "murmel" && balls[0].color == '#EEAD0E' && bodyB.label === "knopf2") {
-      if(bodyA.color === bodyB.color) {
         blocks[38].visible = false
         knopfCount --
         Matter.World.remove(engine.world, bodyB)
-      }
       if (knopfCount === 0) {
         blocks[40].visible = false
         Matter.World.remove (engine.world, blocks[40].body)
@@ -401,7 +398,7 @@ if (null != wasser2Elem){
     }
 
     //Klappe oben
-    if (bodyA.label === "murmel" && bodyB.label === "auslöser") {
+    if (bodyA.label === "murmel" && balls[0].color == '#EEAD0E' && bodyB.label === "auslöser") {
     blocks[3].visible = false
     Matter.World.remove(engine.world, blocks[3].body)
     Matter.Body.setPosition(blocks[0].body, {x: 950, y:625})
@@ -419,6 +416,9 @@ if (null != wasser2Elem){
 
 function draw() {
   clear()
+
+  // // follow the ball by scrolling the window
+  // scrollFollow(balls[0]);
 
   //TRANSPORTMITTEL
   Matter.Body.setPosition(blocks[18].body, { x: 1050 + Math.sin(frameCount/100) * 300, y: 3240 })
@@ -471,6 +471,13 @@ wasser2.forEach(wasser2 => drawBody(wasser2));
 
 }
 
+// function keyPressed(e) {
+//   // prevent scrolling of website with SPACE key
+//   if(e.keyCode == 32 && e.target == document.body) {
+//     e.preventDefault();
+//   }
+// }
+
 function bodyFromPath(path, x, y, scale, options) {
   let body = Matter.Bodies.fromVertices(0, 0, Matter.Vertices.scale(Matter.Svg.pathToVertices(path, 10), scale, scale), options);
   Matter.Body.setPosition(body, { x: x, y: y });
@@ -522,6 +529,32 @@ function drawBody(body) {
     } else { drawVertices(body.vertices) }
   }
 }
+
+// let $
+// function scrollFollow(matterObj) {
+//   if (insideViewport(matterObj) == false) {
+//     const $element = $('html, body');
+//     if (element.is(':animated') == false) {
+//       $element.animate({
+//         scrollLeft: balls[0].body.position.x,
+//         scrollTop: balls[0].body.position.y
+//       }, 1000);
+//     }
+//   }
+// }
+
+// function insideViewport(matterObj) {
+//   const x = balls[0].body.position.x;
+//   const y = balls[0].body.position.y;
+//   const pageXOffset = window.pageXOffset || document.documentElement.scrollLeft;
+//   const pageYOffset  = window.pageYOffset || document.documentElement.scrollTop;
+//   if (x >= pageXOffset && x <= pageXOffset + windowWidth &&
+//       y >= pageYOffset && y <= pageYOffset + windowHeight) {
+//     return true;
+//   } else {
+//     return false;
+//   }
+// }
 
 function drawVertices(vertices) {
   beginShape()
