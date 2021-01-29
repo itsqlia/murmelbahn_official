@@ -95,7 +95,7 @@ function keyPressed() {
             y: balls[0].body.position.y
           }, {
             x: (250 * direction) + balls[0].body.velocity.x / 100,
-            y: -300
+            y: -200
           }
         );
         console.log('Taste 2')
@@ -118,27 +118,27 @@ function keyPressed() {
 
 function setup() {
   engine = Matter.Engine.create()
-  let canvas = createCanvas(1480, 7000)
+  let canvas = createCanvas(1580, 7000)
 
   //CODE: BALL
   portalSound = loadSound("lib/PortalWhoosh.mp3")
 
-  balls.push(new Ball({ x:250, y: 0, color: 'FFFFFF', size: 45, position: { x: 10, y: 1500 } }, { isStatic: false, density: 5, restitution: 0.3, friction: -0.07, label: "murmel" }))
+  balls.push(new Ball({ x:15, y: 0, color: 'FFFFFF', size: 45, position: { x: 10, y: 1500 } }, { isStatic: false, density: 5, restitution: 0.3, friction: -0.07, label: "murmel" }))
 
   // CODE: WOlKEN
 
   let wolkeElem = document.getElementById('wolke');
   if (null != wolkeElem) {
-    wolken.push(bodyFromPath(wolkeElem, 300, 250, 1.0, { color: 'white', visible: true, isStatic: true, restitution: 5 }));
-    wolken.push(bodyFromPath(wolkeElem, 775, 550, 0.75, { color: 'white', visible: true, isStatic: true, restitution: 2 }));
-    wolken.push(bodyFromPath(wolkeElem, 550, 500, 1.2, { color: 'white', visible: true, isStatic: true, restitution: 2 }));
-    wolken.push(bodyFromPath(wolkeElem, 1200, 300, 1.0, { color: 'white', visible: true, isStatic: true, restitution: 2 }));
-    wolken.push(bodyFromPath(wolkeElem, 1400, 100, 0.5, { color: 'white', visible: true, isStatic: true, restitution: 2 }));
+    wolken.push(bodyFromPath(wolkeElem, 120, 250, 1.0, { visible: true, isStatic: true, restitution: 5 }));
+    wolken.push(bodyFromPath(wolkeElem, 480, 500, 1.2, { visible: true, isStatic: true, restitution: 2 }));
+    wolken.push(bodyFromPath(wolkeElem, 670, 565, 0.75, { visible: true, isStatic: true, restitution: 2 }));
+    wolken.push(bodyFromPath(wolkeElem, 1200, 300, 1.0, { visible: true, isStatic: true, restitution: 2 }));
+    wolken.push(bodyFromPath(wolkeElem, 1400, 100, 0.5, { visible: true, isStatic: true, restitution: 2 }));
   }
 
   let wolke2Elem = document.getElementById('wolke2');
   if (null != wolke2Elem) {
-    wolken.push(bodyFromPath(wolke2Elem, 400, 400, 1.00, { color: 'white', visible: true, isStatic: true, restitution: 5 }));
+    wolken.push(bodyFromPath(wolke2Elem, 280, 390, 1.00, { color: 'white', visible: true, isStatic: true, restitution: 5 }));
     wolken.push(bodyFromPath(wolke2Elem, 700, 100, 0.75, { color: 'white', visible: true, isStatic: true, restitution: 5 }));
     wolken.push(bodyFromPath(wolke2Elem, 800, 250, 1.00, { color: 'white', visible: true, isStatic: true, restitution: 5 }));
     wolken.push(bodyFromPath(wolke2Elem, 1000, 200, 0.75, { color: 'white', visible: true, isStatic: true, restitution: 5 }));
@@ -147,15 +147,15 @@ function setup() {
   //Schanze
   let schanzeElem = document.getElementById('schanze1');
   if (null != schanzeElem) {
-    schanzen.push(bodyFromPath(schanzeElem, 1200, 1080, 1.25, { color: 'white', visible: true, isStatic: true }));
+    schanzen.push(bodyFromPath(schanzeElem, 1339, 1080, 1.55, { color: 'white', visible: true, isStatic: true }));
   }
 //  blocks.push(new Block({ x: 650, y: 1060, w: 30, h: 30, color: '#341B28', visible: true }, { isStatic: true }))
 
   //Boden + Klappe
-  blocks.push(new Block({ x: 900, y: 585, w: 100, h: 40, color: '#EEAD0E', visible: true, chgStatic: true }, { isStatic: true, airFriction: 0.15, density: 500, label: 'auslöser' }))
-  blocks.push(new Block({ x: 200, y: 625, w: 900, h: 40, color: '#E3BB7C', visible: true }, { isStatic: true }))
-  blocks.push(new Block({ x: 1350, y: 625, w: 100, h: 40, color: '#E3BB7C', visible: true }, { isStatic: true }))
-  blocks.push(new Block({ x: 1100, y: 625, w: 250, h: 40, color: '#EEAD0E', visible: true }, { isStatic: true, label: 'klappe' }))
+  blocks.push(new Block({ x: 780, y: 585, w: 100, h: 40, color: '#EEAD0E', visible: true }, { isStatic: true, label: 'auslöser' }))
+  blocks.push(new Block({ x: 10, y: 620, w: 1050, h: 40, color: '#E3BB7C', visible: true }, { isStatic: true }))
+  blocks.push(new Block({ x: 1289, y: 620, w: 280, h: 40, color: '#E3BB7C', visible: true }, { isStatic: true }))
+  blocks.push(new Block({ x: 1060, y: 620, w: 230, h: 40, color: '#EEAD0E', visible: true }, { isStatic: true, label: 'klappe' }))
 
   pendel = Matter.Bodies.circle(900, 1020, 80), {
     isStatic: false,
@@ -330,8 +330,8 @@ if (null != wasser2Elem){
       wasser2.push(bodyFromPath(wasser2Elem, 900, 6500, 1.0, {visible: true, isStatic: true, restitution: 5 }));
 }
   // Balken zum Orientierung
-  blocks.push(new Block({ x: 1440, y: 0, w: 30, h: 7000, color: 'black', visible: true }, { isStatic: true }))
-  blocks.push(new Block({ x: 180, y: 0, w: 30, h: 7000, color: 'black', visible: true }, { isStatic: true }))
+  blocks.push(new Block({ x: 0, y: 0, w: 10, h: 7000, color: 'black', visible: true }, { isStatic: true }))
+  blocks.push(new Block({ x: 1570, y: 0, w: 10, h: 7000, color: 'black', visible: true }, { isStatic: true }))
 
   Matter.World.add(engine.world, [bullets]);
   Matter.World.add(engine.world, wolken);
@@ -401,7 +401,7 @@ if (null != wasser2Elem){
     if (bodyA.label === "murmel" && bodyB.label === "auslöser") {
     blocks[3].visible = false
     Matter.World.remove(engine.world, blocks[3].body)
-    Matter.Body.setPosition(blocks[0].body, {x: 950, y:625})
+    Matter.Body.setPosition(blocks[0].body, {x: 830, y: 620})
     }
 
   });
@@ -418,9 +418,9 @@ function draw() {
   clear()
 
   //TRANSPORTMITTEL
-  Matter.Body.setPosition(blocks[18].body, { x: 1050 + Math.sin(frameCount/100) * 300, y: 3240 })
-  Matter.Body.setPosition(blocks[19].body, { x: 1250 + Math.sin(frameCount/100) * 300, y: 3240 })
-  Matter.Body.setPosition(blocks[20].body, { x: 1150 + Math.sin(frameCount/100) * 300, y: 3260 })
+  Matter.Body.setPosition(blocks[18].body, { x: 1050 + Math.sin(frameCount/100) * 450, y: 3240 })
+  Matter.Body.setPosition(blocks[19].body, { x: 1250 + Math.sin(frameCount/100) * 450, y: 3240 })
+  Matter.Body.setPosition(blocks[20].body, { x: 1150 + Math.sin(frameCount/100) * 450, y: 3260 })
 
   //pendel
   stroke(128);
