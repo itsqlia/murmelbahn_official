@@ -80,10 +80,15 @@ class Ball {
 };
 
 
-function keyPressed() {
+function keyPressed(e) {
+    // prevent scrolling of website with SPACE key
+    if(e.keyCode == 32 && e.target == document.body) {
+      e.preventDefault();
+    }
+
 
   //Enter-Tastatur
-  if (keyCode === 13) {
+  if (keyCode === 32) {
     switch (spaceCount) {
       case 1:
         console.log('Taste 1')
@@ -95,7 +100,7 @@ function keyPressed() {
             y: balls[0].body.position.y
           }, {
             x: (250 * direction) + balls[0].body.velocity.x / 100,
-            y: -200
+            y: -100
           }
         );
         console.log('Taste 2')
@@ -122,7 +127,7 @@ function setup() {
   //CODE: BALL
   portalSound = loadSound("lib/PortalWhoosh.mp3")
 
-  balls.push(new Ball({ x:560, y: 3830, color: 'FFFFFF', size: 35, position: { x: 10, y: 1500 } }, { isStatic: false, density: 7, restitution: 0.3, friction: -0.07, label: "murmel" }))
+  balls.push(new Ball({ x: 300, y: 0, color: 'FFFFFF', size: 35, position: { x: 10, y: 1500 } }, { isStatic: false, density: 7, restitution: 0.3, friction: -0.07, label: "murmel" }))
 
   // CODE: WOlKEN
 
@@ -430,7 +435,7 @@ function draw() {
   clear()
 
   // // follow the ball by scrolling the window
-  // scrollFollow(balls[0]);
+  // scrollFollow(ball);
 
   //TRANSPORTMITTEL
   Matter.Body.setPosition(blocks[18].body, { x: 700 + Math.sin(frameCount/90) * 350, y: 3240 })
@@ -556,3 +561,28 @@ function drawVertices(vertices) {
   for (var i = 0; i < vertices.length; i++) { vertex(vertices[i].x, vertices[i].y) }
   endShape(CLOSE)
 }
+
+// function scrollFollow(matterObj) {
+//   if (insideViewport(matterObj) == false) {
+//     const $element = $('html, body');
+//     if ($element.is(':animated') == false) {
+//       $element.animate({
+//         scrollLeft: ball.position.x,
+//         scrollTop: ball.position.y-windowHeight/3
+//       }, 1000);
+//     }
+//   }
+// }
+//
+// function insideViewport(matterObj) {
+// const x = matterObj.position.x;
+// const y = matterObj.position.y+200;
+// const pageXOffset = window.pageXOffset || document.documentElement.scrollLeft;
+// const pageYOffset  = window.pageYOffset || document.documentElement.scrollTop;
+// if (x >= pageXOffset && x <= pageXOffset + windowWidth &&
+//   y >= pageYOffset && y <= pageYOffset + windowHeight) {
+// return true;
+// } else {
+// return false;
+// }
+// }
