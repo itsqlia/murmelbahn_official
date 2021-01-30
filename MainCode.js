@@ -17,10 +17,10 @@ let balls = []
 let collisions = []
 let wolken = []
 let schanzen = []
-let wasser = []
-let wasser2= []
+let wasser2 = []
+let wasser3 = []
+let wasser4 = []
 
-let bullets
 let spaceCount = +1
 let knopfCount = 2
 let direction = 0.2
@@ -31,8 +31,8 @@ let constraint1
 let constraint
 let portalSound
 let engine
-let isMagnetisch = false
-let attractorActive = false
+let bullets
+
 
 
 function preload() { portalSound = loadSound("lib/PortalWhoosh.mp3") }
@@ -122,7 +122,7 @@ function setup() {
   //CODE: BALL
   portalSound = loadSound("lib/PortalWhoosh.mp3")
 
-  balls.push(new Ball({ x:15, y: 0, color: 'FFFFFF', size: 35, position: { x: 10, y: 1500 } }, { isStatic: false, density: 7, restitution: 0.3, friction: -0.07, label: "murmel" }))
+  balls.push(new Ball({ x:560, y: 3830, color: 'FFFFFF', size: 35, position: { x: 10, y: 1500 } }, { isStatic: false, density: 7, restitution: 0.3, friction: -0.07, label: "murmel" }))
 
   // CODE: WOlKEN
 
@@ -162,7 +162,7 @@ function setup() {
   };
 
   constraint2 = Constraint.create({
-    pointA: { x: 650, y: 640 },
+    pointA: { x: 720, y: 640 },
     bodyB: pendel,
     pointB: { x: 0, y: 0 }
   });
@@ -264,7 +264,16 @@ function setup() {
   blocks.push(new Block({ x: 0, y: 4460, w: 1260, h: 20, color: '#876466', visible: true }, { isStatic: true }))
 
   // Composites.stack(x,y, anzahl pro zeile, anzahl pro spalte, abstand x, abstand y)
-  bullets = Composites.stack(0, 4315, 50, 3, 1, 1, function(x, y) { return Bodies.circle(x, y, 23) });
+  bullets = Composites.stack(0, 4315, 50, 3, 1, 1, function(x, y) {return Bodies.circle(x, y, 23)});
+  let bullets1 = bullets.stack
+  // bullets1.collisionFilter = {
+  //   'group': -1,
+  //   'category' : 2,
+  //   'mask' : 0,
+  //   label: 'stack'
+  // }
+
+
 
   // CODE: VIELE DREHENDE PLATTEN
 
@@ -312,15 +321,25 @@ function setup() {
   //portal = balls.push(new Ball({ x: 840, y: 6400, color: '#876466', size: 200, position: { x: 10, y: 1500 } }, { isStatic: true, restitution: 0.5 }))
 
 //Wasser
-let wasserElem = document.getElementById('wasser');
-if (null != wasserElem){
-      wasser.push(bodyFromPath(wasserElem, 600, 6500, 1.0, {visible: true, isStatic: true, restitution: 5 }));
-}
+// let wasserElem = document.getElementById('wasser');
+// if (null != wasserElem){
+//       wasser.push(bodyFromPath(wasserElem, 600, 6700, 1.0, {visible: true, isStatic: true, restitution: 5 }));
+// }
 let wasser2Elem = document.getElementById('wasser2');
 if (null != wasser2Elem){
-      wasser2.push(bodyFromPath(wasser2Elem, 600, 6600, 1.0, {visible: true, isStatic: true, restitution: 5 }));
-      wasser2.push(bodyFromPath(wasser2Elem, 600, 6800, 1.0, {visible: true, isStatic: true, restitution: 5 }));
+      wasser2.push(bodyFromPath(wasser2Elem, 600, 6700, 1.0, {visible: true, isStatic: true, restitution: 5, label: "welle" }));
+    //  wasser2.push(bodyFromPath(wasser2Elem, 600, 6800, 1.0, {visible: true, isStatic: true, restitution: 5 }));
 }
+let wasser3Elem = document.getElementById('wasser3');
+if (null != wasser3Elem){
+  wasser3.push(bodyFromPath(wasser3Elem, 600, 6800, 1.0, {visible: true, isStatic: true, restitution: 5 }));
+  }
+
+  let wasser4Elem = document.getElementById('wasser4');
+  if (null != wasser4Elem){
+    wasser4.push(bodyFromPath(wasser4Elem, 600, 6900, 1.0, {visible: true, isStatic: true, restitution: 5 }));
+}
+
   // Balken zum Orientierung
   blocks.push(new Block({ x: 0, y: 0, w: 10, h: 7000, color: 'black', visible: true }, { isStatic: true }))
   blocks.push(new Block({ x: 1260, y: 0, w: 10, h: 7000, color: 'black', visible: true }, { isStatic: true }))
@@ -328,7 +347,7 @@ if (null != wasser2Elem){
   Matter.World.add(engine.world, [bullets]);
   Matter.World.add(engine.world, wolken);
   Matter.World.add(engine.world, schanzen);
-  Matter.World.add(engine.world,wasser)
+  Matter.World.add(engine.world,wasser2,wasser3,wasser4)
 
   Matter.Events.on(engine, 'collisionStart', function(event) {
     const pairs = event.pairs[0];
@@ -394,8 +413,16 @@ if (null != wasser2Elem){
     Matter.World.remove(engine.world, blocks[3].body)
     Matter.Body.setPosition(blocks[0].body, {x: 800, y: 620})
     }
+    //Wasser
+    if (bodyA.label === "stack" && bodyB.label === "welle") {
+    Matter.World.remove(engine.world, wasser2[0].body,wasser3[0].body,wasser4[0].body)
+    //bullets[0].color = '#094BA0'
+    console.log('getroffen')
 
-  });
+
+    }
+
+  })
   Matter.Engine.run(engine)
 }
 
@@ -435,16 +462,21 @@ function draw() {
   wolken.forEach(wolke => drawBody(wolke));
 
   //schanze
-  fill('#341B28');
+  fill('#5B3033');
   schanzen.forEach(schanze => drawBody(schanze));
 
-  //Wasser
-  fill('#094BA0')
-wasser.forEach(wasser => drawBody(wasser));
 
 //Wasser2
 fill('#6795DA')
 wasser2.forEach(wasser2 => drawBody(wasser2));
+
+//Wasser3
+fill('#094BA0')
+wasser3.forEach(wasser3 => drawBody(wasser3));
+
+//Wasser4
+fill('#6795DA')
+wasser4.forEach(wasser4 => drawBody(wasser4));
 
   //Blöcke
   blocks.forEach((block, i) => { block.show() });
@@ -478,28 +510,6 @@ function drawConstraint(constraint) {
   if (constraint.bodyB) { posB = constraint.bodyB.position; }
   line(posA.x + offsetA.x, posA.y + offsetA.y, posB.x + offsetB.x, posB.y + offsetB.y);
 }
-
-
- //Portal
-// function attract(){
-//   let force ={x:(portal.body.position.x- balls[0].body.position.x) *1e-6, y:(portal.body.position.y- balls[0].body.position.y) *1e-6}
-//   Body.applyForce(balls[0].body.position, force)}
-
-// function attract(ball) {
-//   if (isMagnetisch = true) {
-//     let force = {
-//       x: (pendel.position.x - ball.body.position.x) * 1e-3,
-//       y: (pendel.position.y - ball.body.position.y) * 1e-3,
-//     }
-//     // console.log(force)
-//     //Matter.Body.applyForce(ball, ball.position, Matter.Vector.neg(force));
-//     Matter.Body.applyForce(ball.body, ball.body.position, force)
-//   }
-// }
-//     // let collided = Matter.SAT.collides(balls[0], pendel);
-//     //     if (collided.collided) {  Matter.World.remove(engine.world,balls[0]);
-//     //     balls[0].color = "";
-//     //      }
 
 function drawBodies(bodies) {
   for (let i = 0; i < bodies.length; i++) { drawVertices(bodies[i].vertices); }
