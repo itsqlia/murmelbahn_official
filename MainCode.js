@@ -32,10 +32,15 @@ let constraint
 let portalSound
 let engine
 let bullets
+let hitSound
+let pendelSound
 
 
-
-function preload() { portalSound = loadSound("lib/PortalWhoosh.mp3") }
+//Sounds
+function preload() {
+  pendelSound = loadSound("lib/PortalWhoosh.mp3")
+  hitSound = loadSound("lib/Clank-2.mp3")
+}
 
 function degToRad(deg) { return deg / 360 * (2 * PI) }
 
@@ -124,10 +129,12 @@ function setup() {
   engine = Matter.Engine.create()
   let canvas = createCanvas(1265, 7000)
 
-  //CODE: BALL
-  portalSound = loadSound("lib/PortalWhoosh.mp3")
+// // Hit Sound
+// hitSound = loadSound("lib/Clank-2.mp3")
 
-  balls.push(new Ball({ x: 300, y: 0, color: 'FFFFFF', size: 35, position: { x: 10, y: 1500 } }, { isStatic: false, density: 7, restitution: 0.3, friction: -0.07, label: "murmel" }))
+  //CODE: BALL
+
+  balls.push(new Ball({ x: 400, y: 3500, color: 'FFFFFF', size: 35, position: { x: 10, y: 1500 } }, { isStatic: false, density: 7, restitution: 0.3, friction: -0.07, label: "murmel" }))
 
   // CODE: WOlKEN
 
@@ -151,7 +158,7 @@ function setup() {
   //Schanze
   let schanzeElem = document.getElementById('schanze1');
   if (null != schanzeElem) {
-    schanzen.push(bodyFromPath(schanzeElem, 1075, 1080, 1.25, { color: 'white', visible: true, isStatic: true }));
+    schanzen.push(bodyFromPath(schanzeElem, 1075, 1080, 1.25, { color: 'white', visible: true, isStatic: true, label: 'schanze' }));
   }
 //  blocks.push(new Block({ x: 650, y: 1060, w: 30, h: 30, color: '#341B28', visible: true }, { isStatic: true }))
 
@@ -373,6 +380,7 @@ if (null != wasser3Elem){
     }
     // Controls collision with Knöpfe
     if (bodyA.label === "murmel" && balls[0].color == '#34E0EB' && bodyB.label === "knopf1") {
+        hitSound.play();
         blocks[37].visible = false
         knopfCount --
         Matter.World.remove(engine.world, bodyB)
@@ -383,6 +391,7 @@ if (null != wasser3Elem){
     }
 
     if (bodyA.label === "murmel" && balls[0].color == '#EEAD0E' && bodyB.label === "knopf2") {
+        hitSound.play();
         blocks[38].visible = false
         knopfCount --
         Matter.World.remove(engine.world, bodyB)
@@ -423,11 +432,17 @@ if (null != wasser3Elem){
     Matter.World.remove(engine.world, wasser2[0].body,wasser3[0].body,wasser4[0].body)
     //bullets[0].color = '#094BA0'
     console.log('getroffen')
-
-
     }
 
-  })
+    if(bodyA.label === 'murmel' && bodyB.label === 'auslöser') {
+      hitSound.play();
+    }
+    if(bodyA.label === 'murmel' && bodyB.label === 'schanze') {
+      pendelSound.play();
+    }
+
+  });
+
   Matter.Engine.run(engine)
 }
 
