@@ -1,6 +1,3 @@
-//Matter.use('matter-attractors');
-
-
 const Engine = Matter.Engine;
 const Render = Matter.Render;
 const World = Matter.World;
@@ -34,12 +31,14 @@ let engine
 let bullets
 let hitSound
 let pendelSound
+let sinkenSound
 
 
 //Sounds
 function preload() {
   pendelSound = loadSound("lib/PortalWhoosh.mp3")
-  hitSound = loadSound("lib/Clank-2.mp3")
+  hitSound = loadSound("lib/hit.mp3")
+  sinkenSound = loadSound("lib/sinken.mp3")
 }
 
 function degToRad(deg) { return deg / 360 * (2 * PI) }
@@ -105,7 +104,7 @@ function keyPressed(e) {
             y: balls[0].body.position.y
           }, {
             x: (250 * direction) + balls[0].body.velocity.x / 100,
-            y: -100
+            y: -150
           }
         );
         console.log('Taste 2')
@@ -134,7 +133,7 @@ function setup() {
 
   //CODE: BALL
 
-  balls.push(new Ball({ x: 400, y: 3500, color: 'FFFFFF', size: 35, position: { x: 10, y: 1500 } }, { isStatic: false, density: 7, restitution: 0.3, friction: -0.07, label: "murmel" }))
+  balls.push(new Ball({ x: 20, y: 0, color: 'FFFFFF', size: 35, position: { x: 10, y: 1500 } }, { isStatic: false, density: 7, restitution: 0.3, friction: -0.07, label: "murmel" }))
 
   // CODE: WOlKEN
 
@@ -278,14 +277,6 @@ function setup() {
   // Composites.stack(x,y, anzahl pro zeile, anzahl pro spalte, abstand x, abstand y)
   bullets = Composites.stack(0, 4315, 50, 3, 1, 1, function(x, y) {return Bodies.circle(x, y, 23)});
   let bullets1 = bullets.stack
-  // bullets1.collisionFilter = {
-  //   'group': -1,
-  //   'category' : 2,
-  //   'mask' : 0,
-  //   label: 'stack'
-  // }
-
-
 
   // CODE: VIELE DREHENDE PLATTEN
 
@@ -328,15 +319,7 @@ function setup() {
   //Trichter
   blocks.push(new Block({ x: -20, y: 5790, w: 650, h: 20, color: '#876466', visible: true }, { isStatic: true, angle: Math.PI * 2.11 }))
   blocks.push(new Block({ x: 649, y: 5810, w: 650, h: 20, color: '#876466', visible: true }, { isStatic: true, angle: Math.PI * 2.91 }))
-
-  //Portal
-  //portal = balls.push(new Ball({ x: 840, y: 6400, color: '#876466', size: 200, position: { x: 10, y: 1500 } }, { isStatic: true, restitution: 0.5 }))
-
-//Wasser
-// let wasserElem = document.getElementById('wasser');
-// if (null != wasserElem){
-//       wasser.push(bodyFromPath(wasserElem, 600, 6700, 1.0, {visible: true, isStatic: true, restitution: 5 }));
-// }
+  //Wasser SVG
 let wasser2Elem = document.getElementById('wasser2');
 if (null != wasser2Elem){
       wasser2.push(bodyFromPath(wasser2Elem, 600, 6700, 1.0, {visible: true, isStatic: true, restitution: 5, label: "welle" }));
@@ -380,7 +363,6 @@ if (null != wasser3Elem){
     }
     // Controls collision with Knöpfe
     if (bodyA.label === "murmel" && balls[0].color == '#34E0EB' && bodyB.label === "knopf1") {
-        hitSound.play();
         blocks[37].visible = false
         knopfCount --
         Matter.World.remove(engine.world, bodyB)
@@ -398,6 +380,7 @@ if (null != wasser3Elem){
       if (knopfCount === 0) {
         blocks[40].visible = false
         Matter.World.remove (engine.world, blocks[40].body)
+        Matter.World.remove (engine.world, blocks[39 ].body)
       }
     }
 
@@ -426,12 +409,13 @@ if (null != wasser3Elem){
     blocks[3].visible = false
     Matter.World.remove(engine.world, blocks[3].body)
     Matter.Body.setPosition(blocks[0].body, {x: 800, y: 620})
+
     }
     //Wasser
-    if (bodyA.label === "stack" && bodyB.label === "welle") {
-    Matter.World.remove(engine.world, wasser2[0].body,wasser3[0].body,wasser4[0].body)
-    //bullets[0].color = '#094BA0'
-    console.log('getroffen')
+    if (bodyA.label === "murmel" && bodyB.label === "welle") {
+    balls[0].color = '#094BA0'
+    sinkenSound.play();
+
     }
 
     if(bodyA.label === 'murmel' && bodyB.label === 'auslöser') {
