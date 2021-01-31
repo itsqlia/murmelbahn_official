@@ -434,8 +434,8 @@ if (null != wasser3Elem){
 function draw() {
   clear()
 
-  // // follow the ball by scrolling the window
-  // scrollFollow(ball);
+  // follow the ball by scrolling the window
+  scrollFollow(balls[0]);
 
   //TRANSPORTMITTEL
   Matter.Body.setPosition(blocks[18].body, { x: 700 + Math.sin(frameCount/90) * 350, y: 3240 })
@@ -493,12 +493,6 @@ wasser4.forEach(wasser4 => drawBody(wasser4));
 
 }
 
-// function keyPressed(e) {
-//   // prevent scrolling of website with SPACE key
-//   if(e.keyCode == 32 && e.target == document.body) {
-//     e.preventDefault();
-//   }
-// }
 
 function bodyFromPath(path, x, y, scale, options) {
   let body = Matter.Bodies.fromVertices(0, 0, Matter.Vertices.scale(Matter.Svg.pathToVertices(path, 10), scale, scale), options);
@@ -530,31 +524,6 @@ function drawBody(body) {
   }
 }
 
-// let $
-// function scrollFollow(matterObj) {
-//   if (insideViewport(matterObj) == false) {
-//     const $element = $('html, body');
-//     if (element.is(':animated') == false) {
-//       $element.animate({
-//         scrollLeft: balls[0].body.position.x,
-//         scrollTop: balls[0].body.position.y
-//       }, 1000);
-//     }
-//   }
-// }
-
-// function insideViewport(matterObj) {
-//   const x = balls[0].body.position.x;
-//   const y = balls[0].body.position.y;
-//   const pageXOffset = window.pageXOffset || document.documentElement.scrollLeft;
-//   const pageYOffset  = window.pageYOffset || document.documentElement.scrollTop;
-//   if (x >= pageXOffset && x <= pageXOffset + windowWidth &&
-//       y >= pageYOffset && y <= pageYOffset + windowHeight) {
-//     return true;
-//   } else {
-//     return false;
-//   }
-// }
 
 function drawVertices(vertices) {
   beginShape()
@@ -562,27 +531,27 @@ function drawVertices(vertices) {
   endShape(CLOSE)
 }
 
-// function scrollFollow(matterObj) {
-//   if (insideViewport(matterObj) == false) {
-//     const $element = $('html, body');
-//     if ($element.is(':animated') == false) {
-//       $element.animate({
-//         scrollLeft: ball.position.x,
-//         scrollTop: ball.position.y-windowHeight/3
-//       }, 1000);
-//     }
-//   }
-// }
-//
-// function insideViewport(matterObj) {
-// const x = matterObj.position.x;
-// const y = matterObj.position.y+200;
-// const pageXOffset = window.pageXOffset || document.documentElement.scrollLeft;
-// const pageYOffset  = window.pageYOffset || document.documentElement.scrollTop;
-// if (x >= pageXOffset && x <= pageXOffset + windowWidth &&
-//   y >= pageYOffset && y <= pageYOffset + windowHeight) {
-// return true;
-// } else {
-// return false;
-// }
-// }
+function scrollFollow(matterObj) {
+  if (insideViewport(matterObj) == false) {
+    const $element = $('html, body');
+    if ($element.is(':animated') == false) {
+      $element.animate({
+        scrollLeft: balls[0].body.position.x,
+        scrollTop: balls[0].body.position.y
+      }, 1000);
+    }
+  }
+}
+
+function insideViewport(matterObj) {
+const x = balls[0].body.position.x;
+const y = balls[0].body.position.y;
+const pageXOffset = window.pageXOffset || document.documentElement.scrollLeft;
+const pageYOffset  = window.pageYOffset || document.documentElement.scrollTop;
+if (x >= pageXOffset && x <= pageXOffset + windowWidth &&
+  y >= pageYOffset && y <= pageYOffset + windowHeight) {
+return true;
+} else {
+return false;
+}
+}
