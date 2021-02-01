@@ -39,6 +39,7 @@ function preload() {
   pendelSound = loadSound("lib/PortalWhoosh.mp3")
   hitSound = loadSound("lib/hit.mp3")
   sinkenSound = loadSound("lib/sinken.mp3")
+  klappeSound = loadSound("lib/klappe.mp3")
 }
 
 function degToRad(deg) { return deg / 360 * (2 * PI) }
@@ -355,6 +356,7 @@ if (null != wasser3Elem){
 
     //Klappe oben
     if (bodyA.label === "murmel" && bodyB.label === "auslöser") {
+    hitSound.play();
     blocks[3].visible = false
     Matter.World.remove(engine.world, blocks[3].body)
     Matter.Body.setPosition(blocks[0].body, {x: 800, y: 620})
@@ -395,6 +397,7 @@ if (null != wasser3Elem){
 
     // Controls collision with Knöpfe
     if (bodyA.label === "murmel" && balls[0].color == '#34E0EB' && bodyB.label === "knopf1") {
+        hitSound.play();
         blocks[37].visible = false
         knopfCount --
         Matter.World.remove(engine.world, bodyB)
@@ -410,6 +413,7 @@ if (null != wasser3Elem){
         knopfCount --
         Matter.World.remove(engine.world, bodyB)
       if (knopfCount === 0) {
+        klappeSound.play();
         blocks[40].visible = false
         Matter.World.remove (engine.world, blocks[40].body)
         Matter.World.remove (engine.world, blocks[39].body)
@@ -430,9 +434,6 @@ if (null != wasser3Elem){
 
     }
 
-    if(bodyA.label === 'murmel' && bodyB.label === 'auslöser') {
-      hitSound.play();
-    }
     if(bodyA.label === 'murmel' && bodyB.label === 'schanze') {
       pendelSound.play();
     }
