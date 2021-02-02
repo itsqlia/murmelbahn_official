@@ -32,7 +32,8 @@ let bullets
 let hitSound
 let pendelSound
 let sinkenSound
-
+let balkenSound
+let kaestchenSound
 
 //Sounds
 function preload() {
@@ -40,6 +41,8 @@ function preload() {
   hitSound = loadSound("lib/hit.mp3")
   sinkenSound = loadSound("lib/sinken.mp3")
   klappeSound = loadSound("lib/klappe.mp3")
+  kaestchenSound = loadSound("lib/Kaestchen.mp3")
+  balkenSound = loadSound("lib/Farbige Balken.mp3")
 }
 
 function degToRad(deg) { return deg / 360 * (2 * PI) }
@@ -134,7 +137,7 @@ function setup() {
 
   //CODE: BALL
 
-  balls.push(new Ball({ x: 20, y: 0, color: 'FFFFFF', size: 35, position: { x: 10, y: 1500 } }, { isStatic: false, density: 7, restitution: 0.3, friction: -0.07, label: "murmel" }))
+  balls.push(new Ball({ x: 500, y: 3000, color: 'FFFFFF', size: 35, position: { x: 10, y: 1500 } }, { isStatic: false, density: 7, restitution: 0.3, friction: -0.07, label: "murmel" }))
 
   // CODE: WOlKEN
 
@@ -256,9 +259,9 @@ function setup() {
   });
 
   //ground-transparent
-  blocks.push(new Block({ x: 225, y: 4050, w: 70, h: 20, color: 'black', visible: false }, { isStatic: true, angle: PI / 2 }))
-  blocks.push(new Block({ x: 270, y: 4075, w: 240, h: 20, color: 'black', visible: false }, { isStatic: true }))
-  blocks.push(new Block({ x: 470, y: 4050, w: 70, h: 20, color: 'black', visible: false }, { isStatic: true, angle: PI / 2 }))
+  blocks.push(new Block({ x: 225, y: 4050, w: 70, h: 20, color: 'black', visible: false, label:"boden" }, { isStatic: true, angle: PI / 2 }))
+  blocks.push(new Block({ x: 270, y: 4075, w: 240, h: 20, color: 'black', visible: false, label:"boden"  }, { isStatic: true }))
+  blocks.push(new Block({ x: 470, y: 4050, w: 70, h: 20, color: 'black', visible: false , label:"boden" }, { isStatic: true, angle: PI / 2 }))
 
   //CODE: KNÖPFE
 
@@ -365,15 +368,18 @@ if (null != wasser3Elem){
     // Farbige Balken
     // Türkis
     if (bodyA.label === "murmel" && balls[0].color == '#34E0EB' && bodyB.label === "hürde1") {
+      balkenSound.play();
       Matter.World.remove(engine.world, bodyB)
     }
     //Orange
     if (bodyA.label === "murmel" && balls[0].color == '#EEAD0E' && bodyB.label === "hürde2") {
+      balkenSound.play();
       Matter.World.remove(engine.world, bodyB)
     }
 
     //Small türkis block
     if (bodyA.label === "murmel" && balls[0].color == '#34E0EB' && bodyB.label === "balken") {
+      balkenSound.play();
       Matter.World.remove(engine.world, bodyB)
     }
 
@@ -381,7 +387,9 @@ if (null != wasser3Elem){
     else if (bodyA.label === "murmel" && bodyB.label === "fall") {
       Matter.Body.setStatic(bodyB, false)
     }
-
+    // if (bodyA.label === "fall" && bodyB.label === "boden") {
+    //   kaestchenSound.play();
+    // }
     //wrap 1
     console.log('wrap')
     if (bodyA.label === "murmel" && bodyB.label === "wrap-block"){
@@ -412,6 +420,7 @@ if (null != wasser3Elem){
         blocks[38].visible = false
         knopfCount --
         Matter.World.remove(engine.world, bodyB)
+
       if (knopfCount === 0) {
         klappeSound.play();
         blocks[40].visible = false
