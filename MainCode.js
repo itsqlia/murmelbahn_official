@@ -8,7 +8,6 @@ const Composites = Matter.Composites;
 const Constraint = Matter.Constraint;
 
 
-
 let blocks = []
 let balls = []
 let collisions = []
@@ -21,7 +20,6 @@ let wasser4 = []
 let spaceCount = +1
 let knopfCount = 2
 let direction = 0.2
-let attractorActiv = false
 let pendel
 let klappe
 let constraint1
@@ -33,7 +31,6 @@ let hitSound
 let pendelSound
 let sinkenSound
 let balkenSound
-let kaestchenSound
 
 //Sounds
 function preload() {
@@ -41,7 +38,6 @@ function preload() {
   hitSound = loadSound("lib/hit.mp3")
   sinkenSound = loadSound("lib/sinken.mp3")
   klappeSound = loadSound("lib/klappe.mp3")
-  kaestchenSound = loadSound("lib/Kaestchen.mp3")
   balkenSound = loadSound("lib/Farbige Balken.mp3")
 }
 
@@ -62,7 +58,6 @@ class Block {
     this.body = Matter.Bodies.rectangle(this.x + this.w / 2, this.y + this.h / 2, this.w, this.h, options)
     Matter.World.add(engine.world, [this.body])
   }
-
 
   show() {
     fill(this.color)
@@ -87,13 +82,11 @@ class Ball {
   }
 };
 
-
 function keyPressed(e) {
     // prevent scrolling of website with SPACE key
     if(e.keyCode == 32 && e.target == document.body) {
       e.preventDefault();
     }
-
 
   //Enter-Tastatur
   if (keyCode === 32) {
@@ -132,12 +125,9 @@ function setup() {
   engine = Matter.Engine.create()
   let canvas = createCanvas(1265, 7000)
 
-// // Hit Sound
-// hitSound = loadSound("lib/Clank-2.mp3")
-
   //CODE: BALL
 
-  balls.push(new Ball({ x: 500, y: 3000, color: 'FFFFFF', size: 35, position: { x: 10, y: 1500 } }, { isStatic: false, density: 7, restitution: 0.3, friction: -0.07, label: "murmel" }))
+  balls.push(new Ball({ x: 35, y: 0, color: 'FFFFFF', size: 35, position: { x: 10, y: 1500 } }, { isStatic: false, density: 7, restitution: 0.3, friction: -0.07, label: "murmel" }))
 
   // CODE: WOlKEN
 
@@ -163,7 +153,6 @@ function setup() {
   if (null != schanzeElem) {
     schanzen.push(bodyFromPath(schanzeElem, 1075, 1080, 1.25, { color: 'white', visible: true, isStatic: true, label: 'schanze' }));
   }
-//  blocks.push(new Block({ x: 650, y: 1060, w: 30, h: 30, color: '#341B28', visible: true }, { isStatic: true }))
 
   //Boden + Klappe
   blocks.push(new Block({ x: 750, y: 590, w: 100, h: 30, color: '#EEAD0E', visible: true, chgStatic: true }, { isStatic: true, label: 'auslöser' }))
@@ -323,7 +312,6 @@ function setup() {
     Matter.World.add(engine.world, [constraint])
   });
 
-
   //Trichter
   blocks.push(new Block({ x: -20, y: 5790, w: 650, h: 20, color: '#876466', visible: true }, { isStatic: true, angle: Math.PI * 2.11 }))
   blocks.push(new Block({ x: 649, y: 5810, w: 650, h: 20, color: '#876466', visible: true }, { isStatic: true, angle: Math.PI * 2.91 }))
@@ -343,7 +331,8 @@ if (null != wasser3Elem){
     wasser4.push(bodyFromPath(wasser4Elem, 600, 6900, 1.0, {visible: true, isStatic: true, restitution: 5 }));
 }
 
-  // Balken zum Orientierung
+  //Orientierungsbalken
+
   blocks.push(new Block({ x: 0, y: 0, w: 10, h: 7000, color: 'black', visible: true }, { isStatic: true }))
   blocks.push(new Block({ x: 1260, y: 0, w: 10, h: 7000, color: 'black', visible: true }, { isStatic: true }))
 
@@ -351,6 +340,7 @@ if (null != wasser3Elem){
   Matter.World.add(engine.world, wolken);
   Matter.World.add(engine.world, schanzen);
   Matter.World.add(engine.world,wasser2,wasser3,wasser4)
+
 
   Matter.Events.on(engine, 'collisionStart', function(event) {
     const pairs = event.pairs[0];
@@ -387,9 +377,7 @@ if (null != wasser3Elem){
     else if (bodyA.label === "murmel" && bodyB.label === "fall") {
       Matter.Body.setStatic(bodyB, false)
     }
-    // if (bodyA.label === "fall" && bodyB.label === "boden") {
-    //   kaestchenSound.play();
-    // }
+
     //wrap 1
     console.log('wrap')
     if (bodyA.label === "murmel" && bodyB.label === "wrap-block"){
@@ -434,13 +422,10 @@ if (null != wasser3Elem){
     if (bodyA.label === "murmel" && bodyB.label === "return-block"){
     Matter.Body.setPosition(balls[0].body, {x: 560, y: 3840})}
 
-    //Sound-effects
-
     //Wasser
     if (bodyA.label === "murmel" && bodyB.label === "welle") {
     balls[0].color = '#094BA0'
     sinkenSound.play();
-
     }
 
     if(bodyA.label === 'murmel' && bodyB.label === 'schanze') {
@@ -486,22 +471,21 @@ function draw() {
   fill('white');
   wolken.forEach(wolke => drawBody(wolke));
 
-  //schanze
+  //Schanze
   fill('#5B3033');
   schanzen.forEach(schanze => drawBody(schanze));
 
+  //Wasser2
+  fill('#6795DA')
+  wasser2.forEach(wasser2 => drawBody(wasser2));
 
-//Wasser2
-fill('#6795DA')
-wasser2.forEach(wasser2 => drawBody(wasser2));
+  //Wasser3
+  fill('#094BA0')
+  wasser3.forEach(wasser3 => drawBody(wasser3));
 
-//Wasser3
-fill('#094BA0')
-wasser3.forEach(wasser3 => drawBody(wasser3));
-
-//Wasser4
-fill('#6795DA')
-wasser4.forEach(wasser4 => drawBody(wasser4));
+  //Wasser4
+  fill('#6795DA')
+  wasser4.forEach(wasser4 => drawBody(wasser4));
 
   //Blöcke
   blocks.forEach((block, i) => { block.show() });
@@ -510,9 +494,7 @@ wasser4.forEach(wasser4 => drawBody(wasser4));
   balls.forEach((ball, i) => { ball.show() });
   fill('#B9DEE7')
   drawBodies(bullets.bodies);
-
-}
-
+  }
 
 function bodyFromPath(path, x, y, scale, options) {
   let body = Matter.Bodies.fromVertices(0, 0, Matter.Vertices.scale(Matter.Svg.pathToVertices(path, 10), scale, scale), options);
