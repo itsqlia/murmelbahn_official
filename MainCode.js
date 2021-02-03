@@ -216,7 +216,7 @@ function setup() {
   //schräge schiene + wrap
   blocks.push(new Block({ x: 600, y: 3350, w: 20, h: 190, color: '#876466', visible: true }, { isStatic: true, angle: -Math.PI * 0.65 }))
 
-  blocks.push(new Block({ x: 990, y: 3300, w: 20, h: 850, color: '#876466', visible: false }, { isStatic: true, angle: Math.PI/2, label: "wrap-block" }))
+  blocks.push(new Block({ x: 990, y: 3200, w: 20, h: 850, color: '#876466', visible: false }, { isStatic: true, angle: Math.PI/2, label: "wrap-block" }))
 
   //fallende Kästchen
   blocks.push(new Block({ x: 275, y: 3530, w: 50, h: 50, color: '#B9DEE7', visible: true }, { isStatic: true, airFriction: 0.15, density: 2000, label: "fall" }))
